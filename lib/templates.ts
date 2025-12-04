@@ -1,0 +1,237 @@
+import { Template } from './types';
+
+export const templates: Template[] = [
+  {
+    id: 'wellsphere-conditions',
+    name: 'Health Conditions',
+    description: 'Generate chronic health conditions for WellSphere',
+    icon: '🏥',
+    config: {
+      jobName: 'wellsphere-conditions',
+      count: 300,
+      batchSize: 25,
+      collection: 'wellsphere_conditions',
+      systemPrompt: 'You generate concise, user-friendly, neutral medical overviews for a chronic-condition library in a wellness app. Keep text readable in light and dark modes. Avoid emojis and clinical jargon when simpler words suffice. This is informational content only, not medical advice. Return strict JSON matching the schema.',
+      userPrompt: 'Produce {count} distinct, common chronic or long-term managed conditions (global context). For each, include:\n- condition_name: human-friendly name\n- condition_description: 1–2 sentences, plain language\n- common_symptoms: 4–6 items\n- severity_level: Mild/Moderate/Severe/Varies\n- management_strategies: 3–5 items with strategy_name and strategy_description\n- average_affected_age: typical onset age (optional)\n- condition_prevalence: short textual prevalence\n- risk_factors: 4–6 items\n- diagnostic_tests: 2–4 items with test_name and test_description\n- possible_complications: 3–5 items\n- preventive_measures: 3–5 items\n- recommended_specialists: 2–4 titles\n- common_treatments: 3–5 approaches\n- support_groups_resources: 1–3 items with resource_name and resource_link\n\nEnsure broad coverage by prevalence.',
+      jsonSchema: {
+        name: 'ChronicConditionArray',
+        schema: {
+          type: 'array',
+          items: {
+            type: 'object',
+            additionalProperties: false,
+            properties: {
+              condition_name: { type: 'string' },
+              condition_description: { type: 'string' },
+              common_symptoms: { type: 'array', items: { type: 'string' } },
+              severity_level: { type: 'string' },
+              management_strategies: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    strategy_name: { type: 'string' },
+                    strategy_description: { type: 'string' },
+                  },
+                  required: ['strategy_name', 'strategy_description'],
+                  additionalProperties: false,
+                },
+              },
+              average_affected_age: { type: 'integer' },
+              condition_prevalence: { type: 'string' },
+              risk_factors: { type: 'array', items: { type: 'string' } },
+              diagnostic_tests: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    test_name: { type: 'string' },
+                    test_description: { type: 'string' },
+                  },
+                  required: ['test_name', 'test_description'],
+                  additionalProperties: false,
+                },
+              },
+              possible_complications: { type: 'array', items: { type: 'string' } },
+              preventive_measures: { type: 'array', items: { type: 'string' } },
+              recommended_specialists: { type: 'array', items: { type: 'string' } },
+              common_treatments: { type: 'array', items: { type: 'string' } },
+              support_groups_resources: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    resource_name: { type: 'string' },
+                    resource_link: { type: 'string' },
+                  },
+                  required: ['resource_name', 'resource_link'],
+                  additionalProperties: false,
+                },
+              },
+            },
+            required: [
+              'condition_name',
+              'condition_description',
+              'common_symptoms',
+              'severity_level',
+              'management_strategies',
+              'risk_factors',
+              'diagnostic_tests',
+              'possible_complications',
+              'preventive_measures',
+              'recommended_specialists',
+              'common_treatments',
+              'support_groups_resources',
+            ],
+          },
+        },
+        strict: true,
+      },
+    },
+  },
+  {
+    id: 'fitness-exercises',
+    name: 'Fitness Exercises',
+    description: 'Generate workout exercises with instructions',
+    icon: '💪',
+    config: {
+      jobName: 'fitness-exercises',
+      count: 100,
+      batchSize: 20,
+      collection: 'fitness_exercises',
+      systemPrompt: 'You generate detailed fitness exercise information for a wellness app. Be clear, motivating, and safe. Include proper form cues and modifications. Return strict JSON matching the schema.',
+      userPrompt: 'Generate {count} diverse fitness exercises covering strength, cardio, flexibility, and balance. For each exercise include:\n- name: clear exercise name\n- description: 2-3 sentences describing the movement\n- category: strength/cardio/flexibility/balance\n- difficulty: beginner/intermediate/advanced\n- equipment: required equipment or "bodyweight"\n- muscle_groups: primary muscles worked\n- instructions: step-by-step array\n- sets_reps: recommended sets and reps\n- duration: typical duration in seconds\n- calories_per_minute: estimated calorie burn\n- tips: 2-3 form tips\n- modifications: easier and harder versions\n- safety_notes: important safety considerations',
+      jsonSchema: {
+        name: 'FitnessExerciseArray',
+        schema: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              name: { type: 'string' },
+              description: { type: 'string' },
+              category: { type: 'string' },
+              difficulty: { type: 'string' },
+              equipment: { type: 'string' },
+              muscle_groups: { type: 'array', items: { type: 'string' } },
+              instructions: { type: 'array', items: { type: 'string' } },
+              sets_reps: { type: 'string' },
+              duration: { type: 'integer' },
+              calories_per_minute: { type: 'number' },
+              tips: { type: 'array', items: { type: 'string' } },
+              modifications: {
+                type: 'object',
+                properties: {
+                  easier: { type: 'string' },
+                  harder: { type: 'string' },
+                },
+                required: ['easier', 'harder'],
+              },
+              safety_notes: { type: 'array', items: { type: 'string' } },
+            },
+            required: ['name', 'description', 'category', 'difficulty', 'equipment', 'muscle_groups', 'instructions'],
+          },
+        },
+        strict: true,
+      },
+    },
+  },
+  {
+    id: 'nutrition-recipes',
+    name: 'Nutrition Recipes',
+    description: 'Generate healthy recipes with nutritional info',
+    icon: '🥗',
+    config: {
+      jobName: 'nutrition-recipes',
+      count: 200,
+      batchSize: 20,
+      collection: 'nutrition_recipes',
+      systemPrompt: 'You generate healthy, practical recipes for a wellness app. Focus on balanced nutrition, clear instructions, and realistic prep times. Return strict JSON matching the schema.',
+      userPrompt: 'Generate {count} diverse healthy recipes covering breakfast, lunch, dinner, snacks, and smoothies. For each recipe include:\n- name: appetizing recipe name\n- description: 1-2 sentences\n- category: breakfast/lunch/dinner/snack/smoothie\n- prep_time: minutes\n- cook_time: minutes\n- servings: number of servings\n- difficulty: easy/medium/hard\n- ingredients: array with amount and item\n- instructions: step-by-step array\n- nutrition: calories, protein, carbs, fat, fiber per serving\n- dietary_tags: vegetarian/vegan/gluten-free/dairy-free/etc\n- health_benefits: 2-3 key benefits\n- storage_tips: how to store leftovers',
+      jsonSchema: {
+        name: 'RecipeArray',
+        schema: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              name: { type: 'string' },
+              description: { type: 'string' },
+              category: { type: 'string' },
+              prep_time: { type: 'integer' },
+              cook_time: { type: 'integer' },
+              servings: { type: 'integer' },
+              difficulty: { type: 'string' },
+              ingredients: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    amount: { type: 'string' },
+                    item: { type: 'string' },
+                  },
+                  required: ['amount', 'item'],
+                },
+              },
+              instructions: { type: 'array', items: { type: 'string' } },
+              nutrition: {
+                type: 'object',
+                properties: {
+                  calories: { type: 'integer' },
+                  protein: { type: 'number' },
+                  carbs: { type: 'number' },
+                  fat: { type: 'number' },
+                  fiber: { type: 'number' },
+                },
+                required: ['calories', 'protein', 'carbs', 'fat', 'fiber'],
+              },
+              dietary_tags: { type: 'array', items: { type: 'string' } },
+              health_benefits: { type: 'array', items: { type: 'string' } },
+              storage_tips: { type: 'string' },
+            },
+            required: ['name', 'description', 'category', 'ingredients', 'instructions', 'nutrition'],
+          },
+        },
+        strict: true,
+      },
+    },
+  },
+  {
+    id: 'mindfulness-exercises',
+    name: 'Mindfulness Exercises',
+    description: 'Generate meditation and mindfulness practices',
+    icon: '🧘',
+    config: {
+      jobName: 'mindfulness-exercises',
+      count: 50,
+      batchSize: 10,
+      collection: 'mindfulness_exercises',
+      systemPrompt: 'You generate calming, accessible mindfulness and meditation exercises for a wellness app. Use gentle, inclusive language. Return strict JSON matching the schema.',
+      userPrompt: 'Generate {count} diverse mindfulness exercises including meditation, breathing, body scans, and visualization. For each include:\n- name: calming exercise name\n- description: 2 sentences overview\n- type: meditation/breathing/body_scan/visualization/mindful_movement\n- duration: minutes\n- difficulty: beginner/intermediate/advanced\n- instructions: step-by-step guidance\n- benefits: key mental/physical benefits\n- best_time: morning/afternoon/evening/anytime\n- setting: quiet_space/anywhere/nature/etc\n- audio_cues: optional timing cues for guided audio',
+      jsonSchema: {
+        name: 'MindfulnessExerciseArray',
+        schema: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              name: { type: 'string' },
+              description: { type: 'string' },
+              type: { type: 'string' },
+              duration: { type: 'integer' },
+              difficulty: { type: 'string' },
+              instructions: { type: 'array', items: { type: 'string' } },
+              benefits: { type: 'array', items: { type: 'string' } },
+              best_time: { type: 'string' },
+              setting: { type: 'string' },
+              audio_cues: { type: 'array', items: { type: 'string' } },
+            },
+            required: ['name', 'description', 'type', 'duration', 'instructions', 'benefits'],
+          },
+        },
+        strict: true,
+      },
+    },
+  },
+];
+
