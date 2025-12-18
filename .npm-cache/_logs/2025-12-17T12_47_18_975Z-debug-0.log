@@ -1,0 +1,2115 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@10.9.2
+2 info using node@v22.17.1
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/mac/StudioProjects/ikiapp/iki-gen/.npmrc
+5 silly config load:file:/Users/mac/.npmrc
+6 silly config load:file:/usr/local/etc/npmrc
+7 verbose title npm install react-markdown@latest remark-gfm@latest
+8 verbose argv "install" "react-markdown@latest" "remark-gfm@latest" "--cache" ".npm-cache"
+9 verbose logfile logs-max:10 dir:/Users/mac/StudioProjects/ikiapp/iki-gen/.npm-cache/_logs/2025-12-17T12_47_18_975Z-
+10 verbose logfile /Users/mac/StudioProjects/ikiapp/iki-gen/.npm-cache/_logs/2025-12-17T12_47_18_975Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+13 silly packumentCache corgi:https://registry.npmjs.org/react-markdown cache-miss
+14 silly packumentCache corgi:https://registry.npmjs.org/remark-gfm cache-miss
+15 http fetch GET 200 https://registry.npmjs.org/remark-gfm 616ms (cache miss)
+16 silly packumentCache corgi:https://registry.npmjs.org/remark-gfm set size:undefined disposed:false
+17 http fetch GET 200 https://registry.npmjs.org/react-markdown 619ms (cache miss)
+18 silly packumentCache corgi:https://registry.npmjs.org/react-markdown set size:undefined disposed:false
+19 silly idealTree buildDeps
+20 silly fetch manifest remark-gfm@4.0.1
+21 silly packumentCache full:https://registry.npmjs.org/remark-gfm cache-miss
+22 http fetch GET 200 https://registry.npmjs.org/remark-gfm 154ms (cache miss)
+23 silly packumentCache full:https://registry.npmjs.org/remark-gfm set size:undefined disposed:false
+24 silly fetch manifest react-markdown@10.1.0
+25 silly packumentCache full:https://registry.npmjs.org/react-markdown cache-miss
+26 http fetch GET 200 https://registry.npmjs.org/react-markdown 381ms (cache miss)
+27 silly packumentCache full:https://registry.npmjs.org/react-markdown set size:undefined disposed:false
+28 silly fetch manifest @types/react@^19
+29 silly packumentCache full:https://registry.npmjs.org/@types%2freact cache-miss
+30 http fetch GET 200 https://registry.npmjs.org/@types%2freact 326ms (cache miss)
+31 silly packumentCache full:https://registry.npmjs.org/@types%2freact set size:undefined disposed:false
+32 silly fetch manifest react@19.2.0
+33 silly packumentCache full:https://registry.npmjs.org/react cache-miss
+34 http fetch GET 200 https://registry.npmjs.org/react 784ms (cache miss)
+35 silly packumentCache full:https://registry.npmjs.org/react set size:undefined disposed:false
+36 silly placeDep ROOT react-markdown@10.1.0 OK for: iki-gen@1.0.0 want: 10.1.0
+37 silly placeDep ROOT remark-gfm@4.0.1 OK for: iki-gen@1.0.0 want: 4.0.1
+38 silly fetch manifest @types/hast@^3.0.0
+39 silly packumentCache full:https://registry.npmjs.org/@types%2fhast cache-miss
+40 silly fetch manifest @types/mdast@^4.0.0
+41 silly packumentCache full:https://registry.npmjs.org/@types%2fmdast cache-miss
+42 silly fetch manifest devlop@^1.0.0
+43 silly packumentCache full:https://registry.npmjs.org/devlop cache-miss
+44 silly fetch manifest hast-util-to-jsx-runtime@^2.0.0
+45 silly packumentCache full:https://registry.npmjs.org/hast-util-to-jsx-runtime cache-miss
+46 silly fetch manifest html-url-attributes@^3.0.0
+47 silly packumentCache full:https://registry.npmjs.org/html-url-attributes cache-miss
+48 silly fetch manifest mdast-util-to-hast@^13.0.0
+49 silly packumentCache full:https://registry.npmjs.org/mdast-util-to-hast cache-miss
+50 silly fetch manifest remark-parse@^11.0.0
+51 silly packumentCache full:https://registry.npmjs.org/remark-parse cache-miss
+52 silly fetch manifest remark-rehype@^11.0.0
+53 silly packumentCache full:https://registry.npmjs.org/remark-rehype cache-miss
+54 silly fetch manifest unified@^11.0.0
+55 silly packumentCache full:https://registry.npmjs.org/unified cache-miss
+56 http fetch GET 200 https://registry.npmjs.org/@types%2fmdast 235ms (cache miss)
+57 silly packumentCache full:https://registry.npmjs.org/@types%2fmdast set size:undefined disposed:false
+58 silly fetch manifest unist-util-visit@^5.0.0
+59 silly packumentCache full:https://registry.npmjs.org/unist-util-visit cache-miss
+60 http fetch GET 200 https://registry.npmjs.org/@types%2fhast 238ms (cache miss)
+61 silly packumentCache full:https://registry.npmjs.org/@types%2fhast set size:undefined disposed:false
+62 silly fetch manifest vfile@^6.0.0
+63 silly packumentCache full:https://registry.npmjs.org/vfile cache-miss
+64 http fetch GET 200 https://registry.npmjs.org/unist-util-visit 161ms (cache miss)
+65 silly packumentCache full:https://registry.npmjs.org/unist-util-visit set size:undefined disposed:false
+66 silly fetch manifest mdast-util-gfm@^3.0.0
+67 silly packumentCache full:https://registry.npmjs.org/mdast-util-gfm cache-miss
+68 http fetch GET 200 https://registry.npmjs.org/vfile 162ms (cache miss)
+69 silly packumentCache full:https://registry.npmjs.org/vfile set size:undefined disposed:false
+70 silly fetch manifest micromark-extension-gfm@^3.0.0
+71 silly packumentCache full:https://registry.npmjs.org/micromark-extension-gfm cache-miss
+72 http fetch GET 200 https://registry.npmjs.org/micromark-extension-gfm 171ms (cache miss)
+73 silly packumentCache full:https://registry.npmjs.org/micromark-extension-gfm set size:undefined disposed:false
+74 silly fetch manifest remark-parse@^11.0.0
+75 silly packumentCache full:https://registry.npmjs.org/remark-parse cache-miss
+76 http fetch GET 200 https://registry.npmjs.org/mdast-util-gfm 194ms (cache miss)
+77 silly packumentCache full:https://registry.npmjs.org/mdast-util-gfm set size:undefined disposed:false
+78 silly fetch manifest remark-stringify@^11.0.0
+79 silly packumentCache full:https://registry.npmjs.org/remark-stringify cache-miss
+80 http fetch GET 200 https://registry.npmjs.org/hast-util-to-jsx-runtime 611ms (cache miss)
+81 silly packumentCache full:https://registry.npmjs.org/hast-util-to-jsx-runtime set size:undefined disposed:false
+82 silly fetch manifest unified@^11.0.0
+83 silly packumentCache full:https://registry.npmjs.org/unified cache-miss
+84 http fetch GET 200 https://registry.npmjs.org/remark-rehype 616ms (cache miss)
+85 silly packumentCache full:https://registry.npmjs.org/remark-rehype set size:undefined disposed:false
+86 http fetch GET 200 https://registry.npmjs.org/mdast-util-to-hast 622ms (cache miss)
+87 silly packumentCache full:https://registry.npmjs.org/mdast-util-to-hast set size:undefined disposed:false
+88 http fetch GET 200 https://registry.npmjs.org/unified 635ms (cache miss)
+89 silly packumentCache full:https://registry.npmjs.org/unified set size:undefined disposed:false
+90 http fetch GET 200 https://registry.npmjs.org/html-url-attributes 647ms (cache miss)
+91 silly packumentCache full:https://registry.npmjs.org/html-url-attributes set size:undefined disposed:false
+92 http fetch GET 200 https://registry.npmjs.org/remark-parse 196ms (cache miss)
+93 silly packumentCache full:https://registry.npmjs.org/remark-parse set size:undefined disposed:false
+94 http fetch GET 200 https://registry.npmjs.org/remark-parse 774ms (cache miss)
+95 silly packumentCache full:https://registry.npmjs.org/remark-parse set size:undefined disposed:false
+96 http fetch GET 200 https://registry.npmjs.org/unified 163ms (cache miss)
+97 silly packumentCache full:https://registry.npmjs.org/unified set size:undefined disposed:false
+98 http fetch GET 200 https://registry.npmjs.org/remark-stringify 204ms (cache miss)
+99 silly packumentCache full:https://registry.npmjs.org/remark-stringify set size:undefined disposed:false
+100 http fetch GET 200 https://registry.npmjs.org/devlop 833ms (cache miss)
+101 silly packumentCache full:https://registry.npmjs.org/devlop set size:undefined disposed:false
+102 silly placeDep ROOT @types/hast@3.0.4 OK for: react-markdown@10.1.0 want: ^3.0.0
+103 silly placeDep ROOT @types/mdast@4.0.4 OK for: react-markdown@10.1.0 want: ^4.0.0
+104 silly placeDep ROOT devlop@1.1.0 OK for: react-markdown@10.1.0 want: ^1.0.0
+105 silly placeDep ROOT hast-util-to-jsx-runtime@2.3.6 OK for: react-markdown@10.1.0 want: ^2.0.0
+106 silly placeDep ROOT html-url-attributes@3.0.1 OK for: react-markdown@10.1.0 want: ^3.0.0
+107 silly placeDep ROOT mdast-util-to-hast@13.2.1 OK for: react-markdown@10.1.0 want: ^13.0.0
+108 silly placeDep ROOT remark-parse@11.0.0 OK for: react-markdown@10.1.0 want: ^11.0.0
+109 silly placeDep ROOT remark-rehype@11.1.2 OK for: react-markdown@10.1.0 want: ^11.0.0
+110 silly placeDep ROOT unified@11.0.5 OK for: react-markdown@10.1.0 want: ^11.0.0
+111 silly placeDep ROOT unist-util-visit@5.0.0 OK for: react-markdown@10.1.0 want: ^5.0.0
+112 silly placeDep ROOT vfile@6.0.3 OK for: react-markdown@10.1.0 want: ^6.0.0
+113 silly fetch manifest @types/unist@*
+114 silly packumentCache full:https://registry.npmjs.org/@types%2funist cache-miss
+115 silly fetch manifest @types/unist@*
+116 silly packumentCache full:https://registry.npmjs.org/@types%2funist cache-miss
+117 silly fetch manifest dequal@^2.0.0
+118 silly packumentCache full:https://registry.npmjs.org/dequal cache-miss
+119 silly fetch manifest @types/estree@^1.0.0
+120 silly packumentCache full:https://registry.npmjs.org/@types%2festree cache-miss
+121 silly fetch manifest @types/unist@^3.0.0
+122 silly packumentCache full:https://registry.npmjs.org/@types%2funist cache-miss
+123 silly fetch manifest comma-separated-tokens@^2.0.0
+124 silly packumentCache full:https://registry.npmjs.org/comma-separated-tokens cache-miss
+125 silly fetch manifest estree-util-is-identifier-name@^3.0.0
+126 silly packumentCache full:https://registry.npmjs.org/estree-util-is-identifier-name cache-miss
+127 silly fetch manifest hast-util-whitespace@^3.0.0
+128 silly packumentCache full:https://registry.npmjs.org/hast-util-whitespace cache-miss
+129 silly fetch manifest mdast-util-mdx-expression@^2.0.0
+130 silly packumentCache full:https://registry.npmjs.org/mdast-util-mdx-expression cache-miss
+131 http fetch GET 200 https://registry.npmjs.org/estree-util-is-identifier-name 165ms (cache miss)
+132 silly packumentCache full:https://registry.npmjs.org/estree-util-is-identifier-name set size:undefined disposed:false
+133 silly fetch manifest mdast-util-mdx-jsx@^3.0.0
+134 silly packumentCache full:https://registry.npmjs.org/mdast-util-mdx-jsx cache-miss
+135 http fetch GET 200 https://registry.npmjs.org/@types%2funist 166ms (cache miss)
+136 silly packumentCache full:https://registry.npmjs.org/@types%2funist set size:undefined disposed:false
+137 silly fetch manifest mdast-util-mdxjs-esm@^2.0.0
+138 silly packumentCache full:https://registry.npmjs.org/mdast-util-mdxjs-esm cache-miss
+139 http fetch GET 200 https://registry.npmjs.org/@types%2funist 169ms (cache miss)
+140 silly packumentCache full:https://registry.npmjs.org/@types%2funist set size:undefined disposed:false
+141 silly fetch manifest property-information@^7.0.0
+142 silly packumentCache full:https://registry.npmjs.org/property-information cache-miss
+143 http fetch GET 200 https://registry.npmjs.org/hast-util-whitespace 170ms (cache miss)
+144 silly packumentCache full:https://registry.npmjs.org/hast-util-whitespace set size:undefined disposed:false
+145 silly fetch manifest space-separated-tokens@^2.0.0
+146 silly packumentCache full:https://registry.npmjs.org/space-separated-tokens cache-miss
+147 http fetch GET 200 https://registry.npmjs.org/@types%2funist 172ms (cache miss)
+148 silly packumentCache full:https://registry.npmjs.org/@types%2funist set size:undefined disposed:false
+149 silly fetch manifest style-to-js@^1.0.0
+150 silly packumentCache full:https://registry.npmjs.org/style-to-js cache-miss
+151 http fetch GET 200 https://registry.npmjs.org/dequal 173ms (cache miss)
+152 silly packumentCache full:https://registry.npmjs.org/dequal set size:undefined disposed:false
+153 silly fetch manifest unist-util-position@^5.0.0
+154 silly packumentCache full:https://registry.npmjs.org/unist-util-position cache-miss
+155 http fetch GET 200 https://registry.npmjs.org/@types%2festree 174ms (cache miss)
+156 silly packumentCache full:https://registry.npmjs.org/@types%2festree set size:undefined disposed:false
+157 silly fetch manifest vfile-message@^4.0.0
+158 silly packumentCache full:https://registry.npmjs.org/vfile-message cache-miss
+159 http fetch GET 200 https://registry.npmjs.org/space-separated-tokens 163ms (cache miss)
+160 silly packumentCache full:https://registry.npmjs.org/space-separated-tokens set size:undefined disposed:false
+161 silly fetch manifest @ungap/structured-clone@^1.0.0
+162 silly packumentCache full:https://registry.npmjs.org/@ungap%2fstructured-clone cache-miss
+163 http fetch GET 200 https://registry.npmjs.org/unist-util-position 163ms (cache miss)
+164 silly packumentCache full:https://registry.npmjs.org/unist-util-position set size:undefined disposed:false
+165 silly fetch manifest micromark-util-sanitize-uri@^2.0.0
+166 silly packumentCache full:https://registry.npmjs.org/micromark-util-sanitize-uri cache-miss
+167 http fetch GET 200 https://registry.npmjs.org/mdast-util-mdx-expression 338ms (cache miss)
+168 silly packumentCache full:https://registry.npmjs.org/mdast-util-mdx-expression set size:undefined disposed:false
+169 silly fetch manifest trim-lines@^3.0.0
+170 silly packumentCache full:https://registry.npmjs.org/trim-lines cache-miss
+171 http fetch GET 200 https://registry.npmjs.org/mdast-util-mdxjs-esm 173ms (cache miss)
+172 silly packumentCache full:https://registry.npmjs.org/mdast-util-mdxjs-esm set size:undefined disposed:false
+173 silly fetch manifest mdast-util-from-markdown@^2.0.0
+174 silly packumentCache full:https://registry.npmjs.org/mdast-util-from-markdown cache-miss
+175 http fetch GET 200 https://registry.npmjs.org/vfile-message 167ms (cache miss)
+176 silly packumentCache full:https://registry.npmjs.org/vfile-message set size:undefined disposed:false
+177 silly fetch manifest micromark-util-types@^2.0.0
+178 silly packumentCache full:https://registry.npmjs.org/micromark-util-types cache-miss
+179 http fetch GET 200 https://registry.npmjs.org/mdast-util-mdx-jsx 177ms (cache miss)
+180 silly packumentCache full:https://registry.npmjs.org/mdast-util-mdx-jsx set size:undefined disposed:false
+181 silly fetch manifest bail@^2.0.0
+182 silly packumentCache full:https://registry.npmjs.org/bail cache-miss
+183 http fetch GET 200 https://registry.npmjs.org/comma-separated-tokens 355ms (cache miss)
+184 silly packumentCache full:https://registry.npmjs.org/comma-separated-tokens set size:undefined disposed:false
+185 silly fetch manifest is-plain-obj@^4.0.0
+186 silly packumentCache full:https://registry.npmjs.org/is-plain-obj cache-miss
+187 http fetch GET 200 https://registry.npmjs.org/style-to-js 198ms (cache miss)
+188 silly packumentCache full:https://registry.npmjs.org/style-to-js set size:undefined disposed:false
+189 silly fetch manifest trough@^2.0.0
+190 silly packumentCache full:https://registry.npmjs.org/trough cache-miss
+191 http fetch GET 200 https://registry.npmjs.org/property-information 213ms (cache miss)
+192 silly packumentCache full:https://registry.npmjs.org/property-information set size:undefined disposed:false
+193 silly fetch manifest unist-util-is@^6.0.0
+194 silly packumentCache full:https://registry.npmjs.org/unist-util-is cache-miss
+195 http fetch GET 200 https://registry.npmjs.org/micromark-util-sanitize-uri 149ms (cache miss)
+196 silly packumentCache full:https://registry.npmjs.org/micromark-util-sanitize-uri set size:undefined disposed:false
+197 silly fetch manifest unist-util-visit-parents@^6.0.0
+198 silly packumentCache full:https://registry.npmjs.org/unist-util-visit-parents cache-miss
+199 http fetch GET 200 https://registry.npmjs.org/micromark-util-types 154ms (cache miss)
+200 silly packumentCache full:https://registry.npmjs.org/micromark-util-types set size:undefined disposed:false
+201 http fetch GET 200 https://registry.npmjs.org/bail 154ms (cache miss)
+202 silly packumentCache full:https://registry.npmjs.org/bail set size:undefined disposed:false
+203 http fetch GET 200 https://registry.npmjs.org/@ungap%2fstructured-clone 168ms (cache miss)
+204 silly packumentCache full:https://registry.npmjs.org/@ungap%2fstructured-clone set size:undefined disposed:false
+205 http fetch GET 200 https://registry.npmjs.org/is-plain-obj 152ms (cache miss)
+206 silly packumentCache full:https://registry.npmjs.org/is-plain-obj set size:undefined disposed:false
+207 http fetch GET 200 https://registry.npmjs.org/mdast-util-from-markdown 181ms (cache miss)
+208 silly packumentCache full:https://registry.npmjs.org/mdast-util-from-markdown set size:undefined disposed:false
+209 http fetch GET 200 https://registry.npmjs.org/trim-lines 185ms (cache miss)
+210 silly packumentCache full:https://registry.npmjs.org/trim-lines set size:undefined disposed:false
+211 http fetch GET 200 https://registry.npmjs.org/trough 179ms (cache miss)
+212 silly packumentCache full:https://registry.npmjs.org/trough set size:undefined disposed:false
+213 http fetch GET 200 https://registry.npmjs.org/unist-util-is 211ms (cache miss)
+214 silly packumentCache full:https://registry.npmjs.org/unist-util-is set size:undefined disposed:false
+215 http fetch GET 200 https://registry.npmjs.org/unist-util-visit-parents 162ms (cache miss)
+216 silly packumentCache full:https://registry.npmjs.org/unist-util-visit-parents set size:undefined disposed:false
+217 silly placeDep ROOT @types/unist@3.0.3 OK for: @types/hast@3.0.4 want: *
+218 silly placeDep ROOT dequal@2.0.3 OK for: devlop@1.1.0 want: ^2.0.0
+219 silly placeDep ROOT @types/estree@1.0.8 OK for: hast-util-to-jsx-runtime@2.3.6 want: ^1.0.0
+220 silly placeDep ROOT comma-separated-tokens@2.0.3 OK for: hast-util-to-jsx-runtime@2.3.6 want: ^2.0.0
+221 silly placeDep ROOT estree-util-is-identifier-name@3.0.0 OK for: hast-util-to-jsx-runtime@2.3.6 want: ^3.0.0
+222 silly placeDep ROOT hast-util-whitespace@3.0.0 OK for: hast-util-to-jsx-runtime@2.3.6 want: ^3.0.0
+223 silly placeDep ROOT mdast-util-mdx-expression@2.0.1 OK for: hast-util-to-jsx-runtime@2.3.6 want: ^2.0.0
+224 silly placeDep ROOT mdast-util-mdx-jsx@3.2.0 OK for: hast-util-to-jsx-runtime@2.3.6 want: ^3.0.0
+225 silly placeDep ROOT mdast-util-mdxjs-esm@2.0.1 OK for: hast-util-to-jsx-runtime@2.3.6 want: ^2.0.0
+226 silly placeDep ROOT property-information@7.1.0 OK for: hast-util-to-jsx-runtime@2.3.6 want: ^7.0.0
+227 silly placeDep ROOT space-separated-tokens@2.0.2 OK for: hast-util-to-jsx-runtime@2.3.6 want: ^2.0.0
+228 silly placeDep ROOT style-to-js@1.1.21 OK for: hast-util-to-jsx-runtime@2.3.6 want: ^1.0.0
+229 silly placeDep ROOT unist-util-position@5.0.0 OK for: hast-util-to-jsx-runtime@2.3.6 want: ^5.0.0
+230 silly placeDep ROOT vfile-message@4.0.3 OK for: hast-util-to-jsx-runtime@2.3.6 want: ^4.0.0
+231 silly fetch manifest @types/estree-jsx@^1.0.0
+232 silly packumentCache full:https://registry.npmjs.org/@types%2festree-jsx cache-miss
+233 silly fetch manifest mdast-util-to-markdown@^2.0.0
+234 silly packumentCache full:https://registry.npmjs.org/mdast-util-to-markdown cache-miss
+235 silly fetch manifest @types/estree-jsx@^1.0.0
+236 silly packumentCache full:https://registry.npmjs.org/@types%2festree-jsx cache-miss
+237 silly fetch manifest ccount@^2.0.0
+238 silly packumentCache full:https://registry.npmjs.org/ccount cache-miss
+239 silly fetch manifest mdast-util-to-markdown@^2.0.0
+240 silly packumentCache full:https://registry.npmjs.org/mdast-util-to-markdown cache-miss
+241 silly fetch manifest parse-entities@^4.0.0
+242 silly packumentCache full:https://registry.npmjs.org/parse-entities cache-miss
+243 silly fetch manifest stringify-entities@^4.0.0
+244 silly packumentCache full:https://registry.npmjs.org/stringify-entities cache-miss
+245 silly fetch manifest unist-util-stringify-position@^4.0.0
+246 silly packumentCache full:https://registry.npmjs.org/unist-util-stringify-position cache-miss
+247 silly fetch manifest @types/estree-jsx@^1.0.0
+248 silly packumentCache full:https://registry.npmjs.org/@types%2festree-jsx cache-miss
+249 http fetch GET 200 https://registry.npmjs.org/mdast-util-to-markdown 162ms (cache miss)
+250 silly packumentCache full:https://registry.npmjs.org/mdast-util-to-markdown set size:undefined disposed:false
+251 silly fetch manifest style-to-object@1.0.14
+252 silly packumentCache full:https://registry.npmjs.org/style-to-object cache-miss
+253 http fetch GET 200 https://registry.npmjs.org/mdast-util-to-markdown 182ms (cache miss)
+254 silly packumentCache full:https://registry.npmjs.org/mdast-util-to-markdown set size:undefined disposed:false
+255 silly fetch manifest unist-util-stringify-position@^4.0.0
+256 silly packumentCache full:https://registry.npmjs.org/unist-util-stringify-position cache-miss
+257 http fetch GET 200 https://registry.npmjs.org/@types%2festree-jsx 184ms (cache miss)
+258 silly packumentCache full:https://registry.npmjs.org/@types%2festree-jsx set size:undefined disposed:false
+259 http fetch GET 200 https://registry.npmjs.org/@types%2festree-jsx 185ms (cache miss)
+260 silly packumentCache full:https://registry.npmjs.org/@types%2festree-jsx set size:undefined disposed:false
+261 http fetch GET 200 https://registry.npmjs.org/@types%2festree-jsx 184ms (cache miss)
+262 silly packumentCache full:https://registry.npmjs.org/@types%2festree-jsx set size:undefined disposed:false
+263 http fetch GET 200 https://registry.npmjs.org/stringify-entities 184ms (cache miss)
+264 silly packumentCache full:https://registry.npmjs.org/stringify-entities set size:undefined disposed:false
+265 http fetch GET 200 https://registry.npmjs.org/unist-util-stringify-position 185ms (cache miss)
+266 silly packumentCache full:https://registry.npmjs.org/unist-util-stringify-position set size:undefined disposed:false
+267 http fetch GET 200 https://registry.npmjs.org/parse-entities 185ms (cache miss)
+268 silly packumentCache full:https://registry.npmjs.org/parse-entities set size:undefined disposed:false
+269 http fetch GET 200 https://registry.npmjs.org/ccount 187ms (cache miss)
+270 silly packumentCache full:https://registry.npmjs.org/ccount set size:undefined disposed:false
+271 http fetch GET 200 https://registry.npmjs.org/unist-util-stringify-position 153ms (cache miss)
+272 silly packumentCache full:https://registry.npmjs.org/unist-util-stringify-position set size:undefined disposed:false
+273 http fetch GET 200 https://registry.npmjs.org/style-to-object 325ms (cache miss)
+274 silly packumentCache full:https://registry.npmjs.org/style-to-object set size:undefined disposed:false
+275 silly placeDep ROOT @types/estree-jsx@1.0.5 OK for: mdast-util-mdx-expression@2.0.1 want: ^1.0.0
+276 silly placeDep ROOT mdast-util-from-markdown@2.0.2 OK for: mdast-util-mdx-expression@2.0.1 want: ^2.0.0
+277 silly placeDep ROOT mdast-util-to-markdown@2.1.2 OK for: mdast-util-mdx-expression@2.0.1 want: ^2.0.0
+278 silly fetch manifest decode-named-character-reference@^1.0.0
+279 silly packumentCache full:https://registry.npmjs.org/decode-named-character-reference cache-miss
+280 silly fetch manifest mdast-util-to-string@^4.0.0
+281 silly packumentCache full:https://registry.npmjs.org/mdast-util-to-string cache-miss
+282 silly fetch manifest micromark@^4.0.0
+283 silly packumentCache full:https://registry.npmjs.org/micromark cache-miss
+284 silly fetch manifest micromark-util-decode-numeric-character-reference@^2.0.0
+285 silly packumentCache full:https://registry.npmjs.org/micromark-util-decode-numeric-character-reference cache-miss
+286 silly fetch manifest micromark-util-decode-string@^2.0.0
+287 silly packumentCache full:https://registry.npmjs.org/micromark-util-decode-string cache-miss
+288 silly fetch manifest micromark-util-normalize-identifier@^2.0.0
+289 silly packumentCache full:https://registry.npmjs.org/micromark-util-normalize-identifier cache-miss
+290 silly fetch manifest micromark-util-symbol@^2.0.0
+291 silly packumentCache full:https://registry.npmjs.org/micromark-util-symbol cache-miss
+292 silly fetch manifest longest-streak@^3.0.0
+293 silly packumentCache full:https://registry.npmjs.org/longest-streak cache-miss
+294 silly fetch manifest mdast-util-phrasing@^4.0.0
+295 silly packumentCache full:https://registry.npmjs.org/mdast-util-phrasing cache-miss
+296 http fetch GET 200 https://registry.npmjs.org/micromark-util-symbol 154ms (cache miss)
+297 silly packumentCache full:https://registry.npmjs.org/micromark-util-symbol set size:undefined disposed:false
+298 silly fetch manifest mdast-util-to-string@^4.0.0
+299 silly packumentCache full:https://registry.npmjs.org/mdast-util-to-string cache-miss
+300 http fetch GET 200 https://registry.npmjs.org/micromark-util-normalize-identifier 185ms (cache miss)
+301 silly packumentCache full:https://registry.npmjs.org/micromark-util-normalize-identifier set size:undefined disposed:false
+302 silly fetch manifest micromark-util-classify-character@^2.0.0
+303 silly packumentCache full:https://registry.npmjs.org/micromark-util-classify-character cache-miss
+304 http fetch GET 200 https://registry.npmjs.org/micromark 195ms (cache miss)
+305 silly packumentCache full:https://registry.npmjs.org/micromark set size:undefined disposed:false
+306 silly fetch manifest micromark-util-decode-string@^2.0.0
+307 silly packumentCache full:https://registry.npmjs.org/micromark-util-decode-string cache-miss
+308 http fetch GET 200 https://registry.npmjs.org/micromark-util-decode-string 203ms (cache miss)
+309 silly packumentCache full:https://registry.npmjs.org/micromark-util-decode-string set size:undefined disposed:false
+310 silly fetch manifest zwitch@^2.0.0
+311 silly packumentCache full:https://registry.npmjs.org/zwitch cache-miss
+312 http fetch GET 200 https://registry.npmjs.org/mdast-util-phrasing 203ms (cache miss)
+313 silly packumentCache full:https://registry.npmjs.org/mdast-util-phrasing set size:undefined disposed:false
+314 http fetch GET 200 https://registry.npmjs.org/mdast-util-to-string 205ms (cache miss)
+315 silly packumentCache full:https://registry.npmjs.org/mdast-util-to-string set size:undefined disposed:false
+316 http fetch GET 200 https://registry.npmjs.org/micromark-util-decode-numeric-character-reference 208ms (cache miss)
+317 silly packumentCache full:https://registry.npmjs.org/micromark-util-decode-numeric-character-reference set size:undefined disposed:false
+318 http fetch GET 200 https://registry.npmjs.org/longest-streak 213ms (cache miss)
+319 silly packumentCache full:https://registry.npmjs.org/longest-streak set size:undefined disposed:false
+320 http fetch GET 200 https://registry.npmjs.org/decode-named-character-reference 221ms (cache miss)
+321 silly packumentCache full:https://registry.npmjs.org/decode-named-character-reference set size:undefined disposed:false
+322 http fetch GET 200 https://registry.npmjs.org/mdast-util-to-string 168ms (cache miss)
+323 silly packumentCache full:https://registry.npmjs.org/mdast-util-to-string set size:undefined disposed:false
+324 http fetch GET 200 https://registry.npmjs.org/micromark-util-classify-character 151ms (cache miss)
+325 silly packumentCache full:https://registry.npmjs.org/micromark-util-classify-character set size:undefined disposed:false
+326 http fetch GET 200 https://registry.npmjs.org/micromark-util-decode-string 154ms (cache miss)
+327 silly packumentCache full:https://registry.npmjs.org/micromark-util-decode-string set size:undefined disposed:false
+328 http fetch GET 200 https://registry.npmjs.org/zwitch 174ms (cache miss)
+329 silly packumentCache full:https://registry.npmjs.org/zwitch set size:undefined disposed:false
+330 silly placeDep ROOT decode-named-character-reference@1.2.0 OK for: mdast-util-from-markdown@2.0.2 want: ^1.0.0
+331 silly placeDep ROOT mdast-util-to-string@4.0.0 OK for: mdast-util-from-markdown@2.0.2 want: ^4.0.0
+332 silly placeDep ROOT micromark@4.0.2 OK for: mdast-util-from-markdown@2.0.2 want: ^4.0.0
+333 silly placeDep ROOT micromark-util-decode-numeric-character-reference@2.0.2 OK for: mdast-util-from-markdown@2.0.2 want: ^2.0.0
+334 silly placeDep ROOT micromark-util-decode-string@2.0.1 OK for: mdast-util-from-markdown@2.0.2 want: ^2.0.0
+335 silly placeDep ROOT micromark-util-normalize-identifier@2.0.1 OK for: mdast-util-from-markdown@2.0.2 want: ^2.0.0
+336 silly placeDep ROOT micromark-util-symbol@2.0.1 OK for: mdast-util-from-markdown@2.0.2 want: ^2.0.0
+337 silly placeDep ROOT micromark-util-types@2.0.2 OK for: mdast-util-from-markdown@2.0.2 want: ^2.0.0
+338 silly placeDep ROOT unist-util-stringify-position@4.0.0 OK for: mdast-util-from-markdown@2.0.2 want: ^4.0.0
+339 silly fetch manifest character-entities@^2.0.0
+340 silly packumentCache full:https://registry.npmjs.org/character-entities cache-miss
+341 silly fetch manifest @types/debug@^4.0.0
+342 silly packumentCache full:https://registry.npmjs.org/@types%2fdebug cache-miss
+343 silly fetch manifest micromark-core-commonmark@^2.0.0
+344 silly packumentCache full:https://registry.npmjs.org/micromark-core-commonmark cache-miss
+345 silly fetch manifest micromark-factory-space@^2.0.0
+346 silly packumentCache full:https://registry.npmjs.org/micromark-factory-space cache-miss
+347 silly fetch manifest micromark-util-character@^2.0.0
+348 silly packumentCache full:https://registry.npmjs.org/micromark-util-character cache-miss
+349 silly fetch manifest micromark-util-chunked@^2.0.0
+350 silly packumentCache full:https://registry.npmjs.org/micromark-util-chunked cache-miss
+351 silly fetch manifest micromark-util-combine-extensions@^2.0.0
+352 silly packumentCache full:https://registry.npmjs.org/micromark-util-combine-extensions cache-miss
+353 silly fetch manifest micromark-util-encode@^2.0.0
+354 silly packumentCache full:https://registry.npmjs.org/micromark-util-encode cache-miss
+355 silly fetch manifest micromark-util-resolve-all@^2.0.0
+356 silly packumentCache full:https://registry.npmjs.org/micromark-util-resolve-all cache-miss
+357 http fetch GET 200 https://registry.npmjs.org/@types%2fdebug 166ms (cache miss)
+358 silly packumentCache full:https://registry.npmjs.org/@types%2fdebug set size:undefined disposed:false
+359 silly fetch manifest micromark-util-subtokenize@^2.0.0
+360 silly packumentCache full:https://registry.npmjs.org/micromark-util-subtokenize cache-miss
+361 http fetch GET 200 https://registry.npmjs.org/micromark-util-character 167ms (cache miss)
+362 silly packumentCache full:https://registry.npmjs.org/micromark-util-character set size:undefined disposed:false
+363 http fetch GET 200 https://registry.npmjs.org/micromark-factory-space 184ms (cache miss)
+364 silly packumentCache full:https://registry.npmjs.org/micromark-factory-space set size:undefined disposed:false
+365 http fetch GET 200 https://registry.npmjs.org/micromark-core-commonmark 197ms (cache miss)
+366 silly packumentCache full:https://registry.npmjs.org/micromark-core-commonmark set size:undefined disposed:false
+367 http fetch GET 200 https://registry.npmjs.org/micromark-util-chunked 198ms (cache miss)
+368 silly packumentCache full:https://registry.npmjs.org/micromark-util-chunked set size:undefined disposed:false
+369 http fetch GET 200 https://registry.npmjs.org/character-entities 198ms (cache miss)
+370 silly packumentCache full:https://registry.npmjs.org/character-entities set size:undefined disposed:false
+371 http fetch GET 200 https://registry.npmjs.org/micromark-util-resolve-all 203ms (cache miss)
+372 silly packumentCache full:https://registry.npmjs.org/micromark-util-resolve-all set size:undefined disposed:false
+373 http fetch GET 200 https://registry.npmjs.org/micromark-util-combine-extensions 215ms (cache miss)
+374 silly packumentCache full:https://registry.npmjs.org/micromark-util-combine-extensions set size:undefined disposed:false
+375 http fetch GET 200 https://registry.npmjs.org/micromark-util-encode 322ms (cache miss)
+376 silly packumentCache full:https://registry.npmjs.org/micromark-util-encode set size:undefined disposed:false
+377 http fetch GET 200 https://registry.npmjs.org/micromark-util-subtokenize 213ms (cache miss)
+378 silly packumentCache full:https://registry.npmjs.org/micromark-util-subtokenize set size:undefined disposed:false
+379 silly placeDep ROOT character-entities@2.0.2 OK for: decode-named-character-reference@1.2.0 want: ^2.0.0
+380 silly placeDep ROOT ccount@2.0.1 OK for: mdast-util-mdx-jsx@3.2.0 want: ^2.0.0
+381 silly placeDep ROOT parse-entities@4.0.2 OK for: mdast-util-mdx-jsx@3.2.0 want: ^4.0.0
+382 silly placeDep ROOT stringify-entities@4.0.4 OK for: mdast-util-mdx-jsx@3.2.0 want: ^4.0.0
+383 silly fetch manifest @types/unist@^2.0.0
+384 silly packumentCache full:https://registry.npmjs.org/@types%2funist cache-miss
+385 silly fetch manifest character-entities-legacy@^3.0.0
+386 silly packumentCache full:https://registry.npmjs.org/character-entities-legacy cache-miss
+387 silly fetch manifest character-reference-invalid@^2.0.0
+388 silly packumentCache full:https://registry.npmjs.org/character-reference-invalid cache-miss
+389 silly fetch manifest is-alphanumerical@^2.0.0
+390 silly packumentCache full:https://registry.npmjs.org/is-alphanumerical cache-miss
+391 silly fetch manifest is-decimal@^2.0.0
+392 silly packumentCache full:https://registry.npmjs.org/is-decimal cache-miss
+393 silly fetch manifest is-hexadecimal@^2.0.0
+394 silly packumentCache full:https://registry.npmjs.org/is-hexadecimal cache-miss
+395 silly fetch manifest character-entities-html4@^2.0.0
+396 silly packumentCache full:https://registry.npmjs.org/character-entities-html4 cache-miss
+397 silly fetch manifest character-entities-legacy@^3.0.0
+398 silly packumentCache full:https://registry.npmjs.org/character-entities-legacy cache-miss
+399 http cache https://registry.npmjs.org/@types%2funist 11ms (cache hit)
+400 silly packumentCache full:https://registry.npmjs.org/@types%2funist set size:39215 disposed:false
+401 http fetch GET 200 https://registry.npmjs.org/character-entities-html4 162ms (cache miss)
+402 silly packumentCache full:https://registry.npmjs.org/character-entities-html4 set size:undefined disposed:false
+403 http fetch GET 200 https://registry.npmjs.org/is-decimal 186ms (cache miss)
+404 silly packumentCache full:https://registry.npmjs.org/is-decimal set size:undefined disposed:false
+405 http fetch GET 200 https://registry.npmjs.org/character-reference-invalid 187ms (cache miss)
+406 silly packumentCache full:https://registry.npmjs.org/character-reference-invalid set size:undefined disposed:false
+407 http fetch GET 200 https://registry.npmjs.org/is-alphanumerical 187ms (cache miss)
+408 silly packumentCache full:https://registry.npmjs.org/is-alphanumerical set size:undefined disposed:false
+409 http fetch GET 200 https://registry.npmjs.org/character-entities-legacy 188ms (cache miss)
+410 silly packumentCache full:https://registry.npmjs.org/character-entities-legacy set size:undefined disposed:false
+411 http fetch GET 200 https://registry.npmjs.org/character-entities-legacy 189ms (cache miss)
+412 silly packumentCache full:https://registry.npmjs.org/character-entities-legacy set size:undefined disposed:false
+413 http fetch GET 200 https://registry.npmjs.org/is-hexadecimal 327ms (cache miss)
+414 silly packumentCache full:https://registry.npmjs.org/is-hexadecimal set size:undefined disposed:false
+415 silly placeDep ROOT @ungap/structured-clone@1.3.0 OK for: mdast-util-to-hast@13.2.1 want: ^1.0.0
+416 silly placeDep ROOT micromark-util-sanitize-uri@2.0.1 OK for: mdast-util-to-hast@13.2.1 want: ^2.0.0
+417 silly placeDep ROOT trim-lines@3.0.1 OK for: mdast-util-to-hast@13.2.1 want: ^3.0.0
+418 silly placeDep ROOT longest-streak@3.1.0 OK for: mdast-util-to-markdown@2.1.2 want: ^3.0.0
+419 silly placeDep ROOT mdast-util-phrasing@4.1.0 OK for: mdast-util-to-markdown@2.1.2 want: ^4.0.0
+420 silly placeDep ROOT micromark-util-classify-character@2.0.1 OK for: mdast-util-to-markdown@2.1.2 want: ^2.0.0
+421 silly placeDep ROOT zwitch@2.0.4 OK for: mdast-util-to-markdown@2.1.2 want: ^2.0.0
+422 silly placeDep ROOT unist-util-is@6.0.1 OK for: mdast-util-phrasing@4.1.0 want: ^6.0.0
+423 silly placeDep ROOT @types/debug@4.1.12 OK for: micromark@4.0.2 want: ^4.0.0
+424 silly placeDep ROOT micromark-core-commonmark@2.0.3 OK for: micromark@4.0.2 want: ^2.0.0
+425 silly placeDep ROOT micromark-factory-space@2.0.1 OK for: micromark@4.0.2 want: ^2.0.0
+426 silly placeDep ROOT micromark-util-character@2.1.1 OK for: micromark@4.0.2 want: ^2.0.0
+427 silly placeDep ROOT micromark-util-chunked@2.0.1 OK for: micromark@4.0.2 want: ^2.0.0
+428 silly placeDep ROOT micromark-util-combine-extensions@2.0.1 OK for: micromark@4.0.2 want: ^2.0.0
+429 silly placeDep ROOT micromark-util-encode@2.0.1 OK for: micromark@4.0.2 want: ^2.0.0
+430 silly placeDep ROOT micromark-util-resolve-all@2.0.1 OK for: micromark@4.0.2 want: ^2.0.0
+431 silly placeDep ROOT micromark-util-subtokenize@2.1.0 OK for: micromark@4.0.2 want: ^2.0.0
+432 silly fetch manifest micromark-factory-destination@^2.0.0
+433 silly packumentCache full:https://registry.npmjs.org/micromark-factory-destination cache-miss
+434 silly fetch manifest micromark-factory-label@^2.0.0
+435 silly packumentCache full:https://registry.npmjs.org/micromark-factory-label cache-miss
+436 silly fetch manifest micromark-factory-title@^2.0.0
+437 silly packumentCache full:https://registry.npmjs.org/micromark-factory-title cache-miss
+438 silly fetch manifest micromark-factory-whitespace@^2.0.0
+439 silly packumentCache full:https://registry.npmjs.org/micromark-factory-whitespace cache-miss
+440 silly fetch manifest micromark-util-html-tag-name@^2.0.0
+441 silly packumentCache full:https://registry.npmjs.org/micromark-util-html-tag-name cache-miss
+442 http fetch GET 200 https://registry.npmjs.org/micromark-factory-destination 154ms (cache miss)
+443 silly packumentCache full:https://registry.npmjs.org/micromark-factory-destination set size:undefined disposed:false
+444 http fetch GET 200 https://registry.npmjs.org/micromark-factory-whitespace 190ms (cache miss)
+445 silly packumentCache full:https://registry.npmjs.org/micromark-factory-whitespace set size:undefined disposed:false
+446 http fetch GET 200 https://registry.npmjs.org/micromark-factory-title 203ms (cache miss)
+447 silly packumentCache full:https://registry.npmjs.org/micromark-factory-title set size:undefined disposed:false
+448 http fetch GET 200 https://registry.npmjs.org/micromark-util-html-tag-name 204ms (cache miss)
+449 silly packumentCache full:https://registry.npmjs.org/micromark-util-html-tag-name set size:undefined disposed:false
+450 http fetch GET 200 https://registry.npmjs.org/micromark-factory-label 210ms (cache miss)
+451 silly packumentCache full:https://registry.npmjs.org/micromark-factory-label set size:undefined disposed:false
+452 silly placeDep ROOT micromark-factory-destination@2.0.1 OK for: micromark-core-commonmark@2.0.3 want: ^2.0.0
+453 silly placeDep ROOT micromark-factory-label@2.0.1 OK for: micromark-core-commonmark@2.0.3 want: ^2.0.0
+454 silly placeDep ROOT micromark-factory-title@2.0.1 OK for: micromark-core-commonmark@2.0.3 want: ^2.0.0
+455 silly placeDep ROOT micromark-factory-whitespace@2.0.1 OK for: micromark-core-commonmark@2.0.3 want: ^2.0.0
+456 silly placeDep ROOT micromark-util-html-tag-name@2.0.1 OK for: micromark-core-commonmark@2.0.3 want: ^2.0.0
+457 silly placeDep node_modules/parse-entities @types/unist@2.0.11 OK for: parse-entities@4.0.2 want: ^2.0.0
+458 silly placeDep ROOT character-entities-legacy@3.0.0 OK for: parse-entities@4.0.2 want: ^3.0.0
+459 silly placeDep ROOT character-reference-invalid@2.0.1 OK for: parse-entities@4.0.2 want: ^2.0.0
+460 silly placeDep ROOT is-alphanumerical@2.0.1 OK for: parse-entities@4.0.2 want: ^2.0.0
+461 silly placeDep ROOT is-decimal@2.0.1 OK for: parse-entities@4.0.2 want: ^2.0.0
+462 silly placeDep ROOT is-hexadecimal@2.0.1 OK for: parse-entities@4.0.2 want: ^2.0.0
+463 silly fetch manifest is-alphabetical@^2.0.0
+464 silly packumentCache full:https://registry.npmjs.org/is-alphabetical cache-miss
+465 http fetch GET 200 https://registry.npmjs.org/is-alphabetical 154ms (cache miss)
+466 silly packumentCache full:https://registry.npmjs.org/is-alphabetical set size:undefined disposed:false
+467 silly placeDep ROOT is-alphabetical@2.0.1 OK for: is-alphanumerical@2.0.1 want: ^2.0.0
+468 silly placeDep ROOT mdast-util-gfm@3.1.0 OK for: remark-gfm@4.0.1 want: ^3.0.0
+469 silly placeDep ROOT micromark-extension-gfm@3.0.0 OK for: remark-gfm@4.0.1 want: ^3.0.0
+470 silly placeDep ROOT remark-stringify@11.0.0 OK for: remark-gfm@4.0.1 want: ^11.0.0
+471 silly fetch manifest mdast-util-gfm-autolink-literal@^2.0.0
+472 silly packumentCache full:https://registry.npmjs.org/mdast-util-gfm-autolink-literal cache-miss
+473 silly fetch manifest mdast-util-gfm-footnote@^2.0.0
+474 silly packumentCache full:https://registry.npmjs.org/mdast-util-gfm-footnote cache-miss
+475 silly fetch manifest mdast-util-gfm-strikethrough@^2.0.0
+476 silly packumentCache full:https://registry.npmjs.org/mdast-util-gfm-strikethrough cache-miss
+477 silly fetch manifest mdast-util-gfm-table@^2.0.0
+478 silly packumentCache full:https://registry.npmjs.org/mdast-util-gfm-table cache-miss
+479 silly fetch manifest mdast-util-gfm-task-list-item@^2.0.0
+480 silly packumentCache full:https://registry.npmjs.org/mdast-util-gfm-task-list-item cache-miss
+481 silly fetch manifest micromark-extension-gfm-autolink-literal@^2.0.0
+482 silly packumentCache full:https://registry.npmjs.org/micromark-extension-gfm-autolink-literal cache-miss
+483 silly fetch manifest micromark-extension-gfm-footnote@^2.0.0
+484 silly packumentCache full:https://registry.npmjs.org/micromark-extension-gfm-footnote cache-miss
+485 silly fetch manifest micromark-extension-gfm-strikethrough@^2.0.0
+486 silly packumentCache full:https://registry.npmjs.org/micromark-extension-gfm-strikethrough cache-miss
+487 silly fetch manifest micromark-extension-gfm-table@^2.0.0
+488 silly packumentCache full:https://registry.npmjs.org/micromark-extension-gfm-table cache-miss
+489 http fetch GET 200 https://registry.npmjs.org/micromark-extension-gfm-footnote 193ms (cache miss)
+490 silly packumentCache full:https://registry.npmjs.org/micromark-extension-gfm-footnote set size:undefined disposed:false
+491 silly fetch manifest micromark-extension-gfm-tagfilter@^2.0.0
+492 silly packumentCache full:https://registry.npmjs.org/micromark-extension-gfm-tagfilter cache-miss
+493 http fetch GET 200 https://registry.npmjs.org/micromark-extension-gfm-table 201ms (cache miss)
+494 silly packumentCache full:https://registry.npmjs.org/micromark-extension-gfm-table set size:undefined disposed:false
+495 silly fetch manifest micromark-extension-gfm-task-list-item@^2.0.0
+496 silly packumentCache full:https://registry.npmjs.org/micromark-extension-gfm-task-list-item cache-miss
+497 http fetch GET 200 https://registry.npmjs.org/mdast-util-gfm-footnote 203ms (cache miss)
+498 silly packumentCache full:https://registry.npmjs.org/mdast-util-gfm-footnote set size:undefined disposed:false
+499 http fetch GET 200 https://registry.npmjs.org/mdast-util-gfm-task-list-item 205ms (cache miss)
+500 silly packumentCache full:https://registry.npmjs.org/mdast-util-gfm-task-list-item set size:undefined disposed:false
+501 http fetch GET 200 https://registry.npmjs.org/micromark-extension-gfm-strikethrough 207ms (cache miss)
+502 silly packumentCache full:https://registry.npmjs.org/micromark-extension-gfm-strikethrough set size:undefined disposed:false
+503 http fetch GET 200 https://registry.npmjs.org/mdast-util-gfm-table 210ms (cache miss)
+504 silly packumentCache full:https://registry.npmjs.org/mdast-util-gfm-table set size:undefined disposed:false
+505 http fetch GET 200 https://registry.npmjs.org/mdast-util-gfm-autolink-literal 213ms (cache miss)
+506 silly packumentCache full:https://registry.npmjs.org/mdast-util-gfm-autolink-literal set size:undefined disposed:false
+507 http fetch GET 200 https://registry.npmjs.org/micromark-extension-gfm-autolink-literal 387ms (cache miss)
+508 silly packumentCache full:https://registry.npmjs.org/micromark-extension-gfm-autolink-literal set size:undefined disposed:false
+509 http fetch GET 200 https://registry.npmjs.org/micromark-extension-gfm-tagfilter 205ms (cache miss)
+510 silly packumentCache full:https://registry.npmjs.org/micromark-extension-gfm-tagfilter set size:undefined disposed:false
+511 http fetch GET 200 https://registry.npmjs.org/micromark-extension-gfm-task-list-item 198ms (cache miss)
+512 silly packumentCache full:https://registry.npmjs.org/micromark-extension-gfm-task-list-item set size:undefined disposed:false
+513 http fetch GET 200 https://registry.npmjs.org/mdast-util-gfm-strikethrough 1302ms (cache miss)
+514 silly packumentCache full:https://registry.npmjs.org/mdast-util-gfm-strikethrough set size:undefined disposed:false
+515 silly placeDep ROOT mdast-util-gfm-autolink-literal@2.0.1 OK for: mdast-util-gfm@3.1.0 want: ^2.0.0
+516 silly placeDep ROOT mdast-util-gfm-footnote@2.1.0 OK for: mdast-util-gfm@3.1.0 want: ^2.0.0
+517 silly placeDep ROOT mdast-util-gfm-strikethrough@2.0.0 OK for: mdast-util-gfm@3.1.0 want: ^2.0.0
+518 silly placeDep ROOT mdast-util-gfm-table@2.0.0 OK for: mdast-util-gfm@3.1.0 want: ^2.0.0
+519 silly placeDep ROOT mdast-util-gfm-task-list-item@2.0.0 OK for: mdast-util-gfm@3.1.0 want: ^2.0.0
+520 silly fetch manifest mdast-util-find-and-replace@^3.0.0
+521 silly packumentCache full:https://registry.npmjs.org/mdast-util-find-and-replace cache-miss
+522 silly fetch manifest markdown-table@^3.0.0
+523 silly packumentCache full:https://registry.npmjs.org/markdown-table cache-miss
+524 http fetch GET 200 https://registry.npmjs.org/mdast-util-find-and-replace 162ms (cache miss)
+525 silly packumentCache full:https://registry.npmjs.org/mdast-util-find-and-replace set size:undefined disposed:false
+526 http fetch GET 200 https://registry.npmjs.org/markdown-table 197ms (cache miss)
+527 silly packumentCache full:https://registry.npmjs.org/markdown-table set size:undefined disposed:false
+528 silly placeDep ROOT mdast-util-find-and-replace@3.0.2 OK for: mdast-util-gfm-autolink-literal@2.0.1 want: ^3.0.0
+529 silly fetch manifest escape-string-regexp@^5.0.0
+530 silly packumentCache full:https://registry.npmjs.org/escape-string-regexp cache-miss
+531 http fetch GET 200 https://registry.npmjs.org/escape-string-regexp 197ms (cache miss)
+532 silly packumentCache full:https://registry.npmjs.org/escape-string-regexp set size:undefined disposed:false
+533 silly placeDep ROOT escape-string-regexp@5.0.0 OK for: mdast-util-find-and-replace@3.0.2 want: ^5.0.0
+534 silly placeDep ROOT unist-util-visit-parents@6.0.2 OK for: mdast-util-find-and-replace@3.0.2 want: ^6.0.0
+535 silly placeDep ROOT markdown-table@3.0.4 OK for: mdast-util-gfm-table@2.0.0 want: ^3.0.0
+536 silly placeDep ROOT micromark-extension-gfm-autolink-literal@2.1.0 OK for: micromark-extension-gfm@3.0.0 want: ^2.0.0
+537 silly placeDep ROOT micromark-extension-gfm-footnote@2.1.0 OK for: micromark-extension-gfm@3.0.0 want: ^2.0.0
+538 silly placeDep ROOT micromark-extension-gfm-strikethrough@2.1.0 OK for: micromark-extension-gfm@3.0.0 want: ^2.0.0
+539 silly placeDep ROOT micromark-extension-gfm-table@2.1.1 OK for: micromark-extension-gfm@3.0.0 want: ^2.0.0
+540 silly placeDep ROOT micromark-extension-gfm-tagfilter@2.0.0 OK for: micromark-extension-gfm@3.0.0 want: ^2.0.0
+541 silly placeDep ROOT micromark-extension-gfm-task-list-item@2.1.0 OK for: micromark-extension-gfm@3.0.0 want: ^2.0.0
+542 silly placeDep ROOT character-entities-html4@2.1.0 OK for: stringify-entities@4.0.4 want: ^2.0.0
+543 silly placeDep ROOT style-to-object@1.0.14 OK for: style-to-js@1.1.21 want: 1.0.14
+544 silly fetch manifest inline-style-parser@0.2.7
+545 silly packumentCache full:https://registry.npmjs.org/inline-style-parser cache-miss
+546 http fetch GET 200 https://registry.npmjs.org/inline-style-parser 210ms (cache miss)
+547 silly packumentCache full:https://registry.npmjs.org/inline-style-parser set size:undefined disposed:false
+548 silly placeDep ROOT inline-style-parser@0.2.7 OK for: style-to-object@1.0.14 want: 0.2.7
+549 silly placeDep ROOT bail@2.0.2 OK for: unified@11.0.5 want: ^2.0.0
+550 silly placeDep ROOT is-plain-obj@4.1.0 OK for: unified@11.0.5 want: ^4.0.0
+551 silly placeDep ROOT trough@2.2.0 OK for: unified@11.0.5 want: ^2.0.0
+552 silly reify moves {}
+553 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-wasm32-wasi
+554 silly reify mark deleted [
+554 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-wasm32-wasi'
+554 silly reify ]
+555 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@emnapi/core
+556 silly reify mark deleted [
+556 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@emnapi/core'
+556 silly reify ]
+557 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@emnapi/wasi-threads
+558 silly reify mark deleted [
+558 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@emnapi/wasi-threads'
+558 silly reify ]
+559 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@napi-rs/wasm-runtime
+560 silly reify mark deleted [
+560 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@napi-rs/wasm-runtime'
+560 silly reify ]
+561 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tybys/wasm-util
+562 silly reify mark deleted [
+562 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tybys/wasm-util'
+562 silly reify ]
+563 silly audit bulk request {
+563 silly audit   '@alloc/quick-lru': [ '5.2.0' ],
+563 silly audit   '@better-auth/core': [ '1.4.4' ],
+563 silly audit   '@better-auth/telemetry': [ '1.4.4' ],
+563 silly audit   '@better-auth/utils': [ '0.3.0' ],
+563 silly audit   '@better-fetch/fetch': [ '1.1.18' ],
+563 silly audit   '@biomejs/biome': [ '1.9.4' ],
+563 silly audit   '@biomejs/cli-darwin-arm64': [ '1.9.4' ],
+563 silly audit   '@biomejs/cli-darwin-x64': [ '1.9.4' ],
+563 silly audit   '@biomejs/cli-linux-arm64': [ '1.9.4' ],
+563 silly audit   '@biomejs/cli-linux-arm64-musl': [ '1.9.4' ],
+563 silly audit   '@biomejs/cli-linux-x64': [ '1.9.4' ],
+563 silly audit   '@biomejs/cli-linux-x64-musl': [ '1.9.4' ],
+563 silly audit   '@biomejs/cli-win32-arm64': [ '1.9.4' ],
+563 silly audit   '@biomejs/cli-win32-x64': [ '1.9.4' ],
+563 silly audit   '@drizzle-team/brocli': [ '0.10.2' ],
+563 silly audit   '@emnapi/core': [ '1.6.0' ],
+563 silly audit   '@emnapi/runtime': [ '1.6.0' ],
+563 silly audit   '@emnapi/wasi-threads': [ '1.1.0' ],
+563 silly audit   '@esbuild-kit/core-utils': [ '3.3.2' ],
+563 silly audit   '@esbuild/android-arm': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/android-arm64': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/android-x64': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/darwin-arm64': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/darwin-x64': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/freebsd-arm64': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/freebsd-x64': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/linux-arm': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/linux-arm64': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/linux-ia32': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/linux-loong64': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/linux-mips64el': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/linux-ppc64': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/linux-riscv64': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/linux-s390x': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/linux-x64': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/netbsd-x64': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/openbsd-x64': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/sunos-x64': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/win32-arm64': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/win32-ia32': [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild/win32-x64': [ '0.18.20', '0.25.12' ],
+563 silly audit   esbuild: [ '0.18.20', '0.25.12' ],
+563 silly audit   '@esbuild-kit/esm-loader': [ '2.6.5' ],
+563 silly audit   '@esbuild/aix-ppc64': [ '0.25.12' ],
+563 silly audit   '@esbuild/netbsd-arm64': [ '0.25.12' ],
+563 silly audit   '@esbuild/openbsd-arm64': [ '0.25.12' ],
+563 silly audit   '@esbuild/openharmony-arm64': [ '0.25.12' ],
+563 silly audit   '@fastify/busboy': [ '3.2.0' ],
+563 silly audit   '@firebase/app-check-interop-types': [ '0.3.3' ],
+563 silly audit   '@firebase/app-types': [ '0.9.3' ],
+563 silly audit   '@firebase/auth-interop-types': [ '0.2.4' ],
+563 silly audit   '@firebase/component': [ '0.7.0' ],
+563 silly audit   '@firebase/database': [ '1.1.0' ],
+563 silly audit   '@firebase/database-compat': [ '2.1.0' ],
+563 silly audit   '@firebase/database-types': [ '1.0.16' ],
+563 silly audit   '@firebase/logger': [ '0.5.0' ],
+563 silly audit   '@firebase/util': [ '1.13.0' ],
+563 silly audit   '@floating-ui/core': [ '1.7.3' ],
+563 silly audit   '@floating-ui/dom': [ '1.7.4' ],
+563 silly audit   '@floating-ui/react-dom': [ '2.1.6' ],
+563 silly audit   '@floating-ui/utils': [ '0.2.10' ],
+563 silly audit   '@google-cloud/firestore': [ '7.11.6' ],
+563 silly audit   '@google-cloud/paginator': [ '5.0.2' ],
+563 silly audit   '@google-cloud/projectify': [ '4.0.0' ],
+563 silly audit   '@google-cloud/promisify': [ '4.0.0' ],
+563 silly audit   '@google-cloud/storage': [ '7.17.2' ],
+563 silly audit   uuid: [ '8.3.2', '9.0.1', '11.1.0' ],
+563 silly audit   '@grpc/grpc-js': [ '1.14.0' ],
+563 silly audit   '@grpc/proto-loader': [ '0.8.0', '0.7.15' ],
+563 silly audit   '@img/colour': [ '1.0.0' ],
+563 silly audit   '@img/sharp-darwin-arm64': [ '0.34.4' ],
+563 silly audit   '@img/sharp-darwin-x64': [ '0.34.4' ],
+563 silly audit   '@img/sharp-libvips-darwin-arm64': [ '1.2.3' ],
+563 silly audit   '@img/sharp-libvips-darwin-x64': [ '1.2.3' ],
+563 silly audit   '@img/sharp-libvips-linux-arm': [ '1.2.3' ],
+563 silly audit   '@img/sharp-libvips-linux-arm64': [ '1.2.3' ],
+563 silly audit   '@img/sharp-libvips-linux-ppc64': [ '1.2.3' ],
+563 silly audit   '@img/sharp-libvips-linux-s390x': [ '1.2.3' ],
+563 silly audit   '@img/sharp-libvips-linux-x64': [ '1.2.3' ],
+563 silly audit   '@img/sharp-libvips-linuxmusl-arm64': [ '1.2.3' ],
+563 silly audit   '@img/sharp-libvips-linuxmusl-x64': [ '1.2.3' ],
+563 silly audit   '@img/sharp-linux-arm': [ '0.34.4' ],
+563 silly audit   '@img/sharp-linux-arm64': [ '0.34.4' ],
+563 silly audit   '@img/sharp-linux-ppc64': [ '0.34.4' ],
+563 silly audit   '@img/sharp-linux-s390x': [ '0.34.4' ],
+563 silly audit   '@img/sharp-linux-x64': [ '0.34.4' ],
+563 silly audit   '@img/sharp-linuxmusl-arm64': [ '0.34.4' ],
+563 silly audit   '@img/sharp-linuxmusl-x64': [ '0.34.4' ],
+563 silly audit   '@img/sharp-wasm32': [ '0.34.4' ],
+563 silly audit   '@img/sharp-win32-arm64': [ '0.34.4' ],
+563 silly audit   '@img/sharp-win32-ia32': [ '0.34.4' ],
+563 silly audit   '@img/sharp-win32-x64': [ '0.34.4' ],
+563 silly audit   '@jridgewell/gen-mapping': [ '0.3.13' ],
+563 silly audit   '@jridgewell/remapping': [ '2.3.5' ],
+563 silly audit   '@jridgewell/resolve-uri': [ '3.1.2' ],
+563 silly audit   '@jridgewell/sourcemap-codec': [ '1.5.5' ],
+563 silly audit   '@jridgewell/trace-mapping': [ '0.3.31' ],
+563 silly audit   '@js-sdsl/ordered-map': [ '4.4.2' ],
+563 silly audit   '@napi-rs/wasm-runtime': [ '0.2.12' ],
+563 silly audit   '@neondatabase/serverless': [ '1.0.2' ],
+563 silly audit   '@types/node': [ '22.19.1', '20.19.24', '22.18.13' ],
+563 silly audit   '@next/env': [ '15.5.7' ],
+563 silly audit   '@next/swc-darwin-arm64': [ '15.5.7' ],
+563 silly audit   '@next/swc-darwin-x64': [ '15.5.7' ],
+563 silly audit   '@next/swc-linux-arm64-gnu': [ '15.5.7' ],
+563 silly audit   '@next/swc-linux-arm64-musl': [ '15.5.7' ],
+563 silly audit   '@next/swc-linux-x64-gnu': [ '15.5.7' ],
+563 silly audit   '@next/swc-linux-x64-musl': [ '15.5.7' ],
+563 silly audit   '@next/swc-win32-arm64-msvc': [ '15.5.7' ],
+563 silly audit   '@next/swc-win32-x64-msvc': [ '15.5.7' ],
+563 silly audit   '@noble/ciphers': [ '2.0.1' ],
+563 silly audit   '@noble/hashes': [ '2.0.1' ],
+563 silly audit   '@opentelemetry/api': [ '1.9.0' ],
+563 silly audit   '@protobufjs/aspromise': [ '1.1.2' ],
+563 silly audit   '@protobufjs/base64': [ '1.1.2' ],
+563 silly audit   '@protobufjs/codegen': [ '2.0.4' ],
+563 silly audit   '@protobufjs/eventemitter': [ '1.1.0' ],
+563 silly audit   '@protobufjs/fetch': [ '1.1.0' ],
+563 silly audit   '@protobufjs/float': [ '1.0.2' ],
+563 silly audit   '@protobufjs/inquire': [ '1.1.0' ],
+563 silly audit   '@protobufjs/path': [ '1.1.2' ],
+563 silly audit   '@protobufjs/pool': [ '1.1.0' ],
+563 silly audit   '@protobufjs/utf8': [ '1.1.0' ],
+563 silly audit   '@radix-ui/number': [ '1.1.1' ],
+563 silly audit   '@radix-ui/primitive': [ '1.1.3' ],
+563 silly audit   '@radix-ui/react-arrow': [ '1.1.7' ],
+563 silly audit   '@radix-ui/react-collection': [ '1.1.7' ],
+563 silly audit   '@radix-ui/react-compose-refs': [ '1.1.2' ],
+563 silly audit   '@radix-ui/react-context': [ '1.1.2' ],
+563 silly audit   '@radix-ui/react-direction': [ '1.1.1' ],
+563 silly audit   '@radix-ui/react-dismissable-layer': [ '1.1.11' ],
+563 silly audit   '@radix-ui/react-focus-guards': [ '1.1.3' ],
+563 silly audit   '@radix-ui/react-focus-scope': [ '1.1.7' ],
+563 silly audit   '@radix-ui/react-id': [ '1.1.1' ],
+563 silly audit   '@radix-ui/react-popper': [ '1.2.8' ],
+563 silly audit   '@radix-ui/react-portal': [ '1.1.9' ],
+563 silly audit   '@radix-ui/react-primitive': [ '2.1.3' ],
+563 silly audit   '@radix-ui/react-progress': [ '1.1.7' ],
+563 silly audit   '@radix-ui/react-select': [ '2.2.6' ],
+563 silly audit   '@radix-ui/react-slot': [ '1.2.3' ],
+563 silly audit   '@radix-ui/react-use-callback-ref': [ '1.1.1' ],
+563 silly audit   '@radix-ui/react-use-controllable-state': [ '1.2.2' ],
+563 silly audit   '@radix-ui/react-use-effect-event': [ '0.0.2' ],
+563 silly audit   '@radix-ui/react-use-escape-keydown': [ '1.1.1' ],
+563 silly audit   '@radix-ui/react-use-layout-effect': [ '1.1.1' ],
+563 silly audit   '@radix-ui/react-use-previous': [ '1.1.1' ],
+563 silly audit   '@radix-ui/react-use-rect': [ '1.1.1' ],
+563 silly audit   '@radix-ui/react-use-size': [ '1.1.1' ],
+563 silly audit   '@radix-ui/react-visually-hidden': [ '1.2.3' ],
+563 silly audit   '@radix-ui/rect': [ '1.1.1' ],
+563 silly audit   '@reduxjs/toolkit': [ '2.11.0' ],
+563 silly audit   immer: [ '11.0.1', '10.2.0' ],
+563 silly audit   '@standard-schema/spec': [ '1.0.0' ],
+563 silly audit   '@standard-schema/utils': [ '0.3.0' ],
+563 silly audit   '@swc/helpers': [ '0.5.15' ],
+563 silly audit   '@tailwindcss/node': [ '4.1.16' ],
+563 silly audit   '@tailwindcss/oxide': [ '4.1.16' ],
+563 silly audit   '@tailwindcss/oxide-android-arm64': [ '4.1.16' ],
+563 silly audit   '@tailwindcss/oxide-darwin-arm64': [ '4.1.16' ],
+563 silly audit   '@tailwindcss/oxide-darwin-x64': [ '4.1.16' ],
+563 silly audit   '@tailwindcss/oxide-freebsd-x64': [ '4.1.16' ],
+563 silly audit   '@tailwindcss/oxide-linux-arm-gnueabihf': [ '4.1.16' ],
+563 silly audit   '@tailwindcss/oxide-linux-arm64-gnu': [ '4.1.16' ],
+563 silly audit   '@tailwindcss/oxide-linux-arm64-musl': [ '4.1.16' ],
+563 silly audit   '@tailwindcss/oxide-linux-x64-gnu': [ '4.1.16' ],
+563 silly audit   '@tailwindcss/oxide-linux-x64-musl': [ '4.1.16' ],
+563 silly audit   '@tailwindcss/oxide-win32-arm64-msvc': [ '4.1.16' ],
+563 silly audit   '@tailwindcss/oxide-win32-x64-msvc': [ '4.1.16' ],
+563 silly audit   '@tailwindcss/postcss': [ '4.1.16' ],
+563 silly audit   '@tootallnate/once': [ '2.0.0' ],
+563 silly audit   '@tybys/wasm-util': [ '0.10.1' ],
+563 silly audit   '@types/bcrypt': [ '6.0.0' ],
+563 silly audit   '@types/bcryptjs': [ '2.4.6' ],
+563 silly audit   '@types/body-parser': [ '1.19.6' ],
+563 silly audit   '@types/caseless': [ '0.12.5' ],
+563 silly audit   '@types/connect': [ '3.4.38' ],
+563 silly audit   '@types/d3-array': [ '3.2.2' ],
+563 silly audit   '@types/d3-color': [ '3.1.3' ],
+563 silly audit   '@types/d3-ease': [ '3.0.2' ],
+563 silly audit   '@types/d3-interpolate': [ '3.0.4' ],
+563 silly audit   '@types/d3-path': [ '3.1.1' ],
+563 silly audit   '@types/d3-scale': [ '4.0.9' ],
+563 silly audit   '@types/d3-shape': [ '3.1.7' ],
+563 silly audit   '@types/d3-time': [ '3.0.4' ],
+563 silly audit   '@types/d3-timer': [ '3.0.2' ],
+563 silly audit   '@types/express': [ '4.17.25' ],
+563 silly audit   '@types/express-serve-static-core': [ '4.19.7' ],
+563 silly audit   '@types/http-errors': [ '2.0.5' ],
+563 silly audit   '@types/jsonwebtoken': [ '9.0.10' ],
+563 silly audit   '@types/long': [ '4.0.2' ],
+563 silly audit   '@types/mime': [ '1.3.5' ],
+563 silly audit   '@types/ms': [ '2.1.0' ],
+563 silly audit   '@types/pg': [ '8.15.6' ],
+563 silly audit   '@types/qs': [ '6.14.0' ],
+563 silly audit   '@types/range-parser': [ '1.2.7' ],
+563 silly audit   '@types/react': [ '19.2.2' ],
+563 silly audit   '@types/react-dom': [ '19.2.2' ],
+563 silly audit   '@types/request': [ '2.48.13' ],
+563 silly audit   '@types/send': [ '1.2.1', '0.17.6' ],
+563 silly audit   '@types/serve-static': [ '1.15.10' ],
+563 silly audit   '@types/tough-cookie': [ '4.0.5' ],
+563 silly audit   '@types/use-sync-external-store': [ '0.0.6' ],
+563 silly audit   'abort-controller': [ '3.0.0' ],
+563 silly audit   'agent-base': [ '7.1.4', '6.0.2' ],
+563 silly audit   'ansi-regex': [ '5.0.1' ],
+563 silly audit   'ansi-styles': [ '4.3.0' ],
+563 silly audit   'aria-hidden': [ '1.2.6' ],
+563 silly audit   arrify: [ '2.0.1' ],
+563 silly audit   'async-retry': [ '1.3.3' ],
+563 silly audit   asynckit: [ '0.4.0' ],
+563 silly audit   'base64-js': [ '1.5.1' ],
+563 silly audit   bcrypt: [ '6.0.0' ],
+563 silly audit   bcryptjs: [ '3.0.3' ],
+563 silly audit   'better-auth': [ '1.4.4' ],
+563 silly audit   'better-call': [ '1.1.3' ],
+563 silly audit   'bignumber.js': [ '9.3.1' ],
+563 silly audit   'buffer-equal-constant-time': [ '1.0.1' ],
+563 silly audit   'buffer-from': [ '1.1.2' ],
+563 silly audit   'call-bind-apply-helpers': [ '1.0.2' ],
+563 silly audit   'caniuse-lite': [ '1.0.30001751' ],
+563 silly audit   'class-variance-authority': [ '0.7.1' ],
+563 silly audit   'client-only': [ '0.0.1' ],
+563 silly audit   cliui: [ '8.0.1' ],
+563 silly audit   clsx: [ '2.1.1' ],
+563 silly audit   'color-convert': [ '2.0.1' ],
+563 silly audit   'color-name': [ '1.1.4' ],
+563 silly audit   'combined-stream': [ '1.0.8' ],
+563 silly audit   csstype: [ '3.1.3' ],
+563 silly audit   'd3-array': [ '3.2.4' ],
+563 silly audit   'd3-color': [ '3.1.0' ],
+563 silly audit   'd3-ease': [ '3.0.1' ],
+563 silly audit   'd3-format': [ '3.1.0' ],
+563 silly audit   'd3-interpolate': [ '3.0.1' ],
+563 silly audit   'd3-path': [ '3.1.0' ],
+563 silly audit   'd3-scale': [ '4.0.2' ],
+563 silly audit   'd3-shape': [ '3.2.0' ],
+563 silly audit   'd3-time': [ '3.1.0' ],
+563 silly audit   'd3-time-format': [ '4.1.0' ],
+563 silly audit   'd3-timer': [ '3.0.1' ],
+563 silly audit   debug: [ '4.4.3' ],
+563 silly audit   'decimal.js-light': [ '2.5.1' ],
+563 silly audit   defu: [ '6.1.4' ],
+563 silly audit   'delayed-stream': [ '1.0.0' ],
+563 silly audit   'detect-libc': [ '2.1.2' ],
+563 silly audit   'detect-node-es': [ '1.1.0' ],
+563 silly audit   dotenv: [ '17.2.3' ],
+563 silly audit   'drizzle-kit': [ '0.31.7' ],
+563 silly audit   'drizzle-orm': [ '0.44.7' ],
+563 silly audit   'dunder-proto': [ '1.0.1' ],
+563 silly audit   duplexify: [ '4.1.3' ],
+563 silly audit   'ecdsa-sig-formatter': [ '1.0.11' ],
+563 silly audit   'end-of-stream': [ '1.4.5' ],
+563 silly audit   'enhanced-resolve': [ '5.18.3' ],
+563 silly audit   'es-define-property': [ '1.0.1' ],
+563 silly audit   'es-errors': [ '1.3.0' ],
+563 silly audit   'es-object-atoms': [ '1.1.1' ],
+563 silly audit   'es-set-tostringtag': [ '2.1.0' ],
+563 silly audit   'es-toolkit': [ '1.42.0' ],
+563 silly audit   'esbuild-register': [ '3.6.0' ],
+563 silly audit   escalade: [ '3.2.0' ],
+563 silly audit   'event-target-shim': [ '5.0.1' ],
+563 silly audit   eventemitter3: [ '5.0.1' ],
+563 silly audit   extend: [ '3.0.2' ],
+563 silly audit   'farmhash-modern': [ '1.1.0' ],
+563 silly audit   'fast-deep-equal': [ '3.1.3' ],
+563 silly audit   'fast-xml-parser': [ '4.5.3' ],
+563 silly audit   'faye-websocket': [ '0.11.4' ],
+563 silly audit   'firebase-admin': [ '13.5.0' ],
+563 silly audit   'form-data': [ '2.5.5' ],
+563 silly audit   'function-bind': [ '1.1.2' ],
+563 silly audit   'functional-red-black-tree': [ '1.0.1' ],
+563 silly audit   gaxios: [ '6.7.1' ],
+563 silly audit   'gcp-metadata': [ '6.1.1' ],
+563 silly audit   'get-caller-file': [ '2.0.5' ],
+563 silly audit   'get-intrinsic': [ '1.3.0' ],
+563 silly audit   'get-nonce': [ '1.0.1' ],
+563 silly audit   'get-proto': [ '1.0.1' ],
+563 silly audit   'get-tsconfig': [ '4.13.0' ],
+563 silly audit   'google-auth-library': [ '9.15.1' ],
+563 silly audit   'google-gax': [ '4.6.1' ],
+563 silly audit   'google-logging-utils': [ '0.0.2' ],
+563 silly audit   gopd: [ '1.2.0' ],
+563 silly audit   'graceful-fs': [ '4.2.11' ],
+563 silly audit   gtoken: [ '7.1.0' ],
+563 silly audit   'has-symbols': [ '1.1.0' ],
+563 silly audit   'has-tostringtag': [ '1.0.2' ],
+563 silly audit   hasown: [ '2.0.2' ],
+563 silly audit   'html-entities': [ '2.6.0' ],
+563 silly audit   'http-parser-js': [ '0.5.10' ],
+563 silly audit   'http-proxy-agent': [ '5.0.0' ],
+563 silly audit   'https-proxy-agent': [ '7.0.6', '5.0.1' ],
+563 silly audit   inherits: [ '2.0.4' ],
+563 silly audit   internmap: [ '2.0.3' ],
+563 silly audit   'is-fullwidth-code-point': [ '3.0.0' ],
+563 silly audit   'is-stream': [ '2.0.1' ],
+563 silly audit   jiti: [ '2.6.1' ],
+563 silly audit   jose: [ '6.1.3', '4.15.9' ],
+563 silly audit   'json-bigint': [ '1.0.0' ],
+563 silly audit   jsonwebtoken: [ '9.0.2' ],
+563 silly audit   jwa: [ '1.4.2', '2.0.1' ],
+563 silly audit   jws: [ '3.2.2', '4.0.0' ],
+563 silly audit   semver: [ '7.7.3' ],
+563 silly audit   'jwks-rsa': [ '3.2.0' ],
+563 silly audit   kysely: [ '0.28.8' ],
+563 silly audit   lightningcss: [ '1.30.2' ],
+563 silly audit   'lightningcss-android-arm64': [ '1.30.2' ],
+563 silly audit   'lightningcss-darwin-arm64': [ '1.30.2' ],
+563 silly audit   'lightningcss-darwin-x64': [ '1.30.2' ],
+563 silly audit   'lightningcss-freebsd-x64': [ '1.30.2' ],
+563 silly audit   'lightningcss-linux-arm-gnueabihf': [ '1.30.2' ],
+563 silly audit   'lightningcss-linux-arm64-gnu': [ '1.30.2' ],
+563 silly audit   'lightningcss-linux-arm64-musl': [ '1.30.2' ],
+563 silly audit   'lightningcss-linux-x64-gnu': [ '1.30.2' ],
+563 silly audit   'lightningcss-linux-x64-musl': [ '1.30.2' ],
+563 silly audit   'lightningcss-win32-arm64-msvc': [ '1.30.2' ],
+563 silly audit   'lightningcss-win32-x64-msvc': [ '1.30.2' ],
+563 silly audit   limiter: [ '1.1.5' ],
+563 silly audit   'lodash.camelcase': [ '4.3.0' ],
+563 silly audit   'lodash.clonedeep': [ '4.5.0' ],
+563 silly audit   'lodash.includes': [ '4.3.0' ],
+563 silly audit   'lodash.isboolean': [ '3.0.3' ],
+563 silly audit   'lodash.isinteger': [ '4.0.4' ],
+563 silly audit   'lodash.isnumber': [ '3.0.3' ],
+563 silly audit   'lodash.isplainobject': [ '4.0.6' ],
+563 silly audit   'lodash.isstring': [ '4.0.1' ],
+563 silly audit   'lodash.once': [ '4.1.1' ],
+563 silly audit   long: [ '5.3.2' ],
+563 silly audit   'lru-memoizer': [ '2.3.0' ],
+563 silly audit   'lru-cache': [ '6.0.0' ],
+563 silly audit   yallist: [ '4.0.0' ],
+563 silly audit   'lucide-react': [ '0.548.0' ],
+563 silly audit   'magic-string': [ '0.30.21' ],
+563 silly audit   'math-intrinsics': [ '1.1.0' ],
+563 silly audit   mime: [ '3.0.0' ],
+563 silly audit   'mime-db': [ '1.52.0' ],
+563 silly audit   'mime-types': [ '2.1.35' ],
+563 silly audit   ms: [ '2.1.3' ],
+563 silly audit   nanoid: [ '5.1.6', '3.3.11' ],
+563 silly audit   nanostores: [ '1.1.0' ],
+563 silly audit   next: [ '15.5.7' ],
+563 silly audit   postcss: [ '8.4.31', '8.5.6' ],
+563 silly audit   'node-addon-api': [ '8.5.0' ],
+563 silly audit   'node-fetch': [ '2.7.0' ],
+563 silly audit   'node-forge': [ '1.3.1' ],
+563 silly audit   'node-gyp-build': [ '4.8.4' ],
+563 silly audit   'object-hash': [ '3.0.0' ],
+563 silly audit   once: [ '1.4.0' ],
+563 silly audit   openai: [ '6.7.0' ],
+563 silly audit   'p-limit': [ '3.1.0' ],
+563 silly audit   'pg-int8': [ '1.0.1' ],
+563 silly audit   'pg-protocol': [ '1.10.3' ],
+563 silly audit   'pg-types': [ '2.2.0' ],
+563 silly audit   picocolors: [ '1.1.1' ],
+563 silly audit   postgres: [ '3.4.7' ],
+563 silly audit   'postgres-array': [ '2.0.0' ],
+563 silly audit   'postgres-bytea': [ '1.0.0' ],
+563 silly audit   'postgres-date': [ '1.0.7' ],
+563 silly audit   'postgres-interval': [ '1.2.0' ],
+563 silly audit   'proto3-json-serializer': [ '2.0.2' ],
+563 silly audit   protobufjs: [ '7.5.4' ],
+563 silly audit   react: [ '19.2.0' ],
+563 silly audit   'react-dom': [ '19.2.0' ],
+563 silly audit   'react-is': [ '16.13.1' ],
+563 silly audit   'react-redux': [ '9.2.0' ],
+563 silly audit   'react-remove-scroll': [ '2.7.1' ],
+563 silly audit   'react-remove-scroll-bar': [ '2.3.8' ],
+563 silly audit   'react-style-singleton': [ '2.2.3' ],
+563 silly audit   'readable-stream': [ '3.6.2' ],
+563 silly audit   recharts: [ '3.5.1' ],
+563 silly audit   redux: [ '5.0.1' ],
+563 silly audit   'redux-thunk': [ '3.1.0' ],
+563 silly audit   'require-directory': [ '2.1.1' ],
+563 silly audit   reselect: [ '5.1.1' ],
+563 silly audit   'resolve-pkg-maps': [ '1.0.0' ],
+563 silly audit   retry: [ '0.13.1' ],
+563 silly audit   'retry-request': [ '7.0.2' ],
+563 silly audit   rou3: [ '0.5.1' ],
+563 silly audit   'safe-buffer': [ '5.2.1' ],
+563 silly audit   scheduler: [ '0.27.0' ],
+563 silly audit   'set-cookie-parser': [ '2.7.2' ],
+563 silly audit   sharp: [ '0.34.4' ],
+563 silly audit   'source-map': [ '0.6.1' ],
+563 silly audit   'source-map-js': [ '1.2.1' ],
+563 silly audit   'source-map-support': [ '0.5.21' ],
+563 silly audit   'stream-events': [ '1.0.5' ],
+563 silly audit   'stream-shift': [ '1.0.3' ],
+563 silly audit   string_decoder: [ '1.3.0' ],
+563 silly audit   'string-width': [ '4.2.3' ],
+563 silly audit   'emoji-regex': [ '8.0.0' ],
+563 silly audit   'strip-ansi': [ '6.0.1' ],
+563 silly audit   strnum: [ '1.1.2' ],
+563 silly audit   stubs: [ '3.0.0' ],
+563 silly audit   'styled-jsx': [ '5.1.6' ],
+563 silly audit   'tailwind-merge': [ '3.3.1' ],
+563 silly audit   tailwindcss: [ '4.1.16' ],
+563 silly audit   tapable: [ '2.3.0' ],
+563 silly audit   'teeny-request': [ '9.0.0' ],
+563 silly audit   'tiny-invariant': [ '1.3.3' ],
+563 silly audit   tr46: [ '0.0.3' ],
+563 silly audit   tslib: [ '2.8.1' ],
+563 silly audit   typescript: [ '5.9.3' ],
+563 silly audit   'undici-types': [ '6.21.0' ],
+563 silly audit   'use-callback-ref': [ '1.3.3' ],
+563 silly audit   'use-sidecar': [ '1.1.3' ],
+563 silly audit   'use-sync-external-store': [ '1.6.0' ],
+563 silly audit   'util-deprecate': [ '1.0.2' ],
+563 silly audit   'victory-vendor': [ '37.3.6' ],
+563 silly audit   'webidl-conversions': [ '3.0.1' ],
+563 silly audit   'websocket-driver': [ '0.7.4' ],
+563 silly audit   'websocket-extensions': [ '0.1.4' ],
+563 silly audit   'whatwg-url': [ '5.0.0' ],
+563 silly audit   'wrap-ansi': [ '7.0.0' ],
+563 silly audit   wrappy: [ '1.0.2' ],
+563 silly audit   xtend: [ '4.0.2' ],
+563 silly audit   y18n: [ '5.0.8' ],
+563 silly audit   yargs: [ '17.7.2' ],
+563 silly audit   'yargs-parser': [ '21.1.1' ],
+563 silly audit   'yocto-queue': [ '0.1.0' ],
+563 silly audit   zod: [ '4.1.12' ],
+563 silly audit   'react-markdown': [ '10.1.0' ],
+563 silly audit   'remark-gfm': [ '4.0.1' ],
+563 silly audit   '@types/hast': [ '3.0.4' ],
+563 silly audit   '@types/mdast': [ '4.0.4' ],
+563 silly audit   devlop: [ '1.1.0' ],
+563 silly audit   'hast-util-to-jsx-runtime': [ '2.3.6' ],
+563 silly audit   'html-url-attributes': [ '3.0.1' ],
+563 silly audit   'mdast-util-to-hast': [ '13.2.1' ],
+563 silly audit   'remark-parse': [ '11.0.0' ],
+563 silly audit   'remark-rehype': [ '11.1.2' ],
+563 silly audit   unified: [ '11.0.5' ],
+563 silly audit   'unist-util-visit': [ '5.0.0' ],
+563 silly audit   vfile: [ '6.0.3' ],
+563 silly audit   '@types/unist': [ '3.0.3', '2.0.11' ],
+563 silly audit   dequal: [ '2.0.3' ],
+563 silly audit   '@types/estree': [ '1.0.8' ],
+563 silly audit   'comma-separated-tokens': [ '2.0.3' ],
+563 silly audit   'estree-util-is-identifier-name': [ '3.0.0' ],
+563 silly audit   'hast-util-whitespace': [ '3.0.0' ],
+563 silly audit   'mdast-util-mdx-expression': [ '2.0.1' ],
+563 silly audit   'mdast-util-mdx-jsx': [ '3.2.0' ],
+563 silly audit   'mdast-util-mdxjs-esm': [ '2.0.1' ],
+563 silly audit   'property-information': [ '7.1.0' ],
+563 silly audit   'space-separated-tokens': [ '2.0.2' ],
+563 silly audit   'style-to-js': [ '1.1.21' ],
+563 silly audit   'unist-util-position': [ '5.0.0' ],
+563 silly audit   'vfile-message': [ '4.0.3' ],
+563 silly audit   '@types/estree-jsx': [ '1.0.5' ],
+563 silly audit   'mdast-util-from-markdown': [ '2.0.2' ],
+563 silly audit   'mdast-util-to-markdown': [ '2.1.2' ],
+563 silly audit   'decode-named-character-reference': [ '1.2.0' ],
+563 silly audit   'mdast-util-to-string': [ '4.0.0' ],
+563 silly audit   micromark: [ '4.0.2' ],
+563 silly audit   'micromark-util-decode-numeric-character-reference': [ '2.0.2' ],
+563 silly audit   'micromark-util-decode-string': [ '2.0.1' ],
+563 silly audit   'micromark-util-normalize-identifier': [ '2.0.1' ],
+563 silly audit   'micromark-util-symbol': [ '2.0.1' ],
+563 silly audit   'micromark-util-types': [ '2.0.2' ],
+563 silly audit   'unist-util-stringify-position': [ '4.0.0' ],
+563 silly audit   'character-entities': [ '2.0.2' ],
+563 silly audit   ccount: [ '2.0.1' ],
+563 silly audit   'parse-entities': [ '4.0.2' ],
+563 silly audit   'stringify-entities': [ '4.0.4' ],
+563 silly audit   '@ungap/structured-clone': [ '1.3.0' ],
+563 silly audit   'micromark-util-sanitize-uri': [ '2.0.1' ],
+563 silly audit   'trim-lines': [ '3.0.1' ],
+563 silly audit   'longest-streak': [ '3.1.0' ],
+563 silly audit   'mdast-util-phrasing': [ '4.1.0' ],
+563 silly audit   'micromark-util-classify-character': [ '2.0.1' ],
+563 silly audit   zwitch: [ '2.0.4' ],
+563 silly audit   'unist-util-is': [ '6.0.1' ],
+563 silly audit   '@types/debug': [ '4.1.12' ],
+563 silly audit   'micromark-core-commonmark': [ '2.0.3' ],
+563 silly audit   'micromark-factory-space': [ '2.0.1' ],
+563 silly audit   'micromark-util-character': [ '2.1.1' ],
+563 silly audit   'micromark-util-chunked': [ '2.0.1' ],
+563 silly audit   'micromark-util-combine-extensions': [ '2.0.1' ],
+563 silly audit   'micromark-util-encode': [ '2.0.1' ],
+563 silly audit   'micromark-util-resolve-all': [ '2.0.1' ],
+563 silly audit   'micromark-util-subtokenize': [ '2.1.0' ],
+563 silly audit   'micromark-factory-destination': [ '2.0.1' ],
+563 silly audit   'micromark-factory-label': [ '2.0.1' ],
+563 silly audit   'micromark-factory-title': [ '2.0.1' ],
+563 silly audit   'micromark-factory-whitespace': [ '2.0.1' ],
+563 silly audit   'micromark-util-html-tag-name': [ '2.0.1' ],
+563 silly audit   'character-entities-legacy': [ '3.0.0' ],
+563 silly audit   'character-reference-invalid': [ '2.0.1' ],
+563 silly audit   'is-alphanumerical': [ '2.0.1' ],
+563 silly audit   'is-decimal': [ '2.0.1' ],
+563 silly audit   'is-hexadecimal': [ '2.0.1' ],
+563 silly audit   'is-alphabetical': [ '2.0.1' ],
+563 silly audit   'mdast-util-gfm': [ '3.1.0' ],
+563 silly audit   'micromark-extension-gfm': [ '3.0.0' ],
+563 silly audit   'remark-stringify': [ '11.0.0' ],
+563 silly audit   'mdast-util-gfm-autolink-literal': [ '2.0.1' ],
+563 silly audit   'mdast-util-gfm-footnote': [ '2.1.0' ],
+563 silly audit   'mdast-util-gfm-strikethrough': [ '2.0.0' ],
+563 silly audit   'mdast-util-gfm-table': [ '2.0.0' ],
+563 silly audit   'mdast-util-gfm-task-list-item': [ '2.0.0' ],
+563 silly audit   'mdast-util-find-and-replace': [ '3.0.2' ],
+563 silly audit   'escape-string-regexp': [ '5.0.0' ],
+563 silly audit   'unist-util-visit-parents': [ '6.0.2' ],
+563 silly audit   'markdown-table': [ '3.0.4' ],
+563 silly audit   'micromark-extension-gfm-autolink-literal': [ '2.1.0' ],
+563 silly audit   'micromark-extension-gfm-footnote': [ '2.1.0' ],
+563 silly audit   'micromark-extension-gfm-strikethrough': [ '2.1.0' ],
+563 silly audit   'micromark-extension-gfm-table': [ '2.1.1' ],
+563 silly audit   'micromark-extension-gfm-tagfilter': [ '2.0.0' ],
+563 silly audit   'micromark-extension-gfm-task-list-item': [ '2.1.0' ],
+563 silly audit   'character-entities-html4': [ '2.1.0' ],
+563 silly audit   'style-to-object': [ '1.0.14' ],
+563 silly audit   'inline-style-parser': [ '0.2.7' ],
+563 silly audit   bail: [ '2.0.2' ],
+563 silly audit   'is-plain-obj': [ '4.1.0' ],
+563 silly audit   trough: [ '2.2.0' ],
+563 silly audit   '@tailwindcss/oxide-wasm32-wasi': [ '4.1.16' ]
+563 silly audit }
+564 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-win32-x64-msvc
+565 silly reify mark deleted [
+565 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-win32-x64-msvc'
+565 silly reify ]
+566 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-win32-arm64-msvc
+567 silly reify mark deleted [
+567 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-win32-arm64-msvc'
+567 silly reify ]
+568 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-linux-x64-musl
+569 silly reify mark deleted [
+569 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-linux-x64-musl'
+569 silly reify ]
+570 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-linux-x64-gnu
+571 silly reify mark deleted [
+571 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-linux-x64-gnu'
+571 silly reify ]
+572 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-linux-arm64-musl
+573 silly reify mark deleted [
+573 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-linux-arm64-musl'
+573 silly reify ]
+574 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-linux-arm64-gnu
+575 silly reify mark deleted [
+575 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-linux-arm64-gnu'
+575 silly reify ]
+576 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-linux-arm-gnueabihf
+577 silly reify mark deleted [
+577 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-linux-arm-gnueabihf'
+577 silly reify ]
+578 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-freebsd-x64
+579 silly reify mark deleted [
+579 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-freebsd-x64'
+579 silly reify ]
+580 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-darwin-x64
+581 silly reify mark deleted [
+581 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-darwin-x64'
+581 silly reify ]
+582 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-android-arm64
+583 silly reify mark deleted [
+583 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/lightningcss-android-arm64'
+583 silly reify ]
+584 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-win32-x64-msvc
+585 silly reify mark deleted [
+585 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-win32-x64-msvc'
+585 silly reify ]
+586 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-win32-arm64-msvc
+587 silly reify mark deleted [
+587 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-win32-arm64-msvc'
+587 silly reify ]
+588 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-linux-x64-musl
+589 silly reify mark deleted [
+589 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-linux-x64-musl'
+589 silly reify ]
+590 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-linux-x64-gnu
+591 silly reify mark deleted [
+591 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-linux-x64-gnu'
+591 silly reify ]
+592 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-linux-arm64-musl
+593 silly reify mark deleted [
+593 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-linux-arm64-musl'
+593 silly reify ]
+594 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-linux-arm64-gnu
+595 silly reify mark deleted [
+595 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-linux-arm64-gnu'
+595 silly reify ]
+596 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-linux-arm-gnueabihf
+597 silly reify mark deleted [
+597 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-linux-arm-gnueabihf'
+597 silly reify ]
+598 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-freebsd-x64
+599 silly reify mark deleted [
+599 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-freebsd-x64'
+599 silly reify ]
+600 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-darwin-x64
+601 silly reify mark deleted [
+601 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-darwin-x64'
+601 silly reify ]
+602 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-android-arm64
+603 silly reify mark deleted [
+603 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@tailwindcss/oxide-android-arm64'
+603 silly reify ]
+604 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@next/swc-win32-x64-msvc
+605 silly reify mark deleted [
+605 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@next/swc-win32-x64-msvc'
+605 silly reify ]
+606 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@next/swc-win32-arm64-msvc
+607 silly reify mark deleted [
+607 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@next/swc-win32-arm64-msvc'
+607 silly reify ]
+608 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@next/swc-linux-x64-musl
+609 silly reify mark deleted [
+609 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@next/swc-linux-x64-musl'
+609 silly reify ]
+610 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@next/swc-linux-x64-gnu
+611 silly reify mark deleted [
+611 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@next/swc-linux-x64-gnu'
+611 silly reify ]
+612 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@next/swc-linux-arm64-musl
+613 silly reify mark deleted [
+613 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@next/swc-linux-arm64-musl'
+613 silly reify ]
+614 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@next/swc-linux-arm64-gnu
+615 silly reify mark deleted [
+615 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@next/swc-linux-arm64-gnu'
+615 silly reify ]
+616 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@next/swc-darwin-x64
+617 silly reify mark deleted [
+617 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@next/swc-darwin-x64'
+617 silly reify ]
+618 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-win32-x64
+619 silly reify mark deleted [
+619 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-win32-x64'
+619 silly reify ]
+620 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-win32-ia32
+621 silly reify mark deleted [
+621 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-win32-ia32'
+621 silly reify ]
+622 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-win32-arm64
+623 silly reify mark deleted [
+623 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-win32-arm64'
+623 silly reify ]
+624 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-wasm32
+625 silly reify mark deleted [
+625 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-wasm32'
+625 silly reify ]
+626 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-linuxmusl-x64
+627 silly reify mark deleted [
+627 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-linuxmusl-x64'
+627 silly reify ]
+628 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-linuxmusl-arm64
+629 silly reify mark deleted [
+629 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-linuxmusl-arm64'
+629 silly reify ]
+630 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-linux-x64
+631 silly reify mark deleted [
+631 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-linux-x64'
+631 silly reify ]
+632 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-linux-s390x
+633 silly reify mark deleted [
+633 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-linux-s390x'
+633 silly reify ]
+634 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-linux-ppc64
+635 silly reify mark deleted [
+635 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-linux-ppc64'
+635 silly reify ]
+636 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-linux-arm64
+637 silly reify mark deleted [
+637 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-linux-arm64'
+637 silly reify ]
+638 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-linux-arm
+639 silly reify mark deleted [
+639 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-linux-arm'
+639 silly reify ]
+640 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-libvips-linuxmusl-x64
+641 silly reify mark deleted [
+641 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-libvips-linuxmusl-x64'
+641 silly reify ]
+642 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-libvips-linuxmusl-arm64
+643 silly reify mark deleted [
+643 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-libvips-linuxmusl-arm64'
+643 silly reify ]
+644 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-libvips-linux-x64
+645 silly reify mark deleted [
+645 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-libvips-linux-x64'
+645 silly reify ]
+646 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-libvips-linux-s390x
+647 silly reify mark deleted [
+647 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-libvips-linux-s390x'
+647 silly reify ]
+648 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-libvips-linux-ppc64
+649 silly reify mark deleted [
+649 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-libvips-linux-ppc64'
+649 silly reify ]
+650 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-libvips-linux-arm64
+651 silly reify mark deleted [
+651 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-libvips-linux-arm64'
+651 silly reify ]
+652 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-libvips-linux-arm
+653 silly reify mark deleted [
+653 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-libvips-linux-arm'
+653 silly reify ]
+654 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-libvips-darwin-x64
+655 silly reify mark deleted [
+655 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-libvips-darwin-x64'
+655 silly reify ]
+656 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-darwin-x64
+657 silly reify mark deleted [
+657 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@img/sharp-darwin-x64'
+657 silly reify ]
+658 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/win32-x64
+659 silly reify mark deleted [
+659 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/win32-x64'
+659 silly reify ]
+660 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/win32-ia32
+661 silly reify mark deleted [
+661 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/win32-ia32'
+661 silly reify ]
+662 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/win32-arm64
+663 silly reify mark deleted [
+663 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/win32-arm64'
+663 silly reify ]
+664 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/sunos-x64
+665 silly reify mark deleted [
+665 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/sunos-x64'
+665 silly reify ]
+666 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/openharmony-arm64
+667 silly reify mark deleted [
+667 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/openharmony-arm64'
+667 silly reify ]
+668 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/openbsd-x64
+669 silly reify mark deleted [
+669 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/openbsd-x64'
+669 silly reify ]
+670 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/openbsd-arm64
+671 silly reify mark deleted [
+671 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/openbsd-arm64'
+671 silly reify ]
+672 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/netbsd-x64
+673 silly reify mark deleted [
+673 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/netbsd-x64'
+673 silly reify ]
+674 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/netbsd-arm64
+675 silly reify mark deleted [
+675 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/netbsd-arm64'
+675 silly reify ]
+676 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/linux-x64
+677 silly reify mark deleted [
+677 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/linux-x64'
+677 silly reify ]
+678 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/linux-s390x
+679 silly reify mark deleted [
+679 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/linux-s390x'
+679 silly reify ]
+680 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/linux-riscv64
+681 silly reify mark deleted [
+681 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/linux-riscv64'
+681 silly reify ]
+682 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/linux-ppc64
+683 silly reify mark deleted [
+683 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/linux-ppc64'
+683 silly reify ]
+684 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/linux-mips64el
+685 silly reify mark deleted [
+685 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/linux-mips64el'
+685 silly reify ]
+686 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/linux-loong64
+687 silly reify mark deleted [
+687 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/linux-loong64'
+687 silly reify ]
+688 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/linux-ia32
+689 silly reify mark deleted [
+689 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/linux-ia32'
+689 silly reify ]
+690 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/linux-arm64
+691 silly reify mark deleted [
+691 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/linux-arm64'
+691 silly reify ]
+692 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/linux-arm
+693 silly reify mark deleted [
+693 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/linux-arm'
+693 silly reify ]
+694 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/freebsd-x64
+695 silly reify mark deleted [
+695 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/freebsd-x64'
+695 silly reify ]
+696 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/freebsd-arm64
+697 silly reify mark deleted [
+697 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/freebsd-arm64'
+697 silly reify ]
+698 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/darwin-x64
+699 silly reify mark deleted [
+699 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/darwin-x64'
+699 silly reify ]
+700 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/android-x64
+701 silly reify mark deleted [
+701 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/android-x64'
+701 silly reify ]
+702 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/android-arm64
+703 silly reify mark deleted [
+703 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/android-arm64'
+703 silly reify ]
+704 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/android-arm
+705 silly reify mark deleted [
+705 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/android-arm'
+705 silly reify ]
+706 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/aix-ppc64
+707 silly reify mark deleted [
+707 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild/aix-ppc64'
+707 silly reify ]
+708 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@biomejs/cli-win32-x64
+709 silly reify mark deleted [
+709 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@biomejs/cli-win32-x64'
+709 silly reify ]
+710 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@biomejs/cli-win32-arm64
+711 silly reify mark deleted [
+711 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@biomejs/cli-win32-arm64'
+711 silly reify ]
+712 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@biomejs/cli-linux-x64-musl
+713 silly reify mark deleted [
+713 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@biomejs/cli-linux-x64-musl'
+713 silly reify ]
+714 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@biomejs/cli-linux-x64
+715 silly reify mark deleted [
+715 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@biomejs/cli-linux-x64'
+715 silly reify ]
+716 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@biomejs/cli-linux-arm64-musl
+717 silly reify mark deleted [
+717 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@biomejs/cli-linux-arm64-musl'
+717 silly reify ]
+718 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@biomejs/cli-linux-arm64
+719 silly reify mark deleted [
+719 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@biomejs/cli-linux-arm64'
+719 silly reify ]
+720 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@biomejs/cli-darwin-x64
+721 silly reify mark deleted [
+721 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@biomejs/cli-darwin-x64'
+721 silly reify ]
+722 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/win32-x64
+723 silly reify mark deleted [
+723 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/win32-x64'
+723 silly reify ]
+724 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/win32-ia32
+725 silly reify mark deleted [
+725 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/win32-ia32'
+725 silly reify ]
+726 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/win32-arm64
+727 silly reify mark deleted [
+727 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/win32-arm64'
+727 silly reify ]
+728 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/sunos-x64
+729 silly reify mark deleted [
+729 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/sunos-x64'
+729 silly reify ]
+730 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/openbsd-x64
+731 silly reify mark deleted [
+731 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/openbsd-x64'
+731 silly reify ]
+732 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/netbsd-x64
+733 silly reify mark deleted [
+733 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/netbsd-x64'
+733 silly reify ]
+734 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64
+735 silly reify mark deleted [
+735 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64'
+735 silly reify ]
+736 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-s390x
+737 silly reify mark deleted [
+737 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-s390x'
+737 silly reify ]
+738 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-riscv64
+739 silly reify mark deleted [
+739 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-riscv64'
+739 silly reify ]
+740 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-ppc64
+741 silly reify mark deleted [
+741 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-ppc64'
+741 silly reify ]
+742 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-mips64el
+743 silly reify mark deleted [
+743 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-mips64el'
+743 silly reify ]
+744 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-loong64
+745 silly reify mark deleted [
+745 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-loong64'
+745 silly reify ]
+746 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-ia32
+747 silly reify mark deleted [
+747 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-ia32'
+747 silly reify ]
+748 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-arm64
+749 silly reify mark deleted [
+749 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-arm64'
+749 silly reify ]
+750 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-arm
+751 silly reify mark deleted [
+751 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-arm'
+751 silly reify ]
+752 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/freebsd-x64
+753 silly reify mark deleted [
+753 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/freebsd-x64'
+753 silly reify ]
+754 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/freebsd-arm64
+755 silly reify mark deleted [
+755 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/freebsd-arm64'
+755 silly reify ]
+756 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/darwin-x64
+757 silly reify mark deleted [
+757 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/darwin-x64'
+757 silly reify ]
+758 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/android-x64
+759 silly reify mark deleted [
+759 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/android-x64'
+759 silly reify ]
+760 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/android-arm64
+761 silly reify mark deleted [
+761 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/android-arm64'
+761 silly reify ]
+762 verbose reify failed optional dependency /Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/android-arm
+763 silly reify mark deleted [
+763 silly reify   '/Users/mac/StudioProjects/ikiapp/iki-gen/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/android-arm'
+763 silly reify ]
+764 http cache is-plain-obj@https://registry.npmjs.org/is-plain-obj/-/is-plain-obj-4.1.0.tgz 0ms (cache hit)
+765 http cache trough@https://registry.npmjs.org/trough/-/trough-2.2.0.tgz 0ms (cache hit)
+766 http cache inline-style-parser@https://registry.npmjs.org/inline-style-parser/-/inline-style-parser-0.2.7.tgz 0ms (cache hit)
+767 http cache bail@https://registry.npmjs.org/bail/-/bail-2.0.2.tgz 0ms (cache hit)
+768 http cache micromark-extension-gfm-task-list-item@https://registry.npmjs.org/micromark-extension-gfm-task-list-item/-/micromark-extension-gfm-task-list-item-2.1.0.tgz 0ms (cache hit)
+769 http cache character-entities-html4@https://registry.npmjs.org/character-entities-html4/-/character-entities-html4-2.1.0.tgz 0ms (cache hit)
+770 http cache micromark-extension-gfm-tagfilter@https://registry.npmjs.org/micromark-extension-gfm-tagfilter/-/micromark-extension-gfm-tagfilter-2.0.0.tgz 0ms (cache hit)
+771 http cache micromark-extension-gfm-table@https://registry.npmjs.org/micromark-extension-gfm-table/-/micromark-extension-gfm-table-2.1.1.tgz 0ms (cache hit)
+772 http cache style-to-object@https://registry.npmjs.org/style-to-object/-/style-to-object-1.0.14.tgz 0ms (cache hit)
+773 http cache micromark-extension-gfm-autolink-literal@https://registry.npmjs.org/micromark-extension-gfm-autolink-literal/-/micromark-extension-gfm-autolink-literal-2.1.0.tgz 0ms (cache hit)
+774 http cache unist-util-visit-parents@https://registry.npmjs.org/unist-util-visit-parents/-/unist-util-visit-parents-6.0.2.tgz 0ms (cache hit)
+775 http cache micromark-extension-gfm-footnote@https://registry.npmjs.org/micromark-extension-gfm-footnote/-/micromark-extension-gfm-footnote-2.1.0.tgz 0ms (cache hit)
+776 http cache escape-string-regexp@https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-5.0.0.tgz 0ms (cache hit)
+777 http cache micromark-extension-gfm-strikethrough@https://registry.npmjs.org/micromark-extension-gfm-strikethrough/-/micromark-extension-gfm-strikethrough-2.1.0.tgz 0ms (cache hit)
+778 http cache mdast-util-gfm-table@https://registry.npmjs.org/mdast-util-gfm-table/-/mdast-util-gfm-table-2.0.0.tgz 0ms (cache hit)
+779 http cache mdast-util-gfm-strikethrough@https://registry.npmjs.org/mdast-util-gfm-strikethrough/-/mdast-util-gfm-strikethrough-2.0.0.tgz 0ms (cache hit)
+780 http cache mdast-util-gfm-task-list-item@https://registry.npmjs.org/mdast-util-gfm-task-list-item/-/mdast-util-gfm-task-list-item-2.0.0.tgz 0ms (cache hit)
+781 http cache mdast-util-gfm-footnote@https://registry.npmjs.org/mdast-util-gfm-footnote/-/mdast-util-gfm-footnote-2.1.0.tgz 0ms (cache hit)
+782 http cache mdast-util-gfm-autolink-literal@https://registry.npmjs.org/mdast-util-gfm-autolink-literal/-/mdast-util-gfm-autolink-literal-2.0.1.tgz 0ms (cache hit)
+783 http cache markdown-table@https://registry.npmjs.org/markdown-table/-/markdown-table-3.0.4.tgz 0ms (cache hit)
+784 http cache remark-stringify@https://registry.npmjs.org/remark-stringify/-/remark-stringify-11.0.0.tgz 0ms (cache hit)
+785 http cache mdast-util-gfm@https://registry.npmjs.org/mdast-util-gfm/-/mdast-util-gfm-3.1.0.tgz 0ms (cache hit)
+786 http cache is-alphabetical@https://registry.npmjs.org/is-alphabetical/-/is-alphabetical-2.0.1.tgz 0ms (cache hit)
+787 http cache is-hexadecimal@https://registry.npmjs.org/is-hexadecimal/-/is-hexadecimal-2.0.1.tgz 0ms (cache hit)
+788 http cache is-alphanumerical@https://registry.npmjs.org/is-alphanumerical/-/is-alphanumerical-2.0.1.tgz 0ms (cache hit)
+789 http cache is-decimal@https://registry.npmjs.org/is-decimal/-/is-decimal-2.0.1.tgz 0ms (cache hit)
+790 http cache mdast-util-find-and-replace@https://registry.npmjs.org/mdast-util-find-and-replace/-/mdast-util-find-and-replace-3.0.2.tgz 0ms (cache hit)
+791 http cache micromark-extension-gfm@https://registry.npmjs.org/micromark-extension-gfm/-/micromark-extension-gfm-3.0.0.tgz 0ms (cache hit)
+792 http cache character-reference-invalid@https://registry.npmjs.org/character-reference-invalid/-/character-reference-invalid-2.0.1.tgz 0ms (cache hit)
+793 http cache micromark-util-html-tag-name@https://registry.npmjs.org/micromark-util-html-tag-name/-/micromark-util-html-tag-name-2.0.1.tgz 0ms (cache hit)
+794 http cache micromark-factory-title@https://registry.npmjs.org/micromark-factory-title/-/micromark-factory-title-2.0.1.tgz 0ms (cache hit)
+795 http cache micromark-factory-whitespace@https://registry.npmjs.org/micromark-factory-whitespace/-/micromark-factory-whitespace-2.0.1.tgz 0ms (cache hit)
+796 http cache character-entities-legacy@https://registry.npmjs.org/character-entities-legacy/-/character-entities-legacy-3.0.0.tgz 0ms (cache hit)
+797 http cache micromark-factory-destination@https://registry.npmjs.org/micromark-factory-destination/-/micromark-factory-destination-2.0.1.tgz 0ms (cache hit)
+798 http cache micromark-util-subtokenize@https://registry.npmjs.org/micromark-util-subtokenize/-/micromark-util-subtokenize-2.1.0.tgz 0ms (cache hit)
+799 http cache micromark-util-combine-extensions@https://registry.npmjs.org/micromark-util-combine-extensions/-/micromark-util-combine-extensions-2.0.1.tgz 0ms (cache hit)
+800 http cache micromark-util-chunked@https://registry.npmjs.org/micromark-util-chunked/-/micromark-util-chunked-2.0.1.tgz 0ms (cache hit)
+801 http cache micromark-util-encode@https://registry.npmjs.org/micromark-util-encode/-/micromark-util-encode-2.0.1.tgz 0ms (cache hit)
+802 http cache micromark-util-resolve-all@https://registry.npmjs.org/micromark-util-resolve-all/-/micromark-util-resolve-all-2.0.1.tgz 0ms (cache hit)
+803 http cache micromark-util-character@https://registry.npmjs.org/micromark-util-character/-/micromark-util-character-2.1.1.tgz 0ms (cache hit)
+804 http cache micromark-factory-label@https://registry.npmjs.org/micromark-factory-label/-/micromark-factory-label-2.0.1.tgz 0ms (cache hit)
+805 http cache micromark-core-commonmark@https://registry.npmjs.org/micromark-core-commonmark/-/micromark-core-commonmark-2.0.3.tgz 0ms (cache hit)
+806 http cache @types/debug@https://registry.npmjs.org/@types/debug/-/debug-4.1.12.tgz 0ms (cache hit)
+807 http cache unist-util-is@https://registry.npmjs.org/unist-util-is/-/unist-util-is-6.0.1.tgz 0ms (cache hit)
+808 http cache zwitch@https://registry.npmjs.org/zwitch/-/zwitch-2.0.4.tgz 0ms (cache hit)
+809 http cache micromark-factory-space@https://registry.npmjs.org/micromark-factory-space/-/micromark-factory-space-2.0.1.tgz 0ms (cache hit)
+810 http cache longest-streak@https://registry.npmjs.org/longest-streak/-/longest-streak-3.1.0.tgz 0ms (cache hit)
+811 http cache mdast-util-phrasing@https://registry.npmjs.org/mdast-util-phrasing/-/mdast-util-phrasing-4.1.0.tgz 0ms (cache hit)
+812 http cache micromark-util-classify-character@https://registry.npmjs.org/micromark-util-classify-character/-/micromark-util-classify-character-2.0.1.tgz 0ms (cache hit)
+813 http cache trim-lines@https://registry.npmjs.org/trim-lines/-/trim-lines-3.0.1.tgz 0ms (cache hit)
+814 http cache micromark-util-sanitize-uri@https://registry.npmjs.org/micromark-util-sanitize-uri/-/micromark-util-sanitize-uri-2.0.1.tgz 0ms (cache hit)
+815 http cache stringify-entities@https://registry.npmjs.org/stringify-entities/-/stringify-entities-4.0.4.tgz 0ms (cache hit)
+816 http cache parse-entities@https://registry.npmjs.org/parse-entities/-/parse-entities-4.0.2.tgz 0ms (cache hit)
+817 http cache ccount@https://registry.npmjs.org/ccount/-/ccount-2.0.1.tgz 0ms (cache hit)
+818 http cache character-entities@https://registry.npmjs.org/character-entities/-/character-entities-2.0.2.tgz 0ms (cache hit)
+819 http cache @ungap/structured-clone@https://registry.npmjs.org/@ungap/structured-clone/-/structured-clone-1.3.0.tgz 0ms (cache hit)
+820 http cache micromark-util-types@https://registry.npmjs.org/micromark-util-types/-/micromark-util-types-2.0.2.tgz 0ms (cache hit)
+821 http cache unist-util-stringify-position@https://registry.npmjs.org/unist-util-stringify-position/-/unist-util-stringify-position-4.0.0.tgz 0ms (cache hit)
+822 http cache micromark-util-symbol@https://registry.npmjs.org/micromark-util-symbol/-/micromark-util-symbol-2.0.1.tgz 0ms (cache hit)
+823 http cache micromark-util-normalize-identifier@https://registry.npmjs.org/micromark-util-normalize-identifier/-/micromark-util-normalize-identifier-2.0.1.tgz 0ms (cache hit)
+824 http cache micromark-util-decode-string@https://registry.npmjs.org/micromark-util-decode-string/-/micromark-util-decode-string-2.0.1.tgz 0ms (cache hit)
+825 http cache micromark-util-decode-numeric-character-reference@https://registry.npmjs.org/micromark-util-decode-numeric-character-reference/-/micromark-util-decode-numeric-character-reference-2.0.2.tgz 0ms (cache hit)
+826 http cache micromark@https://registry.npmjs.org/micromark/-/micromark-4.0.2.tgz 0ms (cache hit)
+827 http cache mdast-util-to-markdown@https://registry.npmjs.org/mdast-util-to-markdown/-/mdast-util-to-markdown-2.1.2.tgz 0ms (cache hit)
+828 http cache decode-named-character-reference@https://registry.npmjs.org/decode-named-character-reference/-/decode-named-character-reference-1.2.0.tgz 0ms (cache hit)
+829 http cache mdast-util-from-markdown@https://registry.npmjs.org/mdast-util-from-markdown/-/mdast-util-from-markdown-2.0.2.tgz 0ms (cache hit)
+830 http cache mdast-util-to-string@https://registry.npmjs.org/mdast-util-to-string/-/mdast-util-to-string-4.0.0.tgz 0ms (cache hit)
+831 http cache @types/estree-jsx@https://registry.npmjs.org/@types/estree-jsx/-/estree-jsx-1.0.5.tgz 0ms (cache hit)
+832 http cache style-to-js@https://registry.npmjs.org/style-to-js/-/style-to-js-1.1.21.tgz 0ms (cache hit)
+833 http cache space-separated-tokens@https://registry.npmjs.org/space-separated-tokens/-/space-separated-tokens-2.0.2.tgz 0ms (cache hit)
+834 http cache unist-util-position@https://registry.npmjs.org/unist-util-position/-/unist-util-position-5.0.0.tgz 0ms (cache hit)
+835 http cache property-information@https://registry.npmjs.org/property-information/-/property-information-7.1.0.tgz 0ms (cache hit)
+836 http cache mdast-util-mdxjs-esm@https://registry.npmjs.org/mdast-util-mdxjs-esm/-/mdast-util-mdxjs-esm-2.0.1.tgz 0ms (cache hit)
+837 http cache mdast-util-mdx-jsx@https://registry.npmjs.org/mdast-util-mdx-jsx/-/mdast-util-mdx-jsx-3.2.0.tgz 0ms (cache hit)
+838 http cache mdast-util-mdx-expression@https://registry.npmjs.org/mdast-util-mdx-expression/-/mdast-util-mdx-expression-2.0.1.tgz 0ms (cache hit)
+839 http cache hast-util-whitespace@https://registry.npmjs.org/hast-util-whitespace/-/hast-util-whitespace-3.0.0.tgz 0ms (cache hit)
+840 http cache estree-util-is-identifier-name@https://registry.npmjs.org/estree-util-is-identifier-name/-/estree-util-is-identifier-name-3.0.0.tgz 0ms (cache hit)
+841 http cache vfile-message@https://registry.npmjs.org/vfile-message/-/vfile-message-4.0.3.tgz 0ms (cache hit)
+842 http cache comma-separated-tokens@https://registry.npmjs.org/comma-separated-tokens/-/comma-separated-tokens-2.0.3.tgz 0ms (cache hit)
+843 http cache dequal@https://registry.npmjs.org/dequal/-/dequal-2.0.3.tgz 0ms (cache hit)
+844 http cache @types/estree@https://registry.npmjs.org/@types/estree/-/estree-1.0.8.tgz 0ms (cache hit)
+845 http cache @types/unist@https://registry.npmjs.org/@types/unist/-/unist-3.0.3.tgz 0ms (cache hit)
+846 http cache unist-util-visit@https://registry.npmjs.org/unist-util-visit/-/unist-util-visit-5.0.0.tgz 0ms (cache hit)
+847 http cache vfile@https://registry.npmjs.org/vfile/-/vfile-6.0.3.tgz 0ms (cache hit)
+848 http cache unified@https://registry.npmjs.org/unified/-/unified-11.0.5.tgz 0ms (cache hit)
+849 http cache mdast-util-to-hast@https://registry.npmjs.org/mdast-util-to-hast/-/mdast-util-to-hast-13.2.1.tgz 0ms (cache hit)
+850 http cache remark-rehype@https://registry.npmjs.org/remark-rehype/-/remark-rehype-11.1.2.tgz 0ms (cache hit)
+851 http cache remark-parse@https://registry.npmjs.org/remark-parse/-/remark-parse-11.0.0.tgz 0ms (cache hit)
+852 http cache hast-util-to-jsx-runtime@https://registry.npmjs.org/hast-util-to-jsx-runtime/-/hast-util-to-jsx-runtime-2.3.6.tgz 0ms (cache hit)
+853 http cache devlop@https://registry.npmjs.org/devlop/-/devlop-1.1.0.tgz 0ms (cache hit)
+854 http cache html-url-attributes@https://registry.npmjs.org/html-url-attributes/-/html-url-attributes-3.0.1.tgz 0ms (cache hit)
+855 http cache @types/mdast@https://registry.npmjs.org/@types/mdast/-/mdast-4.0.4.tgz 0ms (cache hit)
+856 http cache @types/hast@https://registry.npmjs.org/@types/hast/-/hast-3.0.4.tgz 0ms (cache hit)
+857 http cache react-markdown@https://registry.npmjs.org/react-markdown/-/react-markdown-10.1.0.tgz 0ms (cache hit)
+858 http cache remark-gfm@https://registry.npmjs.org/remark-gfm/-/remark-gfm-4.0.1.tgz 0ms (cache hit)
+859 http cache @types/unist@https://registry.npmjs.org/@types/unist/-/unist-2.0.11.tgz 0ms (cache hit)
+860 silly tarball no local data for is-plain-obj@https://registry.npmjs.org/is-plain-obj/-/is-plain-obj-4.1.0.tgz. Extracting by manifest.
+861 silly tarball no local data for trough@https://registry.npmjs.org/trough/-/trough-2.2.0.tgz. Extracting by manifest.
+862 silly tarball no local data for inline-style-parser@https://registry.npmjs.org/inline-style-parser/-/inline-style-parser-0.2.7.tgz. Extracting by manifest.
+863 silly tarball no local data for bail@https://registry.npmjs.org/bail/-/bail-2.0.2.tgz. Extracting by manifest.
+864 silly tarball no local data for micromark-extension-gfm-task-list-item@https://registry.npmjs.org/micromark-extension-gfm-task-list-item/-/micromark-extension-gfm-task-list-item-2.1.0.tgz. Extracting by manifest.
+865 silly tarball no local data for character-entities-html4@https://registry.npmjs.org/character-entities-html4/-/character-entities-html4-2.1.0.tgz. Extracting by manifest.
+866 silly tarball no local data for micromark-extension-gfm-tagfilter@https://registry.npmjs.org/micromark-extension-gfm-tagfilter/-/micromark-extension-gfm-tagfilter-2.0.0.tgz. Extracting by manifest.
+867 silly tarball no local data for micromark-extension-gfm-table@https://registry.npmjs.org/micromark-extension-gfm-table/-/micromark-extension-gfm-table-2.1.1.tgz. Extracting by manifest.
+868 silly tarball no local data for style-to-object@https://registry.npmjs.org/style-to-object/-/style-to-object-1.0.14.tgz. Extracting by manifest.
+869 silly tarball no local data for micromark-extension-gfm-autolink-literal@https://registry.npmjs.org/micromark-extension-gfm-autolink-literal/-/micromark-extension-gfm-autolink-literal-2.1.0.tgz. Extracting by manifest.
+870 silly tarball no local data for unist-util-visit-parents@https://registry.npmjs.org/unist-util-visit-parents/-/unist-util-visit-parents-6.0.2.tgz. Extracting by manifest.
+871 silly tarball no local data for micromark-extension-gfm-footnote@https://registry.npmjs.org/micromark-extension-gfm-footnote/-/micromark-extension-gfm-footnote-2.1.0.tgz. Extracting by manifest.
+872 silly tarball no local data for escape-string-regexp@https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-5.0.0.tgz. Extracting by manifest.
+873 silly tarball no local data for micromark-extension-gfm-strikethrough@https://registry.npmjs.org/micromark-extension-gfm-strikethrough/-/micromark-extension-gfm-strikethrough-2.1.0.tgz. Extracting by manifest.
+874 silly tarball no local data for mdast-util-gfm-table@https://registry.npmjs.org/mdast-util-gfm-table/-/mdast-util-gfm-table-2.0.0.tgz. Extracting by manifest.
+875 silly tarball no local data for mdast-util-gfm-strikethrough@https://registry.npmjs.org/mdast-util-gfm-strikethrough/-/mdast-util-gfm-strikethrough-2.0.0.tgz. Extracting by manifest.
+876 silly tarball no local data for mdast-util-gfm-task-list-item@https://registry.npmjs.org/mdast-util-gfm-task-list-item/-/mdast-util-gfm-task-list-item-2.0.0.tgz. Extracting by manifest.
+877 silly tarball no local data for mdast-util-gfm-footnote@https://registry.npmjs.org/mdast-util-gfm-footnote/-/mdast-util-gfm-footnote-2.1.0.tgz. Extracting by manifest.
+878 silly tarball no local data for mdast-util-gfm-autolink-literal@https://registry.npmjs.org/mdast-util-gfm-autolink-literal/-/mdast-util-gfm-autolink-literal-2.0.1.tgz. Extracting by manifest.
+879 silly tarball no local data for markdown-table@https://registry.npmjs.org/markdown-table/-/markdown-table-3.0.4.tgz. Extracting by manifest.
+880 silly tarball no local data for remark-stringify@https://registry.npmjs.org/remark-stringify/-/remark-stringify-11.0.0.tgz. Extracting by manifest.
+881 silly tarball no local data for mdast-util-gfm@https://registry.npmjs.org/mdast-util-gfm/-/mdast-util-gfm-3.1.0.tgz. Extracting by manifest.
+882 silly tarball no local data for is-alphabetical@https://registry.npmjs.org/is-alphabetical/-/is-alphabetical-2.0.1.tgz. Extracting by manifest.
+883 silly tarball no local data for is-hexadecimal@https://registry.npmjs.org/is-hexadecimal/-/is-hexadecimal-2.0.1.tgz. Extracting by manifest.
+884 silly tarball no local data for is-alphanumerical@https://registry.npmjs.org/is-alphanumerical/-/is-alphanumerical-2.0.1.tgz. Extracting by manifest.
+885 silly tarball no local data for is-decimal@https://registry.npmjs.org/is-decimal/-/is-decimal-2.0.1.tgz. Extracting by manifest.
+886 silly tarball no local data for mdast-util-find-and-replace@https://registry.npmjs.org/mdast-util-find-and-replace/-/mdast-util-find-and-replace-3.0.2.tgz. Extracting by manifest.
+887 silly tarball no local data for micromark-extension-gfm@https://registry.npmjs.org/micromark-extension-gfm/-/micromark-extension-gfm-3.0.0.tgz. Extracting by manifest.
+888 silly tarball no local data for character-reference-invalid@https://registry.npmjs.org/character-reference-invalid/-/character-reference-invalid-2.0.1.tgz. Extracting by manifest.
+889 silly tarball no local data for micromark-util-html-tag-name@https://registry.npmjs.org/micromark-util-html-tag-name/-/micromark-util-html-tag-name-2.0.1.tgz. Extracting by manifest.
+890 silly tarball no local data for micromark-factory-title@https://registry.npmjs.org/micromark-factory-title/-/micromark-factory-title-2.0.1.tgz. Extracting by manifest.
+891 silly tarball no local data for micromark-factory-whitespace@https://registry.npmjs.org/micromark-factory-whitespace/-/micromark-factory-whitespace-2.0.1.tgz. Extracting by manifest.
+892 silly tarball no local data for character-entities-legacy@https://registry.npmjs.org/character-entities-legacy/-/character-entities-legacy-3.0.0.tgz. Extracting by manifest.
+893 silly tarball no local data for micromark-factory-destination@https://registry.npmjs.org/micromark-factory-destination/-/micromark-factory-destination-2.0.1.tgz. Extracting by manifest.
+894 silly tarball no local data for micromark-util-subtokenize@https://registry.npmjs.org/micromark-util-subtokenize/-/micromark-util-subtokenize-2.1.0.tgz. Extracting by manifest.
+895 silly tarball no local data for micromark-util-combine-extensions@https://registry.npmjs.org/micromark-util-combine-extensions/-/micromark-util-combine-extensions-2.0.1.tgz. Extracting by manifest.
+896 silly tarball no local data for micromark-util-chunked@https://registry.npmjs.org/micromark-util-chunked/-/micromark-util-chunked-2.0.1.tgz. Extracting by manifest.
+897 silly tarball no local data for micromark-util-encode@https://registry.npmjs.org/micromark-util-encode/-/micromark-util-encode-2.0.1.tgz. Extracting by manifest.
+898 silly tarball no local data for micromark-util-resolve-all@https://registry.npmjs.org/micromark-util-resolve-all/-/micromark-util-resolve-all-2.0.1.tgz. Extracting by manifest.
+899 silly tarball no local data for micromark-util-character@https://registry.npmjs.org/micromark-util-character/-/micromark-util-character-2.1.1.tgz. Extracting by manifest.
+900 silly tarball no local data for micromark-factory-label@https://registry.npmjs.org/micromark-factory-label/-/micromark-factory-label-2.0.1.tgz. Extracting by manifest.
+901 silly tarball no local data for micromark-core-commonmark@https://registry.npmjs.org/micromark-core-commonmark/-/micromark-core-commonmark-2.0.3.tgz. Extracting by manifest.
+902 silly tarball no local data for @types/debug@https://registry.npmjs.org/@types/debug/-/debug-4.1.12.tgz. Extracting by manifest.
+903 silly tarball no local data for unist-util-is@https://registry.npmjs.org/unist-util-is/-/unist-util-is-6.0.1.tgz. Extracting by manifest.
+904 silly tarball no local data for zwitch@https://registry.npmjs.org/zwitch/-/zwitch-2.0.4.tgz. Extracting by manifest.
+905 silly tarball no local data for micromark-factory-space@https://registry.npmjs.org/micromark-factory-space/-/micromark-factory-space-2.0.1.tgz. Extracting by manifest.
+906 silly tarball no local data for longest-streak@https://registry.npmjs.org/longest-streak/-/longest-streak-3.1.0.tgz. Extracting by manifest.
+907 silly tarball no local data for mdast-util-phrasing@https://registry.npmjs.org/mdast-util-phrasing/-/mdast-util-phrasing-4.1.0.tgz. Extracting by manifest.
+908 silly tarball no local data for micromark-util-classify-character@https://registry.npmjs.org/micromark-util-classify-character/-/micromark-util-classify-character-2.0.1.tgz. Extracting by manifest.
+909 silly tarball no local data for trim-lines@https://registry.npmjs.org/trim-lines/-/trim-lines-3.0.1.tgz. Extracting by manifest.
+910 silly tarball no local data for micromark-util-sanitize-uri@https://registry.npmjs.org/micromark-util-sanitize-uri/-/micromark-util-sanitize-uri-2.0.1.tgz. Extracting by manifest.
+911 silly tarball no local data for stringify-entities@https://registry.npmjs.org/stringify-entities/-/stringify-entities-4.0.4.tgz. Extracting by manifest.
+912 silly tarball no local data for parse-entities@https://registry.npmjs.org/parse-entities/-/parse-entities-4.0.2.tgz. Extracting by manifest.
+913 silly tarball no local data for ccount@https://registry.npmjs.org/ccount/-/ccount-2.0.1.tgz. Extracting by manifest.
+914 silly tarball no local data for character-entities@https://registry.npmjs.org/character-entities/-/character-entities-2.0.2.tgz. Extracting by manifest.
+915 silly tarball no local data for @ungap/structured-clone@https://registry.npmjs.org/@ungap/structured-clone/-/structured-clone-1.3.0.tgz. Extracting by manifest.
+916 silly tarball no local data for micromark-util-types@https://registry.npmjs.org/micromark-util-types/-/micromark-util-types-2.0.2.tgz. Extracting by manifest.
+917 silly tarball no local data for unist-util-stringify-position@https://registry.npmjs.org/unist-util-stringify-position/-/unist-util-stringify-position-4.0.0.tgz. Extracting by manifest.
+918 silly tarball no local data for micromark-util-symbol@https://registry.npmjs.org/micromark-util-symbol/-/micromark-util-symbol-2.0.1.tgz. Extracting by manifest.
+919 silly tarball no local data for micromark-util-normalize-identifier@https://registry.npmjs.org/micromark-util-normalize-identifier/-/micromark-util-normalize-identifier-2.0.1.tgz. Extracting by manifest.
+920 silly tarball no local data for micromark-util-decode-string@https://registry.npmjs.org/micromark-util-decode-string/-/micromark-util-decode-string-2.0.1.tgz. Extracting by manifest.
+921 silly tarball no local data for micromark-util-decode-numeric-character-reference@https://registry.npmjs.org/micromark-util-decode-numeric-character-reference/-/micromark-util-decode-numeric-character-reference-2.0.2.tgz. Extracting by manifest.
+922 silly tarball no local data for micromark@https://registry.npmjs.org/micromark/-/micromark-4.0.2.tgz. Extracting by manifest.
+923 silly tarball no local data for mdast-util-to-markdown@https://registry.npmjs.org/mdast-util-to-markdown/-/mdast-util-to-markdown-2.1.2.tgz. Extracting by manifest.
+924 silly tarball no local data for decode-named-character-reference@https://registry.npmjs.org/decode-named-character-reference/-/decode-named-character-reference-1.2.0.tgz. Extracting by manifest.
+925 silly tarball no local data for mdast-util-from-markdown@https://registry.npmjs.org/mdast-util-from-markdown/-/mdast-util-from-markdown-2.0.2.tgz. Extracting by manifest.
+926 silly tarball no local data for mdast-util-to-string@https://registry.npmjs.org/mdast-util-to-string/-/mdast-util-to-string-4.0.0.tgz. Extracting by manifest.
+927 silly tarball no local data for @types/estree-jsx@https://registry.npmjs.org/@types/estree-jsx/-/estree-jsx-1.0.5.tgz. Extracting by manifest.
+928 silly tarball no local data for style-to-js@https://registry.npmjs.org/style-to-js/-/style-to-js-1.1.21.tgz. Extracting by manifest.
+929 silly tarball no local data for space-separated-tokens@https://registry.npmjs.org/space-separated-tokens/-/space-separated-tokens-2.0.2.tgz. Extracting by manifest.
+930 silly tarball no local data for unist-util-position@https://registry.npmjs.org/unist-util-position/-/unist-util-position-5.0.0.tgz. Extracting by manifest.
+931 silly tarball no local data for property-information@https://registry.npmjs.org/property-information/-/property-information-7.1.0.tgz. Extracting by manifest.
+932 silly tarball no local data for mdast-util-mdxjs-esm@https://registry.npmjs.org/mdast-util-mdxjs-esm/-/mdast-util-mdxjs-esm-2.0.1.tgz. Extracting by manifest.
+933 silly tarball no local data for mdast-util-mdx-jsx@https://registry.npmjs.org/mdast-util-mdx-jsx/-/mdast-util-mdx-jsx-3.2.0.tgz. Extracting by manifest.
+934 silly tarball no local data for mdast-util-mdx-expression@https://registry.npmjs.org/mdast-util-mdx-expression/-/mdast-util-mdx-expression-2.0.1.tgz. Extracting by manifest.
+935 silly tarball no local data for hast-util-whitespace@https://registry.npmjs.org/hast-util-whitespace/-/hast-util-whitespace-3.0.0.tgz. Extracting by manifest.
+936 silly tarball no local data for estree-util-is-identifier-name@https://registry.npmjs.org/estree-util-is-identifier-name/-/estree-util-is-identifier-name-3.0.0.tgz. Extracting by manifest.
+937 silly tarball no local data for vfile-message@https://registry.npmjs.org/vfile-message/-/vfile-message-4.0.3.tgz. Extracting by manifest.
+938 silly tarball no local data for comma-separated-tokens@https://registry.npmjs.org/comma-separated-tokens/-/comma-separated-tokens-2.0.3.tgz. Extracting by manifest.
+939 silly tarball no local data for dequal@https://registry.npmjs.org/dequal/-/dequal-2.0.3.tgz. Extracting by manifest.
+940 silly tarball no local data for @types/estree@https://registry.npmjs.org/@types/estree/-/estree-1.0.8.tgz. Extracting by manifest.
+941 silly tarball no local data for @types/unist@https://registry.npmjs.org/@types/unist/-/unist-3.0.3.tgz. Extracting by manifest.
+942 silly tarball no local data for unist-util-visit@https://registry.npmjs.org/unist-util-visit/-/unist-util-visit-5.0.0.tgz. Extracting by manifest.
+943 silly tarball no local data for vfile@https://registry.npmjs.org/vfile/-/vfile-6.0.3.tgz. Extracting by manifest.
+944 silly tarball no local data for unified@https://registry.npmjs.org/unified/-/unified-11.0.5.tgz. Extracting by manifest.
+945 silly tarball no local data for mdast-util-to-hast@https://registry.npmjs.org/mdast-util-to-hast/-/mdast-util-to-hast-13.2.1.tgz. Extracting by manifest.
+946 silly tarball no local data for remark-rehype@https://registry.npmjs.org/remark-rehype/-/remark-rehype-11.1.2.tgz. Extracting by manifest.
+947 silly tarball no local data for remark-parse@https://registry.npmjs.org/remark-parse/-/remark-parse-11.0.0.tgz. Extracting by manifest.
+948 silly tarball no local data for hast-util-to-jsx-runtime@https://registry.npmjs.org/hast-util-to-jsx-runtime/-/hast-util-to-jsx-runtime-2.3.6.tgz. Extracting by manifest.
+949 silly tarball no local data for devlop@https://registry.npmjs.org/devlop/-/devlop-1.1.0.tgz. Extracting by manifest.
+950 silly tarball no local data for html-url-attributes@https://registry.npmjs.org/html-url-attributes/-/html-url-attributes-3.0.1.tgz. Extracting by manifest.
+951 silly tarball no local data for @types/mdast@https://registry.npmjs.org/@types/mdast/-/mdast-4.0.4.tgz. Extracting by manifest.
+952 silly tarball no local data for @types/hast@https://registry.npmjs.org/@types/hast/-/hast-3.0.4.tgz. Extracting by manifest.
+953 silly tarball no local data for react-markdown@https://registry.npmjs.org/react-markdown/-/react-markdown-10.1.0.tgz. Extracting by manifest.
+954 silly tarball no local data for remark-gfm@https://registry.npmjs.org/remark-gfm/-/remark-gfm-4.0.1.tgz. Extracting by manifest.
+955 silly tarball no local data for @types/unist@https://registry.npmjs.org/@types/unist/-/unist-2.0.11.tgz. Extracting by manifest.
+956 http fetch GET 200 https://registry.npmjs.org/character-entities-html4/-/character-entities-html4-2.1.0.tgz 172ms (cache miss)
+957 http fetch GET 200 https://registry.npmjs.org/micromark-extension-gfm-task-list-item/-/micromark-extension-gfm-task-list-item-2.1.0.tgz 174ms (cache miss)
+958 http fetch GET 200 https://registry.npmjs.org/trough/-/trough-2.2.0.tgz 174ms (cache miss)
+959 http fetch GET 200 https://registry.npmjs.org/micromark-extension-gfm-tagfilter/-/micromark-extension-gfm-tagfilter-2.0.0.tgz 174ms (cache miss)
+960 http fetch GET 200 https://registry.npmjs.org/inline-style-parser/-/inline-style-parser-0.2.7.tgz 175ms (cache miss)
+961 http fetch GET 200 https://registry.npmjs.org/micromark-extension-gfm-table/-/micromark-extension-gfm-table-2.1.1.tgz 175ms (cache miss)
+962 http fetch GET 200 https://registry.npmjs.org/mdast-util-gfm-strikethrough/-/mdast-util-gfm-strikethrough-2.0.0.tgz 311ms (cache miss)
+963 http fetch GET 200 https://registry.npmjs.org/mdast-util-gfm-task-list-item/-/mdast-util-gfm-task-list-item-2.0.0.tgz 323ms (cache miss)
+964 http fetch GET 200 https://registry.npmjs.org/mdast-util-gfm-footnote/-/mdast-util-gfm-footnote-2.1.0.tgz 323ms (cache miss)
+965 http fetch GET 200 https://registry.npmjs.org/markdown-table/-/markdown-table-3.0.4.tgz 323ms (cache miss)
+966 http fetch GET 200 https://registry.npmjs.org/mdast-util-gfm-autolink-literal/-/mdast-util-gfm-autolink-literal-2.0.1.tgz 323ms (cache miss)
+967 http fetch GET 200 https://registry.npmjs.org/bail/-/bail-2.0.2.tgz 325ms (cache miss)
+968 http fetch GET 200 https://registry.npmjs.org/mdast-util-gfm-table/-/mdast-util-gfm-table-2.0.0.tgz 342ms (cache miss)
+969 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 366ms
+970 silly audit report {
+970 silly audit report   esbuild: [
+970 silly audit report     {
+970 silly audit report       id: 1102341,
+970 silly audit report       url: 'https://github.com/advisories/GHSA-67mh-4wv8-2f99',
+970 silly audit report       title: 'esbuild enables any website to send any requests to the development server and read the response',
+970 silly audit report       severity: 'moderate',
+970 silly audit report       vulnerable_versions: '<=0.24.2',
+970 silly audit report       cwe: [Array],
+970 silly audit report       cvss: [Object]
+970 silly audit report     }
+970 silly audit report   ],
+970 silly audit report   'better-auth': [
+970 silly audit report     {
+970 silly audit report       id: 1111528,
+970 silly audit report       url: 'https://github.com/advisories/GHSA-x732-6j76-qmhm',
+970 silly audit report       title: "Better Auth's rou3 Dependency has Double-Slash Path Normalization which can Bypass disabledPaths Config and Rate Limits",
+970 silly audit report       severity: 'high',
+970 silly audit report       vulnerable_versions: '<1.4.5',
+970 silly audit report       cwe: [Array],
+970 silly audit report       cvss: [Object]
+970 silly audit report     }
+970 silly audit report   ],
+970 silly audit report   jws: [
+970 silly audit report     {
+970 silly audit report       id: 1111243,
+970 silly audit report       url: 'https://github.com/advisories/GHSA-869p-cjfg-cm3x',
+970 silly audit report       title: 'auth0/node-jws Improperly Verifies HMAC Signature',
+970 silly audit report       severity: 'high',
+970 silly audit report       vulnerable_versions: '=4.0.0',
+970 silly audit report       cwe: [Array],
+970 silly audit report       cvss: [Object]
+970 silly audit report     },
+970 silly audit report     {
+970 silly audit report       id: 1111244,
+970 silly audit report       url: 'https://github.com/advisories/GHSA-869p-cjfg-cm3x',
+970 silly audit report       title: 'auth0/node-jws Improperly Verifies HMAC Signature',
+970 silly audit report       severity: 'high',
+970 silly audit report       vulnerable_versions: '<3.2.3',
+970 silly audit report       cwe: [Array],
+970 silly audit report       cvss: [Object]
+970 silly audit report     }
+970 silly audit report   ],
+970 silly audit report   next: [
+970 silly audit report     {
+970 silly audit report       id: 1111376,
+970 silly audit report       url: 'https://github.com/advisories/GHSA-w37m-7fhw-fmv9',
+970 silly audit report       title: 'Next Server Actions Source Code Exposure ',
+970 silly audit report       severity: 'moderate',
+970 silly audit report       vulnerable_versions: '>=15.5.1-canary.0 <15.5.8',
+970 silly audit report       cwe: [Array],
+970 silly audit report       cvss: [Object]
+970 silly audit report     },
+970 silly audit report     {
+970 silly audit report       id: 1111385,
+970 silly audit report       url: 'https://github.com/advisories/GHSA-mwv6-3258-q52c',
+970 silly audit report       title: 'Next Vulnerable to Denial of Service with Server Components',
+970 silly audit report       severity: 'high',
+970 silly audit report       vulnerable_versions: '>=15.5.1-canary.0 <15.5.8',
+970 silly audit report       cwe: [Array],
+970 silly audit report       cvss: [Object]
+970 silly audit report     }
+970 silly audit report   ],
+970 silly audit report   'node-forge': [
+970 silly audit report     {
+970 silly audit report       id: 1110996,
+970 silly audit report       url: 'https://github.com/advisories/GHSA-554w-wpv2-vw27',
+970 silly audit report       title: 'node-forge has ASN.1 Unbounded Recursion',
+970 silly audit report       severity: 'high',
+970 silly audit report       vulnerable_versions: '<1.3.2',
+970 silly audit report       cwe: [Array],
+970 silly audit report       cvss: [Object]
+970 silly audit report     },
+970 silly audit report     {
+970 silly audit report       id: 1110998,
+970 silly audit report       url: 'https://github.com/advisories/GHSA-5gfm-wpxj-wjgq',
+970 silly audit report       title: 'node-forge has an Interpretation Conflict vulnerability via its ASN.1 Validator Desynchronization',
+970 silly audit report       severity: 'high',
+970 silly audit report       vulnerable_versions: '<1.3.2',
+970 silly audit report       cwe: [Array],
+970 silly audit report       cvss: [Object]
+970 silly audit report     },
+970 silly audit report     {
+970 silly audit report       id: 1111068,
+970 silly audit report       url: 'https://github.com/advisories/GHSA-65ch-62r8-g69g',
+970 silly audit report       title: 'node-forge is vulnerable to ASN.1 OID Integer Truncation',
+970 silly audit report       severity: 'moderate',
+970 silly audit report       vulnerable_versions: '<1.3.2',
+970 silly audit report       cwe: [Array],
+970 silly audit report       cvss: [Object]
+970 silly audit report     }
+970 silly audit report   ]
+970 silly audit report }
+971 silly packumentCache corgi:https://registry.npmjs.org/esbuild cache-miss
+972 silly packumentCache corgi:https://registry.npmjs.org/better-auth cache-miss
+973 silly packumentCache corgi:https://registry.npmjs.org/jws cache-miss
+974 silly packumentCache corgi:https://registry.npmjs.org/next cache-miss
+975 silly packumentCache corgi:https://registry.npmjs.org/node-forge cache-miss
+976 http fetch GET 200 https://registry.npmjs.org/remark-stringify/-/remark-stringify-11.0.0.tgz 459ms (cache miss)
+977 http fetch GET 200 https://registry.npmjs.org/mdast-util-gfm/-/mdast-util-gfm-3.1.0.tgz 466ms (cache miss)
+978 http fetch GET 200 https://registry.npmjs.org/is-decimal/-/is-decimal-2.0.1.tgz 466ms (cache miss)
+979 http fetch GET 200 https://registry.npmjs.org/is-alphanumerical/-/is-alphanumerical-2.0.1.tgz 469ms (cache miss)
+980 http fetch GET 200 https://registry.npmjs.org/is-alphabetical/-/is-alphabetical-2.0.1.tgz 474ms (cache miss)
+981 http fetch GET 200 https://registry.npmjs.org/mdast-util-find-and-replace/-/mdast-util-find-and-replace-3.0.2.tgz 486ms (cache miss)
+982 http fetch GET 200 https://registry.npmjs.org/micromark-extension-gfm/-/micromark-extension-gfm-3.0.0.tgz 492ms (cache miss)
+983 http fetch GET 200 https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-5.0.0.tgz 583ms (cache miss)
+984 http fetch GET 200 https://registry.npmjs.org/micromark-extension-gfm-footnote/-/micromark-extension-gfm-footnote-2.1.0.tgz 584ms (cache miss)
+985 http fetch GET 200 https://registry.npmjs.org/unist-util-visit-parents/-/unist-util-visit-parents-6.0.2.tgz 585ms (cache miss)
+986 http fetch GET 200 https://registry.npmjs.org/style-to-object/-/style-to-object-1.0.14.tgz 585ms (cache miss)
+987 http fetch GET 200 https://registry.npmjs.org/micromark-extension-gfm-autolink-literal/-/micromark-extension-gfm-autolink-literal-2.1.0.tgz 587ms (cache miss)
+988 http fetch GET 200 https://registry.npmjs.org/character-reference-invalid/-/character-reference-invalid-2.0.1.tgz 607ms (cache miss)
+989 http fetch GET 200 https://registry.npmjs.org/micromark-util-html-tag-name/-/micromark-util-html-tag-name-2.0.1.tgz 611ms (cache miss)
+990 http fetch GET 200 https://registry.npmjs.org/is-hexadecimal/-/is-hexadecimal-2.0.1.tgz 613ms (cache miss)
+991 http fetch GET 200 https://registry.npmjs.org/micromark-factory-title/-/micromark-factory-title-2.0.1.tgz 616ms (cache miss)
+992 http fetch GET 200 https://registry.npmjs.org/micromark-factory-whitespace/-/micromark-factory-whitespace-2.0.1.tgz 624ms (cache miss)
+993 http fetch GET 200 https://registry.npmjs.org/is-plain-obj/-/is-plain-obj-4.1.0.tgz 631ms (cache miss)
+994 http fetch GET 200 https://registry.npmjs.org/character-entities-legacy/-/character-entities-legacy-3.0.0.tgz 630ms (cache miss)
+995 http fetch GET 200 https://registry.npmjs.org/micromark-factory-destination/-/micromark-factory-destination-2.0.1.tgz 640ms (cache miss)
+996 http fetch GET 200 https://registry.npmjs.org/micromark-util-subtokenize/-/micromark-util-subtokenize-2.1.0.tgz 640ms (cache miss)
+997 http fetch GET 200 https://registry.npmjs.org/micromark-util-chunked/-/micromark-util-chunked-2.0.1.tgz 729ms (cache miss)
+998 http fetch GET 200 https://registry.npmjs.org/micromark-util-encode/-/micromark-util-encode-2.0.1.tgz 730ms (cache miss)
+999 http fetch GET 200 https://registry.npmjs.org/micromark-util-combine-extensions/-/micromark-util-combine-extensions-2.0.1.tgz 730ms (cache miss)
+1000 http fetch GET 200 https://registry.npmjs.org/micromark-util-resolve-all/-/micromark-util-resolve-all-2.0.1.tgz 730ms (cache miss)
+1001 http fetch GET 200 https://registry.npmjs.org/micromark-util-character/-/micromark-util-character-2.1.1.tgz 738ms (cache miss)
+1002 http fetch GET 200 https://registry.npmjs.org/micromark-factory-label/-/micromark-factory-label-2.0.1.tgz 759ms (cache miss)
+1003 http fetch GET 200 https://registry.npmjs.org/unist-util-is/-/unist-util-is-6.0.1.tgz 770ms (cache miss)
+1004 http fetch GET 200 https://registry.npmjs.org/micromark-factory-space/-/micromark-factory-space-2.0.1.tgz 778ms (cache miss)
+1005 http fetch GET 200 https://registry.npmjs.org/longest-streak/-/longest-streak-3.1.0.tgz 781ms (cache miss)
+1006 http fetch GET 200 https://registry.npmjs.org/micromark-core-commonmark/-/micromark-core-commonmark-2.0.3.tgz 787ms (cache miss)
+1007 http fetch GET 200 https://registry.npmjs.org/zwitch/-/zwitch-2.0.4.tgz 788ms (cache miss)
+1008 http fetch GET 200 https://registry.npmjs.org/mdast-util-phrasing/-/mdast-util-phrasing-4.1.0.tgz 792ms (cache miss)
+1009 http fetch GET 200 https://registry.npmjs.org/micromark-util-classify-character/-/micromark-util-classify-character-2.0.1.tgz 797ms (cache miss)
+1010 http fetch GET 200 https://registry.npmjs.org/trim-lines/-/trim-lines-3.0.1.tgz 867ms (cache miss)
+1011 http fetch GET 200 https://registry.npmjs.org/micromark-util-sanitize-uri/-/micromark-util-sanitize-uri-2.0.1.tgz 879ms (cache miss)
+1012 http fetch GET 200 https://registry.npmjs.org/stringify-entities/-/stringify-entities-4.0.4.tgz 880ms (cache miss)
+1013 http fetch GET 200 https://registry.npmjs.org/parse-entities/-/parse-entities-4.0.2.tgz 882ms (cache miss)
+1014 http fetch GET 200 https://registry.npmjs.org/ccount/-/ccount-2.0.1.tgz 886ms (cache miss)
+1015 http fetch GET 200 https://registry.npmjs.org/@types/debug/-/debug-4.1.12.tgz 899ms (cache miss)
+1016 http fetch GET 200 https://registry.npmjs.org/character-entities/-/character-entities-2.0.2.tgz 920ms (cache miss)
+1017 http fetch GET 200 https://registry.npmjs.org/micromark-util-types/-/micromark-util-types-2.0.2.tgz 920ms (cache miss)
+1018 http fetch GET 200 https://registry.npmjs.org/unist-util-stringify-position/-/unist-util-stringify-position-4.0.0.tgz 934ms (cache miss)
+1019 http fetch GET 200 https://registry.npmjs.org/micromark-util-symbol/-/micromark-util-symbol-2.0.1.tgz 937ms (cache miss)
+1020 http fetch GET 200 https://registry.npmjs.org/@ungap/structured-clone/-/structured-clone-1.3.0.tgz 939ms (cache miss)
+1021 http fetch GET 200 https://registry.npmjs.org/micromark-util-normalize-identifier/-/micromark-util-normalize-identifier-2.0.1.tgz 943ms (cache miss)
+1022 http fetch GET 200 https://registry.npmjs.org/micromark-util-decode-string/-/micromark-util-decode-string-2.0.1.tgz 946ms (cache miss)
+1023 http fetch GET 200 https://registry.npmjs.org/micromark-util-decode-numeric-character-reference/-/micromark-util-decode-numeric-character-reference-2.0.2.tgz 949ms (cache miss)
+1024 http fetch GET 200 https://registry.npmjs.org/micromark/-/micromark-4.0.2.tgz 1021ms (cache miss)
+1025 http fetch GET 200 https://registry.npmjs.org/decode-named-character-reference/-/decode-named-character-reference-1.2.0.tgz 1028ms (cache miss)
+1026 http fetch GET 200 https://registry.npmjs.org/mdast-util-to-markdown/-/mdast-util-to-markdown-2.1.2.tgz 1035ms (cache miss)
+1027 http fetch GET 200 https://registry.npmjs.org/mdast-util-from-markdown/-/mdast-util-from-markdown-2.0.2.tgz 1036ms (cache miss)
+1028 http fetch GET 200 https://registry.npmjs.org/mdast-util-to-string/-/mdast-util-to-string-4.0.0.tgz 1046ms (cache miss)
+1029 http fetch GET 200 https://registry.npmjs.org/space-separated-tokens/-/space-separated-tokens-2.0.2.tgz 1069ms (cache miss)
+1030 http fetch GET 200 https://registry.npmjs.org/micromark-extension-gfm-strikethrough/-/micromark-extension-gfm-strikethrough-2.1.0.tgz 1077ms (cache miss)
+1031 http fetch GET 200 https://registry.npmjs.org/style-to-js/-/style-to-js-1.1.21.tgz 1077ms (cache miss)
+1032 http fetch GET 200 https://registry.npmjs.org/mdast-util-mdx-jsx/-/mdast-util-mdx-jsx-3.2.0.tgz 1089ms (cache miss)
+1033 http fetch GET 200 https://registry.npmjs.org/mdast-util-mdxjs-esm/-/mdast-util-mdxjs-esm-2.0.1.tgz 1089ms (cache miss)
+1034 http fetch GET 200 https://registry.npmjs.org/property-information/-/property-information-7.1.0.tgz 1098ms (cache miss)
+1035 http fetch GET 200 https://registry.npmjs.org/mdast-util-mdx-expression/-/mdast-util-mdx-expression-2.0.1.tgz 1099ms (cache miss)
+1036 http fetch GET 200 https://registry.npmjs.org/hast-util-whitespace/-/hast-util-whitespace-3.0.0.tgz 1102ms (cache miss)
+1037 http fetch GET 200 https://registry.npmjs.org/unist-util-position/-/unist-util-position-5.0.0.tgz 1102ms (cache miss)
+1038 http fetch GET 200 https://registry.npmjs.org/@types/estree-jsx/-/estree-jsx-1.0.5.tgz 1159ms (cache miss)
+1039 http fetch GET 200 https://registry.npmjs.org/estree-util-is-identifier-name/-/estree-util-is-identifier-name-3.0.0.tgz 1165ms (cache miss)
+1040 http fetch GET 200 https://registry.npmjs.org/comma-separated-tokens/-/comma-separated-tokens-2.0.3.tgz 1176ms (cache miss)
+1041 http fetch GET 200 https://registry.npmjs.org/dequal/-/dequal-2.0.3.tgz 1195ms (cache miss)
+1042 http fetch GET 200 https://registry.npmjs.org/vfile-message/-/vfile-message-4.0.3.tgz 1195ms (cache miss)
+1043 http fetch GET 200 https://registry.npmjs.org/@types/estree/-/estree-1.0.8.tgz 1212ms (cache miss)
+1044 http fetch GET 200 https://registry.npmjs.org/unist-util-visit/-/unist-util-visit-5.0.0.tgz 1220ms (cache miss)
+1045 http fetch GET 200 https://registry.npmjs.org/@types/unist/-/unist-3.0.3.tgz 1223ms (cache miss)
+1046 http fetch GET 200 https://registry.npmjs.org/vfile/-/vfile-6.0.3.tgz 1232ms (cache miss)
+1047 http fetch GET 200 https://registry.npmjs.org/unified/-/unified-11.0.5.tgz 1239ms (cache miss)
+1048 http fetch GET 200 https://registry.npmjs.org/remark-parse/-/remark-parse-11.0.0.tgz 1246ms (cache miss)
+1049 http fetch GET 200 https://registry.npmjs.org/mdast-util-to-hast/-/mdast-util-to-hast-13.2.1.tgz 1254ms (cache miss)
+1050 http fetch GET 200 https://registry.npmjs.org/hast-util-to-jsx-runtime/-/hast-util-to-jsx-runtime-2.3.6.tgz 1262ms (cache miss)
+1051 http fetch GET 200 https://registry.npmjs.org/@types/mdast/-/mdast-4.0.4.tgz 1335ms (cache miss)
+1052 http fetch GET 200 https://registry.npmjs.org/remark-gfm/-/remark-gfm-4.0.1.tgz 1349ms (cache miss)
+1053 http fetch GET 200 https://registry.npmjs.org/react-markdown/-/react-markdown-10.1.0.tgz 1350ms (cache miss)
+1054 http fetch GET 200 https://registry.npmjs.org/@types/hast/-/hast-3.0.4.tgz 1357ms (cache miss)
+1055 http fetch GET 200 https://registry.npmjs.org/jws 1036ms (cache miss)
+1056 silly packumentCache corgi:https://registry.npmjs.org/jws set size:undefined disposed:false
+1057 http fetch GET 200 https://registry.npmjs.org/node-forge 1063ms (cache miss)
+1058 silly packumentCache corgi:https://registry.npmjs.org/node-forge set size:undefined disposed:false
+1059 http fetch GET 200 https://registry.npmjs.org/remark-rehype/-/remark-rehype-11.1.2.tgz 1417ms (cache miss)
+1060 http fetch GET 200 https://registry.npmjs.org/devlop/-/devlop-1.1.0.tgz 1422ms (cache miss)
+1061 http fetch GET 200 https://registry.npmjs.org/@types/unist/-/unist-2.0.11.tgz 1424ms (cache miss)
+1062 http fetch GET 200 https://registry.npmjs.org/better-auth 1087ms (cache miss)
+1063 silly packumentCache corgi:https://registry.npmjs.org/better-auth set size:undefined disposed:false
+1064 http fetch GET 200 https://registry.npmjs.org/html-url-attributes/-/html-url-attributes-3.0.1.tgz 1465ms (cache miss)
+1065 http fetch GET 200 https://registry.npmjs.org/esbuild 1514ms (cache miss)
+1066 silly packumentCache corgi:https://registry.npmjs.org/esbuild set size:undefined disposed:false
+1067 http fetch GET 200 https://registry.npmjs.org/next 1546ms (cache miss)
+1068 silly packumentCache corgi:https://registry.npmjs.org/next set size:undefined disposed:false
+1069 silly packumentCache corgi:https://registry.npmjs.org/@esbuild-kit%2fcore-utils cache-miss
+1070 http fetch GET 200 https://registry.npmjs.org/@esbuild-kit%2fcore-utils 294ms (cache miss)
+1071 silly packumentCache corgi:https://registry.npmjs.org/@esbuild-kit%2fcore-utils set size:undefined disposed:false
+1072 silly packumentCache corgi:https://registry.npmjs.org/google-auth-library cache-miss
+1073 silly packumentCache corgi:https://registry.npmjs.org/gtoken cache-miss
+1074 http fetch GET 200 https://registry.npmjs.org/google-auth-library 172ms (cache miss)
+1075 silly packumentCache corgi:https://registry.npmjs.org/google-auth-library set size:undefined disposed:false
+1076 http fetch GET 200 https://registry.npmjs.org/gtoken 331ms (cache miss)
+1077 silly packumentCache corgi:https://registry.npmjs.org/gtoken set size:undefined disposed:false
+1078 silly packumentCache corgi:https://registry.npmjs.org/jsonwebtoken cache-miss
+1079 http fetch GET 200 https://registry.npmjs.org/jsonwebtoken 155ms (cache miss)
+1080 silly packumentCache corgi:https://registry.npmjs.org/jsonwebtoken set size:undefined disposed:false
+1081 silly packumentCache corgi:https://registry.npmjs.org/firebase-admin cache-miss
+1082 http fetch GET 200 https://registry.npmjs.org/firebase-admin 194ms (cache miss)
+1083 silly packumentCache corgi:https://registry.npmjs.org/firebase-admin set size:undefined disposed:false
+1084 silly packumentCache corgi:https://registry.npmjs.org/@esbuild-kit%2fesm-loader cache-miss
+1085 http fetch GET 200 https://registry.npmjs.org/@esbuild-kit%2fesm-loader 268ms (cache miss)
+1086 silly packumentCache corgi:https://registry.npmjs.org/@esbuild-kit%2fesm-loader set size:undefined disposed:false
+1087 silly packumentCache corgi:https://registry.npmjs.org/drizzle-kit cache-miss
+1088 http fetch GET 200 https://registry.npmjs.org/drizzle-kit 355ms (cache miss)
+1089 silly packumentCache corgi:https://registry.npmjs.org/drizzle-kit set size:undefined disposed:false
+1090 silly ADD node_modules/trough
+1091 silly ADD node_modules/is-plain-obj
+1092 silly ADD node_modules/bail
+1093 silly ADD node_modules/inline-style-parser
+1094 silly ADD node_modules/style-to-object
+1095 silly ADD node_modules/character-entities-html4
+1096 silly ADD node_modules/micromark-extension-gfm-task-list-item
+1097 silly ADD node_modules/micromark-extension-gfm-tagfilter
+1098 silly ADD node_modules/micromark-extension-gfm-table
+1099 silly ADD node_modules/micromark-extension-gfm-strikethrough
+1100 silly ADD node_modules/micromark-extension-gfm-footnote
+1101 silly ADD node_modules/micromark-extension-gfm-autolink-literal
+1102 silly ADD node_modules/markdown-table
+1103 silly ADD node_modules/unist-util-visit-parents
+1104 silly ADD node_modules/escape-string-regexp
+1105 silly ADD node_modules/mdast-util-find-and-replace
+1106 silly ADD node_modules/mdast-util-gfm-task-list-item
+1107 silly ADD node_modules/mdast-util-gfm-table
+1108 silly ADD node_modules/mdast-util-gfm-strikethrough
+1109 silly ADD node_modules/mdast-util-gfm-footnote
+1110 silly ADD node_modules/mdast-util-gfm-autolink-literal
+1111 silly ADD node_modules/remark-stringify
+1112 silly ADD node_modules/micromark-extension-gfm
+1113 silly ADD node_modules/mdast-util-gfm
+1114 silly ADD node_modules/is-alphabetical
+1115 silly ADD node_modules/is-hexadecimal
+1116 silly ADD node_modules/is-decimal
+1117 silly ADD node_modules/is-alphanumerical
+1118 silly ADD node_modules/character-reference-invalid
+1119 silly ADD node_modules/character-entities-legacy
+1120 silly ADD node_modules/micromark-util-html-tag-name
+1121 silly ADD node_modules/micromark-factory-whitespace
+1122 silly ADD node_modules/micromark-factory-title
+1123 silly ADD node_modules/micromark-factory-label
+1124 silly ADD node_modules/micromark-factory-destination
+1125 silly ADD node_modules/micromark-util-subtokenize
+1126 silly ADD node_modules/micromark-util-resolve-all
+1127 silly ADD node_modules/micromark-util-encode
+1128 silly ADD node_modules/micromark-util-combine-extensions
+1129 silly ADD node_modules/micromark-util-chunked
+1130 silly ADD node_modules/micromark-util-character
+1131 silly ADD node_modules/micromark-factory-space
+1132 silly ADD node_modules/micromark-core-commonmark
+1133 silly ADD node_modules/@types/debug
+1134 silly ADD node_modules/unist-util-is
+1135 silly ADD node_modules/zwitch
+1136 silly ADD node_modules/micromark-util-classify-character
+1137 silly ADD node_modules/mdast-util-phrasing
+1138 silly ADD node_modules/longest-streak
+1139 silly ADD node_modules/trim-lines
+1140 silly ADD node_modules/micromark-util-sanitize-uri
+1141 silly ADD node_modules/@ungap/structured-clone
+1142 silly ADD node_modules/stringify-entities
+1143 silly ADD node_modules/parse-entities
+1144 silly ADD node_modules/parse-entities/node_modules/@types/unist
+1145 silly ADD node_modules/ccount
+1146 silly ADD node_modules/character-entities
+1147 silly ADD node_modules/unist-util-stringify-position
+1148 silly ADD node_modules/micromark-util-types
+1149 silly ADD node_modules/micromark-util-symbol
+1150 silly ADD node_modules/micromark-util-normalize-identifier
+1151 silly ADD node_modules/micromark-util-decode-string
+1152 silly ADD node_modules/micromark-util-decode-numeric-character-reference
+1153 silly ADD node_modules/micromark
+1154 silly ADD node_modules/mdast-util-to-string
+1155 silly ADD node_modules/decode-named-character-reference
+1156 silly ADD node_modules/mdast-util-to-markdown
+1157 silly ADD node_modules/mdast-util-from-markdown
+1158 silly ADD node_modules/@types/estree-jsx
+1159 silly ADD node_modules/vfile-message
+1160 silly ADD node_modules/unist-util-position
+1161 silly ADD node_modules/style-to-js
+1162 silly ADD node_modules/space-separated-tokens
+1163 silly ADD node_modules/property-information
+1164 silly ADD node_modules/mdast-util-mdxjs-esm
+1165 silly ADD node_modules/mdast-util-mdx-jsx
+1166 silly ADD node_modules/mdast-util-mdx-expression
+1167 silly ADD node_modules/hast-util-whitespace
+1168 silly ADD node_modules/estree-util-is-identifier-name
+1169 silly ADD node_modules/comma-separated-tokens
+1170 silly ADD node_modules/@types/estree
+1171 silly ADD node_modules/dequal
+1172 silly ADD node_modules/@types/unist
+1173 silly ADD node_modules/vfile
+1174 silly ADD node_modules/unist-util-visit
+1175 silly ADD node_modules/unified
+1176 silly ADD node_modules/remark-rehype
+1177 silly ADD node_modules/remark-parse
+1178 silly ADD node_modules/mdast-util-to-hast
+1179 silly ADD node_modules/html-url-attributes
+1180 silly ADD node_modules/hast-util-to-jsx-runtime
+1181 silly ADD node_modules/devlop
+1182 silly ADD node_modules/@types/mdast
+1183 silly ADD node_modules/@types/hast
+1184 silly ADD node_modules/remark-gfm
+1185 silly ADD node_modules/react-markdown
+1186 silly ADD
+1187 silly ADD
+1188 silly ADD
+1189 silly ADD
+1190 silly ADD
+1191 silly ADD
+1192 silly ADD
+1193 silly ADD
+1194 silly ADD
+1195 silly ADD
+1196 silly ADD
+1197 silly ADD
+1198 silly ADD
+1199 silly ADD
+1200 silly ADD
+1201 silly ADD
+1202 silly ADD
+1203 silly ADD
+1204 silly ADD
+1205 silly ADD
+1206 silly ADD
+1207 silly ADD
+1208 silly ADD
+1209 silly ADD
+1210 silly ADD
+1211 silly ADD
+1212 silly ADD
+1213 silly ADD
+1214 silly ADD
+1215 silly ADD
+1216 silly ADD
+1217 silly ADD
+1218 silly ADD
+1219 silly ADD
+1220 silly ADD
+1221 silly ADD
+1222 silly ADD
+1223 silly ADD
+1224 silly ADD
+1225 silly ADD
+1226 silly ADD
+1227 silly ADD
+1228 silly ADD
+1229 silly ADD
+1230 silly ADD
+1231 silly ADD
+1232 silly ADD
+1233 silly ADD
+1234 silly ADD
+1235 silly ADD
+1236 silly ADD
+1237 silly ADD
+1238 silly ADD
+1239 silly ADD
+1240 silly ADD
+1241 silly ADD
+1242 silly ADD
+1243 silly ADD
+1244 silly ADD
+1245 silly ADD
+1246 silly ADD
+1247 silly ADD
+1248 silly ADD
+1249 silly ADD
+1250 silly ADD
+1251 silly ADD
+1252 silly ADD
+1253 silly ADD
+1254 silly ADD
+1255 silly ADD
+1256 silly ADD
+1257 silly ADD
+1258 silly ADD
+1259 silly ADD
+1260 silly ADD
+1261 silly ADD
+1262 silly ADD
+1263 silly ADD
+1264 silly ADD
+1265 silly ADD
+1266 silly ADD
+1267 silly ADD
+1268 silly ADD
+1269 silly ADD
+1270 silly ADD
+1271 silly ADD
+1272 silly ADD
+1273 silly ADD
+1274 silly ADD
+1275 silly ADD
+1276 silly ADD
+1277 silly ADD
+1278 silly ADD
+1279 silly ADD
+1280 silly ADD
+1281 silly ADD
+1282 silly ADD
+1283 silly ADD
+1284 silly ADD
+1285 silly ADD
+1286 silly ADD
+1287 silly ADD
+1288 silly ADD
+1289 silly ADD
+1290 silly ADD
+1291 verbose cwd /Users/mac/StudioProjects/ikiapp/iki-gen
+1292 verbose os Darwin 25.0.0
+1293 verbose node v22.17.1
+1294 verbose npm  v10.9.2
+1295 verbose exit 0
+1296 info ok
