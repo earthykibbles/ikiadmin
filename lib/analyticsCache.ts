@@ -97,4 +97,3 @@ export function clearAnalyticsCache(): void {
 export function getCachedData(): AnalyticsData | null {
   return analyticsCache.data;
 }
-

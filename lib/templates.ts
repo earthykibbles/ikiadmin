@@ -5,14 +5,16 @@ export const templates: Template[] = [
     id: 'wellsphere-conditions',
     name: 'Health Conditions',
     description: 'Generate chronic health conditions for WellSphere',
-    icon: '🏥',
+    icon: 'conditions',
     config: {
       jobName: 'wellsphere-conditions',
       count: 300,
       batchSize: 25,
       collection: 'wellsphere_conditions',
-      systemPrompt: 'You generate concise, user-friendly, neutral medical overviews for a chronic-condition library in a wellness app. Keep text readable in light and dark modes. Avoid emojis and clinical jargon when simpler words suffice. This is informational content only, not medical advice. Return strict JSON matching the schema.',
-      userPrompt: 'Produce {count} distinct, common chronic or long-term managed conditions (global context). For each, include:\n- condition_name: human-friendly name\n- condition_description: 1–2 sentences, plain language\n- common_symptoms: 4–6 items\n- severity_level: Mild/Moderate/Severe/Varies\n- management_strategies: 3–5 items with strategy_name and strategy_description\n- average_affected_age: typical onset age (optional)\n- condition_prevalence: short textual prevalence\n- risk_factors: 4–6 items\n- diagnostic_tests: 2–4 items with test_name and test_description\n- possible_complications: 3–5 items\n- preventive_measures: 3–5 items\n- recommended_specialists: 2–4 titles\n- common_treatments: 3–5 approaches\n- support_groups_resources: 1–3 items with resource_name and resource_link\n\nEnsure broad coverage by prevalence.',
+      systemPrompt:
+        'You generate concise, user-friendly, neutral medical overviews for a chronic-condition library in a wellness app. Keep text readable in light and dark modes. Avoid emojis and clinical jargon when simpler words suffice. This is informational content only, not medical advice. Return strict JSON matching the schema.',
+      userPrompt:
+        'Produce {count} distinct, common chronic or long-term managed conditions (global context). For each, include:\n- condition_name: human-friendly name\n- condition_description: 1–2 sentences, plain language\n- common_symptoms: 4–6 items\n- severity_level: Mild/Moderate/Severe/Varies\n- management_strategies: 3–5 items with strategy_name and strategy_description\n- average_affected_age: typical onset age (optional)\n- condition_prevalence: short textual prevalence\n- risk_factors: 4–6 items\n- diagnostic_tests: 2–4 items with test_name and test_description\n- possible_complications: 3–5 items\n- preventive_measures: 3–5 items\n- recommended_specialists: 2–4 titles\n- common_treatments: 3–5 approaches\n- support_groups_resources: 1–3 items with resource_name and resource_link\n\nEnsure broad coverage by prevalence.',
       jsonSchema: {
         name: 'ChronicConditionArray',
         schema: {
@@ -93,14 +95,16 @@ export const templates: Template[] = [
     id: 'fitness-exercises',
     name: 'Fitness Exercises',
     description: 'Generate workout exercises with instructions',
-    icon: '💪',
+    icon: 'fitness',
     config: {
       jobName: 'fitness-exercises',
       count: 100,
       batchSize: 20,
       collection: 'fitness_exercises',
-      systemPrompt: 'You generate detailed fitness exercise information for a wellness app. Be clear, motivating, and safe. Include proper form cues and modifications. Return strict JSON matching the schema.',
-      userPrompt: 'Generate {count} diverse fitness exercises covering strength, cardio, flexibility, and balance. For each exercise include:\n- name: clear exercise name\n- description: 2-3 sentences describing the movement\n- category: strength/cardio/flexibility/balance\n- difficulty: beginner/intermediate/advanced\n- equipment: required equipment or "bodyweight"\n- muscle_groups: primary muscles worked\n- instructions: step-by-step array\n- sets_reps: recommended sets and reps\n- duration: typical duration in seconds\n- calories_per_minute: estimated calorie burn\n- tips: 2-3 form tips\n- modifications: easier and harder versions\n- safety_notes: important safety considerations',
+      systemPrompt:
+        'You generate detailed fitness exercise information for a wellness app. Be clear, motivating, and safe. Include proper form cues and modifications. Return strict JSON matching the schema.',
+      userPrompt:
+        'Generate {count} diverse fitness exercises covering strength, cardio, flexibility, and balance. For each exercise include:\n- name: clear exercise name\n- description: 2-3 sentences describing the movement\n- category: strength/cardio/flexibility/balance\n- difficulty: beginner/intermediate/advanced\n- equipment: required equipment or "bodyweight"\n- muscle_groups: primary muscles worked\n- instructions: step-by-step array\n- sets_reps: recommended sets and reps\n- duration: typical duration in seconds\n- calories_per_minute: estimated calorie burn\n- tips: 2-3 form tips\n- modifications: easier and harder versions\n- safety_notes: important safety considerations',
       jsonSchema: {
         name: 'FitnessExerciseArray',
         schema: {
@@ -129,7 +133,15 @@ export const templates: Template[] = [
               },
               safety_notes: { type: 'array', items: { type: 'string' } },
             },
-            required: ['name', 'description', 'category', 'difficulty', 'equipment', 'muscle_groups', 'instructions'],
+            required: [
+              'name',
+              'description',
+              'category',
+              'difficulty',
+              'equipment',
+              'muscle_groups',
+              'instructions',
+            ],
           },
         },
         strict: true,
@@ -140,14 +152,16 @@ export const templates: Template[] = [
     id: 'nutrition-recipes',
     name: 'Nutrition Recipes',
     description: 'Generate healthy recipes with nutritional info',
-    icon: '🥗',
+    icon: 'nutrition',
     config: {
       jobName: 'nutrition-recipes',
       count: 200,
       batchSize: 20,
       collection: 'nutrition_recipes',
-      systemPrompt: 'You generate healthy, practical recipes for a wellness app. Focus on balanced nutrition, clear instructions, and realistic prep times. Return strict JSON matching the schema.',
-      userPrompt: 'Generate {count} diverse healthy recipes covering breakfast, lunch, dinner, snacks, and smoothies. For each recipe include:\n- name: appetizing recipe name\n- description: 1-2 sentences\n- category: breakfast/lunch/dinner/snack/smoothie\n- prep_time: minutes\n- cook_time: minutes\n- servings: number of servings\n- difficulty: easy/medium/hard\n- ingredients: array with amount and item\n- instructions: step-by-step array\n- nutrition: calories, protein, carbs, fat, fiber per serving\n- dietary_tags: vegetarian/vegan/gluten-free/dairy-free/etc\n- health_benefits: 2-3 key benefits\n- storage_tips: how to store leftovers',
+      systemPrompt:
+        'You generate healthy, practical recipes for a wellness app. Focus on balanced nutrition, clear instructions, and realistic prep times. Return strict JSON matching the schema.',
+      userPrompt:
+        'Generate {count} diverse healthy recipes covering breakfast, lunch, dinner, snacks, and smoothies. For each recipe include:\n- name: appetizing recipe name\n- description: 1-2 sentences\n- category: breakfast/lunch/dinner/snack/smoothie\n- prep_time: minutes\n- cook_time: minutes\n- servings: number of servings\n- difficulty: easy/medium/hard\n- ingredients: array with amount and item\n- instructions: step-by-step array\n- nutrition: calories, protein, carbs, fat, fiber per serving\n- dietary_tags: vegetarian/vegan/gluten-free/dairy-free/etc\n- health_benefits: 2-3 key benefits\n- storage_tips: how to store leftovers',
       jsonSchema: {
         name: 'RecipeArray',
         schema: {
@@ -189,7 +203,14 @@ export const templates: Template[] = [
               health_benefits: { type: 'array', items: { type: 'string' } },
               storage_tips: { type: 'string' },
             },
-            required: ['name', 'description', 'category', 'ingredients', 'instructions', 'nutrition'],
+            required: [
+              'name',
+              'description',
+              'category',
+              'ingredients',
+              'instructions',
+              'nutrition',
+            ],
           },
         },
         strict: true,
@@ -200,14 +221,16 @@ export const templates: Template[] = [
     id: 'mindfulness-exercises',
     name: 'Mindfulness Exercises',
     description: 'Generate meditation and mindfulness practices',
-    icon: '🧘',
+    icon: 'mindfulness',
     config: {
       jobName: 'mindfulness-exercises',
       count: 50,
       batchSize: 10,
       collection: 'mindfulness_exercises',
-      systemPrompt: 'You generate calming, accessible mindfulness and meditation exercises for a wellness app. Use gentle, inclusive language. Return strict JSON matching the schema.',
-      userPrompt: 'Generate {count} diverse mindfulness exercises including meditation, breathing, body scans, and visualization. For each include:\n- name: calming exercise name\n- description: 2 sentences overview\n- type: meditation/breathing/body_scan/visualization/mindful_movement\n- duration: minutes\n- difficulty: beginner/intermediate/advanced\n- instructions: step-by-step guidance\n- benefits: key mental/physical benefits\n- best_time: morning/afternoon/evening/anytime\n- setting: quiet_space/anywhere/nature/etc\n- audio_cues: optional timing cues for guided audio',
+      systemPrompt:
+        'You generate calming, accessible mindfulness and meditation exercises for a wellness app. Use gentle, inclusive language. Return strict JSON matching the schema.',
+      userPrompt:
+        'Generate {count} diverse mindfulness exercises including meditation, breathing, body scans, and visualization. For each include:\n- name: calming exercise name\n- description: 2 sentences overview\n- type: meditation/breathing/body_scan/visualization/mindful_movement\n- duration: minutes\n- difficulty: beginner/intermediate/advanced\n- instructions: step-by-step guidance\n- benefits: key mental/physical benefits\n- best_time: morning/afternoon/evening/anytime\n- setting: quiet_space/anywhere/nature/etc\n- audio_cues: optional timing cues for guided audio',
       jsonSchema: {
         name: 'MindfulnessExerciseArray',
         schema: {
@@ -234,4 +257,3 @@ export const templates: Template[] = [
     },
   },
 ];
-

@@ -1,7 +1,25 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Search, MessageSquare, Trash2, User as UserIcon, Calendar, MapPin, Heart, Eye, ArrowLeft, X, Image as ImageIcon, Plus, BookOpen, Clock } from 'lucide-react';
+import {
+  ArrowLeft,
+  BookOpen,
+  Calendar,
+  Clock,
+  Eye,
+  Heart,
+  Image as ImageIcon,
+  MapPin,
+  MessageSquare,
+  Plus,
+  Search,
+  Trash2,
+  User as UserIcon,
+  X,
+} from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { getUserAvatarSeed, getUserLabel, maskEmail, shortId } from '@/lib/privacy';
+import { usePrivacyMode } from '@/lib/usePrivacyMode';
+import Avatar from './Avatar';
 import ImageUpload from './ImageUpload';
 
 interface Post {
@@ -52,6 +70,7 @@ export default function ConnectPosts() {
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const { privacyMode } = usePrivacyMode();
   const [hasMore, setHasMore] = useState(false);
   const [hasMoreStories, setHasMoreStories] = useState(false);
   const [lastDocId, setLastDocId] = useState<string | null>(null);
@@ -61,7 +80,9 @@ export default function ConnectPosts() {
   const [users, setUsers] = useState<User[]>([]);
   const [loadingUsers, setLoadingUsers] = useState(false);
   const [creating, setCreating] = useState(false);
-  
+
+  const usersById = useMemo(() => new Map(users.map((u) => [u.id, u] as const)), [users]);
+
   // Create Post form state
   const [postForm, setPostForm] = useState({
     ownerId: '',
@@ -69,7 +90,7 @@ export default function ConnectPosts() {
     description: '',
     location: '',
   });
-  
+
   // Create Story form state
   const [storyForm, setStoryForm] = useState({
     userId: '',
@@ -82,24 +103,24 @@ export default function ConnectPosts() {
     try {
       setLoading(true);
       setError(null);
-      
+
       const params = new URLSearchParams();
       params.append('limit', '50');
       if (!reset && lastDocId) {
         params.append('lastDocId', lastDocId);
       }
-      
+
       const response = await fetch(`/api/posts?${params.toString()}`);
       if (!response.ok) throw new Error('Failed to fetch posts');
-      
+
       const data = await response.json();
-      
+
       if (reset) {
         setPosts(data.posts);
       } else {
-        setPosts(prev => [...prev, ...data.posts]);
+        setPosts((prev) => [...prev, ...data.posts]);
       }
-      
+
       setHasMore(data.hasMore);
       setLastDocId(data.lastDocId);
     } catch (err: any) {
@@ -113,24 +134,24 @@ export default function ConnectPosts() {
     try {
       setLoadingStories(true);
       setError(null);
-      
+
       const params = new URLSearchParams();
       params.append('limit', '50');
       if (!reset && lastStoryDocId) {
         params.append('lastDocId', lastStoryDocId);
       }
-      
+
       const response = await fetch(`/api/stories?${params.toString()}`);
       if (!response.ok) throw new Error('Failed to fetch stories');
-      
+
       const data = await response.json();
-      
+
       if (reset) {
         setStories(data.stories);
       } else {
-        setStories(prev => [...prev, ...data.stories]);
+        setStories((prev) => [...prev, ...data.stories]);
       }
-      
+
       setHasMoreStories(data.hasMore);
       setLastStoryDocId(data.lastDocId);
     } catch (err: any) {
@@ -193,10 +214,10 @@ export default function ConnectPosts() {
       // Reset form and close modal
       setPostForm({ ownerId: '', mediaUrl: '', description: '', location: '' });
       setIsCreatePostOpen(false);
-      
+
       // Refresh posts
       fetchPosts(true);
-      
+
       alert('Post created successfully!');
     } catch (err: any) {
       alert(`Failed to create post: ${err.message}`);
@@ -227,10 +248,10 @@ export default function ConnectPosts() {
       // Reset form and close modal
       setStoryForm({ userId: '', imageUrl: '', caption: '', whoCanSee: [] });
       setIsCreateStoryOpen(false);
-      
+
       // Refresh stories
       fetchStories(true);
-      
+
       alert('Story created successfully!');
     } catch (err: any) {
       alert(`Failed to create story: ${err.message}`);
@@ -243,7 +264,7 @@ export default function ConnectPosts() {
     try {
       const response = await fetch(`/api/users/${userId}`);
       if (!response.ok) throw new Error('Failed to fetch user');
-      
+
       const data = await response.json();
       return data.user as User;
     } catch (err: any) {
@@ -278,10 +299,10 @@ export default function ConnectPosts() {
       const response = await fetch(`/api/posts/${postId}`, {
         method: 'DELETE',
       });
-      
+
       if (!response.ok) throw new Error('Failed to delete post');
-      
-      setPosts(posts.filter(p => p.id !== postId));
+
+      setPosts(posts.filter((p) => p.id !== postId));
       if (selectedPost?.id === postId) {
         setSelectedPost(null);
         setSelectedUser(null);
@@ -312,10 +333,10 @@ export default function ConnectPosts() {
       const response = await fetch(`/api/stories/${storyId}`, {
         method: 'DELETE',
       });
-      
+
       if (!response.ok) throw new Error('Failed to delete story');
-      
-      setStories(stories.filter(s => s.id !== storyId));
+
+      setStories(stories.filter((s) => s.id !== storyId));
       if (selectedStory?.id === storyId) {
         setSelectedStory(null);
         setSelectedUser(null);
@@ -341,18 +362,21 @@ export default function ConnectPosts() {
   };
 
   const getDisplayName = (user: User | null, username: string) => {
-    if (user) {
-      if (user.firstname && user.lastname) {
-        return `${user.firstname} ${user.lastname}`;
-      }
-      if (user.firstname) return user.firstname;
-      if (user.username) return user.username;
-    }
-    return username || 'Unknown User';
+    if (user) return getUserLabel(user, privacyMode);
+    if (!privacyMode) return username || 'Unknown User';
+    return username ? `User ${shortId(username)}` : 'Unknown User';
   };
 
-  const filteredPosts = posts.filter(post => {
+  const filteredPosts = posts.filter((post) => {
     const query = searchQuery.toLowerCase();
+    if (privacyMode) {
+      return (
+        post.description?.toLowerCase().includes(query) ||
+        post.location?.toLowerCase().includes(query) ||
+        post.ownerId?.toLowerCase().includes(query) ||
+        post.postId?.toLowerCase().includes(query)
+      );
+    }
     return (
       post.username?.toLowerCase().includes(query) ||
       post.description?.toLowerCase().includes(query) ||
@@ -360,11 +384,17 @@ export default function ConnectPosts() {
     );
   });
 
-  const filteredStories = stories.filter(story => {
+  const filteredStories = stories.filter((story) => {
     const query = searchQuery.toLowerCase();
+    if (privacyMode) {
+      return (
+        story.caption?.toLowerCase().includes(query) ||
+        story.userId?.toLowerCase().includes(query) ||
+        story.storyId?.toLowerCase().includes(query)
+      );
+    }
     return (
-      story.username?.toLowerCase().includes(query) ||
-      story.caption?.toLowerCase().includes(query)
+      story.username?.toLowerCase().includes(query) || story.caption?.toLowerCase().includes(query)
     );
   });
 
@@ -373,12 +403,12 @@ export default function ConnectPosts() {
     const expiry = new Date(expiresAt);
     const now = new Date();
     const diff = expiry.getTime() - now.getTime();
-    
+
     if (diff < 0) return 'Expired';
-    
+
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    
+
     if (hours > 0) return `${hours}h ${minutes}m left`;
     return `${minutes}m left`;
   };
@@ -474,29 +504,32 @@ export default function ConnectPosts() {
             {selectedUser ? (
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
-                  {selectedUser.photoUrl ? (
-                    <img
-                      src={selectedUser.photoUrl}
-                      alt={getDisplayName(selectedUser, selectedStory.username)}
-                      className="w-16 h-16 rounded-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-16 h-16 rounded-full bg-iki-grey/50 flex items-center justify-center">
-                      <UserIcon className="w-8 h-8 text-iki-white/60" />
-                    </div>
-                  )}
+                  <Avatar
+                    src={selectedUser.photoUrl}
+                    seed={getUserAvatarSeed(selectedUser)}
+                    alt={getDisplayName(selectedUser, selectedStory.username)}
+                    size={64}
+                    forceDicebear={privacyMode}
+                    className="w-16 h-16 rounded-full object-cover bg-iki-grey/50"
+                  />
                   <div>
                     <p className="text-lg font-semibold text-iki-white">
                       {getDisplayName(selectedUser, selectedStory.username)}
                     </p>
-                    <p className="text-sm text-iki-white/60">@{selectedStory.username}</p>
+                    {privacyMode ? (
+                      <p className="text-sm text-iki-white/60">id:{shortId(selectedUser.id)}</p>
+                    ) : (
+                      <p className="text-sm text-iki-white/60">@{selectedStory.username}</p>
+                    )}
                   </div>
                 </div>
 
                 {selectedUser.email && (
                   <div>
                     <p className="text-sm text-iki-white/60 mb-1">Email</p>
-                    <p className="text-iki-white">{selectedUser.email}</p>
+                    <p className="text-iki-white">
+                      {privacyMode ? maskEmail(selectedUser.email) : selectedUser.email}
+                    </p>
                   </div>
                 )}
 
@@ -513,7 +546,7 @@ export default function ConnectPosts() {
               </div>
             ) : (
               <div className="text-center py-8">
-                <div className="animate-spin w-6 h-6 border-2 border-iki-brown border-t-transparent rounded-full mx-auto mb-4"></div>
+                <div className="animate-spin w-6 h-6 border-2 border-iki-brown border-t-transparent rounded-full mx-auto mb-4" />
                 <p className="text-iki-white/60">Loading user information...</p>
               </div>
             )}
@@ -608,29 +641,32 @@ export default function ConnectPosts() {
             {selectedUser ? (
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
-                  {selectedUser.photoUrl ? (
-                    <img
-                      src={selectedUser.photoUrl}
-                      alt={getDisplayName(selectedUser, selectedPost.username)}
-                      className="w-16 h-16 rounded-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-16 h-16 rounded-full bg-iki-grey/50 flex items-center justify-center">
-                      <UserIcon className="w-8 h-8 text-iki-white/60" />
-                    </div>
-                  )}
+                  <Avatar
+                    src={selectedUser.photoUrl}
+                    seed={getUserAvatarSeed(selectedUser)}
+                    alt={getDisplayName(selectedUser, selectedPost.username)}
+                    size={64}
+                    forceDicebear={privacyMode}
+                    className="w-16 h-16 rounded-full object-cover bg-iki-grey/50"
+                  />
                   <div>
                     <p className="text-lg font-semibold text-iki-white">
                       {getDisplayName(selectedUser, selectedPost.username)}
                     </p>
-                    <p className="text-sm text-iki-white/60">@{selectedPost.username}</p>
+                    {privacyMode ? (
+                      <p className="text-sm text-iki-white/60">id:{shortId(selectedUser.id)}</p>
+                    ) : (
+                      <p className="text-sm text-iki-white/60">@{selectedPost.username}</p>
+                    )}
                   </div>
                 </div>
 
                 {selectedUser.email && (
                   <div>
                     <p className="text-sm text-iki-white/60 mb-1">Email</p>
-                    <p className="text-iki-white">{selectedUser.email}</p>
+                    <p className="text-iki-white">
+                      {privacyMode ? maskEmail(selectedUser.email) : selectedUser.email}
+                    </p>
                   </div>
                 )}
 
@@ -647,7 +683,7 @@ export default function ConnectPosts() {
               </div>
             ) : (
               <div className="text-center py-8">
-                <div className="animate-spin w-6 h-6 border-2 border-light-green border-t-transparent rounded-full mx-auto mb-4"></div>
+                <div className="animate-spin w-6 h-6 border-2 border-light-green border-t-transparent rounded-full mx-auto mb-4" />
                 <p className="text-iki-white/60">Loading user information...</p>
               </div>
             )}
@@ -658,7 +694,7 @@ export default function ConnectPosts() {
   }
 
   if (selectedUser) {
-    const userPosts = posts.filter(p => p.ownerId === selectedUser.id);
+    const userPosts = posts.filter((p) => p.ownerId === selectedUser.id);
 
     return (
       <div className="space-y-6">
@@ -670,22 +706,21 @@ export default function ConnectPosts() {
             <ArrowLeft className="w-5 h-5 text-iki-white" />
           </button>
           <div className="flex items-center gap-4">
-            {selectedUser.photoUrl ? (
-              <img
-                src={selectedUser.photoUrl}
-                alt={getDisplayName(selectedUser, '')}
-                className="w-12 h-12 rounded-full object-cover"
-              />
-            ) : (
-              <div className="w-12 h-12 rounded-full bg-iki-grey/50 flex items-center justify-center">
-                <UserIcon className="w-6 h-6 text-iki-white/60" />
-              </div>
-            )}
+            <Avatar
+              src={selectedUser.photoUrl}
+              seed={getUserAvatarSeed(selectedUser)}
+              alt={getDisplayName(selectedUser, '')}
+              size={48}
+              forceDicebear={privacyMode}
+              className="w-12 h-12 rounded-full object-cover bg-iki-grey/50"
+            />
             <div>
               <h2 className="text-2xl font-bold text-light-green font-goldplay">
                 {getDisplayName(selectedUser, '')}
               </h2>
-              <p className="text-iki-white/60 body-sm">{selectedUser.email}</p>
+              <p className="text-iki-white/60 body-sm">
+                {privacyMode ? maskEmail(selectedUser.email) : selectedUser.email}
+              </p>
             </div>
           </div>
         </div>
@@ -695,7 +730,9 @@ export default function ConnectPosts() {
             User Posts ({userPosts.length})
           </h3>
           {userPosts.length === 0 ? (
-            <p className="text-iki-white/60 text-center py-8">This user hasn't posted anything yet.</p>
+            <p className="text-iki-white/60 text-center py-8">
+              This user hasn't posted anything yet.
+            </p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {userPosts.map((post) => (
@@ -751,7 +788,9 @@ export default function ConnectPosts() {
             <MessageSquare className="w-6 h-6" />
             Connect Content Management
           </h2>
-          <p className="text-iki-white/60 body-sm mt-1">View and manage all user posts and stories globally</p>
+          <p className="text-iki-white/60 body-sm mt-1">
+            View and manage all user posts and stories globally
+          </p>
         </div>
         <div className="flex items-center gap-3">
           <button
@@ -803,9 +842,11 @@ export default function ConnectPosts() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-iki-white/40" />
           <input
             type="text"
-            placeholder={activeTab === 'posts' 
-              ? "Search posts by username, description, or location..."
-              : "Search stories by username or caption..."}
+            placeholder={
+              activeTab === 'posts'
+                ? 'Search posts by username, description, or location...'
+                : 'Search stories by username or caption...'
+            }
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 bg-iki-grey/30 border border-light-green/10 rounded-lg text-iki-white placeholder:text-iki-white/40 focus:outline-none focus:border-light-green/50 transition-colors"
@@ -818,7 +859,7 @@ export default function ConnectPosts() {
         <>
           {loading ? (
             <div className="glass rounded-2xl p-12 text-center">
-              <div className="animate-spin w-8 h-8 border-2 border-light-green border-t-transparent rounded-full mx-auto mb-4"></div>
+              <div className="animate-spin w-8 h-8 border-2 border-light-green border-t-transparent rounded-full mx-auto mb-4" />
               <p className="text-iki-white/60">Loading posts...</p>
             </div>
           ) : error ? (
@@ -832,71 +873,80 @@ export default function ConnectPosts() {
           ) : (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {filteredPosts.map((post) => (
-              <div
-                key={post.id}
-                className="glass rounded-xl overflow-hidden border border-light-green/10 hover:border-light-green/30 transition-all cursor-pointer group"
-                onClick={() => handleViewPost(post)}
-              >
-                {post.mediaUrl ? (
-                  <div className="aspect-square relative">
-                    <img
-                      src={post.mediaUrl}
-                      alt={post.description || 'Post'}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-colors flex items-center justify-center">
-                      <p className="text-white opacity-0 group-hover:opacity-100 transition-opacity text-sm font-medium">
-                        Click to view
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="aspect-square bg-iki-grey/30 flex items-center justify-center">
-                    <ImageIcon className="w-12 h-12 text-iki-white/40" />
-                  </div>
-                )}
-                <div className="p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-6 h-6 rounded-full bg-iki-grey/50 flex items-center justify-center overflow-hidden">
-                      {selectedUser?.photoUrl && selectedUser.id === post.ownerId ? (
+                {filteredPosts.map((post) => (
+                  <div
+                    key={post.id}
+                    className="glass rounded-xl overflow-hidden border border-light-green/10 hover:border-light-green/30 transition-all cursor-pointer group"
+                    onClick={() => handleViewPost(post)}
+                  >
+                    {post.mediaUrl ? (
+                      <div className="aspect-square relative">
                         <img
-                          src={selectedUser.photoUrl}
-                          alt={post.username}
+                          src={post.mediaUrl}
+                          alt={post.description || 'Post'}
                           className="w-full h-full object-cover"
                         />
-                      ) : (
-                        <UserIcon className="w-3 h-3 text-iki-white/60" />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-colors flex items-center justify-center">
+                          <p className="text-white opacity-0 group-hover:opacity-100 transition-opacity text-sm font-medium">
+                            Click to view
+                          </p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="aspect-square bg-iki-grey/30 flex items-center justify-center">
+                        <ImageIcon className="w-12 h-12 text-iki-white/40" />
+                      </div>
+                    )}
+                    <div className="p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-6 h-6 rounded-full bg-iki-grey/50 flex items-center justify-center overflow-hidden">
+                          {(() => {
+                            const owner = usersById.get(post.ownerId);
+                            if (!owner) {
+                              return <UserIcon className="w-3 h-3 text-iki-white/60" />;
+                            }
+                            return (
+                              <Avatar
+                                src={owner.photoUrl}
+                                seed={getUserAvatarSeed(owner)}
+                                alt={post.username}
+                                size={24}
+                                forceDicebear={privacyMode}
+                                className="w-6 h-6 rounded-full object-cover"
+                              />
+                            );
+                          })()}
+                        </div>
+                        <p className="text-sm font-semibold text-iki-white truncate">
+                          @{post.username}
+                        </p>
+                      </div>
+                      {post.description && (
+                        <p className="text-sm text-iki-white/80 line-clamp-2 mb-2">
+                          {post.description}
+                        </p>
                       )}
+                      <div className="flex items-center justify-between text-xs text-iki-white/60">
+                        <span className="flex items-center gap-1">
+                          <Heart className="w-3 h-3" />
+                          {post.likesCount}
+                        </span>
+                        <span>{formatDate(post.timestamp)}</span>
+                      </div>
                     </div>
-                    <p className="text-sm font-semibold text-iki-white truncate">@{post.username}</p>
                   </div>
-                  {post.description && (
-                    <p className="text-sm text-iki-white/80 line-clamp-2 mb-2">
-                      {post.description}
-                    </p>
-                  )}
-                  <div className="flex items-center justify-between text-xs text-iki-white/60">
-                    <span className="flex items-center gap-1">
-                      <Heart className="w-3 h-3" />
-                      {post.likesCount}
-                    </span>
-                    <span>{formatDate(post.timestamp)}</span>
-                  </div>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
-          {hasMore && (
-            <div className="text-center pt-6">
-              <button
-                onClick={() => fetchPosts(false)}
-                className="px-6 py-3 rounded-lg bg-iki-grey/50 hover:bg-iki-grey/70 text-iki-white transition-colors body-sm font-medium"
-              >
-                Load More Posts
-              </button>
-            </div>
-          )}
+              {hasMore && (
+                <div className="text-center pt-6">
+                  <button
+                    onClick={() => fetchPosts(false)}
+                    className="px-6 py-3 rounded-lg bg-iki-grey/50 hover:bg-iki-grey/70 text-iki-white transition-colors body-sm font-medium"
+                  >
+                    Load More Posts
+                  </button>
+                </div>
+              )}
             </>
           )}
         </>
@@ -904,7 +954,7 @@ export default function ConnectPosts() {
         <>
           {loadingStories ? (
             <div className="glass rounded-2xl p-12 text-center">
-              <div className="animate-spin w-8 h-8 border-2 border-iki-brown border-t-transparent rounded-full mx-auto mb-4"></div>
+              <div className="animate-spin w-8 h-8 border-2 border-iki-brown border-t-transparent rounded-full mx-auto mb-4" />
               <p className="text-iki-white/60">Loading stories...</p>
             </div>
           ) : error ? (
@@ -961,7 +1011,9 @@ export default function ConnectPosts() {
                             <UserIcon className="w-3 h-3 text-iki-white/60" />
                           </div>
                         )}
-                        <p className="text-sm font-semibold text-iki-white truncate">@{story.username}</p>
+                        <p className="text-sm font-semibold text-iki-white truncate">
+                          @{story.username}
+                        </p>
                       </div>
                       {story.caption && (
                         <p className="text-sm text-iki-white/80 line-clamp-2 mb-2">
@@ -1051,9 +1103,7 @@ export default function ConnectPosts() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-iki-white/80 mb-2">
-                  Location
-                </label>
+                <label className="block text-sm font-medium text-iki-white/80 mb-2">Location</label>
                 <input
                   type="text"
                   value={postForm.location}
@@ -1127,9 +1177,7 @@ export default function ConnectPosts() {
               />
 
               <div>
-                <label className="block text-sm font-medium text-iki-white/80 mb-2">
-                  Caption
-                </label>
+                <label className="block text-sm font-medium text-iki-white/80 mb-2">Caption</label>
                 <textarea
                   value={storyForm.caption}
                   onChange={(e) => setStoryForm({ ...storyForm, caption: e.target.value })}
@@ -1147,7 +1195,10 @@ export default function ConnectPosts() {
                   type="text"
                   value={storyForm.whoCanSee.join(', ')}
                   onChange={(e) => {
-                    const values = e.target.value.split(',').map(v => v.trim()).filter(v => v);
+                    const values = e.target.value
+                      .split(',')
+                      .map((v) => v.trim())
+                      .filter((v) => v);
                     setStoryForm({ ...storyForm, whoCanSee: values });
                   }}
                   placeholder="user1, user2, user3 (leave empty for public)"
@@ -1178,4 +1229,3 @@ export default function ConnectPosts() {
     </div>
   );
 }
-

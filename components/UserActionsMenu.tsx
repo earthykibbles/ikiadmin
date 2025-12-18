@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import { MoreVertical, Edit, Trash2 } from 'lucide-react';
 import { User } from '@/lib/types';
+import { Ban, CheckCircle2, Edit, MoreVertical, Send, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 
 interface UserActionsMenuProps {
   user: User;
@@ -12,6 +12,9 @@ interface UserActionsMenuProps {
   onSendMessage: (user: User) => void;
   onBan?: (user: User) => void;
   onUnban?: (user: User) => void;
+  allowEdit?: boolean;
+  allowDelete?: boolean;
+  allowMessage?: boolean;
 }
 
 export default function UserActionsMenu({
@@ -22,6 +25,9 @@ export default function UserActionsMenu({
   onSendMessage,
   onBan,
   onUnban,
+  allowEdit = true,
+  allowDelete = true,
+  allowMessage = true,
 }: UserActionsMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -37,10 +43,7 @@ export default function UserActionsMenu({
 
       {isOpen && (
         <>
-          <div
-            className="fixed inset-0 z-10"
-            onClick={() => setIsOpen(false)}
-          />
+          <div className="fixed inset-0 z-10" onClick={() => setIsOpen(false)} />
           <div className="absolute right-0 mt-2 w-64 rounded-xl bg-iki-grey border border-light-green/20 shadow-2xl z-20 overflow-hidden">
             <div className="p-2">
               <div className="px-3 py-2 mb-2 border-b border-light-green/10">
@@ -48,19 +51,39 @@ export default function UserActionsMenu({
                   Admin Actions
                 </p>
               </div>
-              <button
-                onClick={() => {
-                  onEdit(user);
-                  setIsOpen(false);
-                }}
-                className="w-full px-4 py-3 text-left text-sm text-iki-white/90 hover:bg-light-green/10 hover:text-light-green flex items-center gap-3 transition-all rounded-lg group"
-              >
-                <Edit className="w-4 h-4 text-iki-white/60 group-hover:text-light-green transition-colors" />
-                <div>
-                  <div className="font-semibold">Edit Profile</div>
-                  <div className="text-xs text-iki-white/50">Modify user information</div>
-                </div>
-              </button>
+              {allowEdit && (
+                <button
+                  onClick={() => {
+                    onEdit(user);
+                    setIsOpen(false);
+                  }}
+                  className="w-full px-4 py-3 text-left text-sm text-iki-white/90 hover:bg-light-green/10 hover:text-light-green flex items-center gap-3 transition-all rounded-lg group"
+                >
+                  <Edit className="w-4 h-4 text-iki-white/60 group-hover:text-light-green transition-colors" />
+                  <div>
+                    <div className="font-semibold">Edit Profile</div>
+                    <div className="text-xs text-iki-white/50">Modify user information</div>
+                  </div>
+                </button>
+              )}
+
+              {allowMessage && (
+                <button
+                  onClick={() => {
+                    onSendMessage(user);
+                    setIsOpen(false);
+                  }}
+                  className="w-full px-4 py-3 text-left text-sm text-iki-white/90 hover:bg-light-green/10 hover:text-light-green flex items-center gap-3 transition-all rounded-lg group"
+                >
+                  <div className="w-4 h-4 flex items-center justify-center">
+                    <Send className="w-4 h-4 text-iki-white/60 group-hover:text-light-green transition-colors" />
+                  </div>
+                  <div>
+                    <div className="font-semibold">Send Message</div>
+                    <div className="text-xs text-iki-white/50">Push notification</div>
+                  </div>
+                </button>
+              )}
               {onBan && (
                 <button
                   onClick={() => {
@@ -70,7 +93,7 @@ export default function UserActionsMenu({
                   className="w-full px-4 py-3 text-left text-sm text-iki-white/90 hover:bg-yellow-500/10 hover:text-yellow-400 flex items-center gap-3 transition-all rounded-lg group"
                 >
                   <div className="w-4 h-4 flex items-center justify-center">
-                    <span className="text-lg">🚫</span>
+                    <Ban className="w-4 h-4 text-yellow-400 group-hover:text-yellow-300 transition-colors" />
                   </div>
                   <div>
                     <div className="font-semibold">Ban User</div>
@@ -87,7 +110,7 @@ export default function UserActionsMenu({
                   className="w-full px-4 py-3 text-left text-sm text-iki-white/90 hover:bg-light-green/10 hover:text-light-green flex items-center gap-3 transition-all rounded-lg group"
                 >
                   <div className="w-4 h-4 flex items-center justify-center">
-                    <span className="text-lg">✅</span>
+                    <CheckCircle2 className="w-4 h-4 text-light-green group-hover:text-light-green transition-colors" />
                   </div>
                   <div>
                     <div className="font-semibold">Unban User</div>
@@ -96,19 +119,21 @@ export default function UserActionsMenu({
                 </button>
               )}
               <div className="border-t border-light-green/10 my-2" />
-              <button
-                onClick={() => {
-                  onDelete(user);
-                  setIsOpen(false);
-                }}
-                className="w-full px-4 py-3 text-left text-sm text-red-400 hover:bg-red-500/20 flex items-center gap-3 transition-all rounded-lg group"
-              >
-                <Trash2 className="w-4 h-4 text-red-400 group-hover:text-red-300 transition-colors" />
-                <div>
-                  <div className="font-semibold">Delete User</div>
-                  <div className="text-xs text-red-400/60">Permanently remove user</div>
-                </div>
-              </button>
+              {allowDelete && (
+                <button
+                  onClick={() => {
+                    onDelete(user);
+                    setIsOpen(false);
+                  }}
+                  className="w-full px-4 py-3 text-left text-sm text-red-400 hover:bg-red-500/20 flex items-center gap-3 transition-all rounded-lg group"
+                >
+                  <Trash2 className="w-4 h-4 text-red-400 group-hover:text-red-300 transition-colors" />
+                  <div>
+                    <div className="font-semibold">Delete User</div>
+                    <div className="text-xs text-red-400/60">Permanently remove user</div>
+                  </div>
+                </button>
+              )}
             </div>
           </div>
         </>
@@ -116,4 +141,3 @@ export default function UserActionsMenu({
     </div>
   );
 }
-

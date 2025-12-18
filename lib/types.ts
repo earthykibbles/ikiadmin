@@ -33,9 +33,11 @@ export interface Template {
   id: string;
   name: string;
   description: string;
-  icon: string;
+  icon: TemplateIcon;
   config: Partial<GenerationConfig>;
 }
+
+export type TemplateIcon = 'conditions' | 'fitness' | 'nutrition' | 'mindfulness' | 'custom';
 
 export interface User {
   id: string;
@@ -66,4 +68,3 @@ export interface UsersResponse {
   hasMore: boolean;
   lastDocId: string | null;
 }
-

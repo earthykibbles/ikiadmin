@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { initFirebase } from '@/lib/firebase';
 import admin from 'firebase-admin';
+import { NextRequest, NextResponse } from 'next/server';
 
 // DELETE story
 export async function DELETE(
@@ -11,30 +11,25 @@ export async function DELETE(
     initFirebase();
     const db = admin.firestore();
     const { storyId } = await params;
-    
+
     // Check if story exists
     const storyDoc = await db.collection('stories').doc(storyId).get();
-    
+
     if (!storyDoc.exists) {
-      return NextResponse.json(
-        { error: 'Story not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Story not found' }, { status: 404 });
     }
-    
+
     // Delete the story
     await db.collection('stories').doc(storyId).delete();
-    
+
     return NextResponse.json({
       success: true,
       message: 'Story deleted successfully',
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error deleting story:', error);
-    return NextResponse.json(
-      { error: error.message || 'Failed to delete story' },
-      { status: 500 }
-    );
+    const message = error instanceof Error ? error.message : 'Failed to delete story';
+
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-

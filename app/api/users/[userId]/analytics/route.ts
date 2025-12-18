@@ -1,15 +1,22 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { initFirebase } from '@/lib/firebase';
+import { RESOURCE_TYPES, requirePermission } from '@/lib/rbac';
 import admin from 'firebase-admin';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
+    const { userId } = await params;
+
+    const authCheck = await requirePermission(request, RESOURCE_TYPES.ANALYTICS, 'read', userId);
+    if (!authCheck.authorized) {
+      return NextResponse.json({ error: authCheck.error }, { status: authCheck.status });
+    }
+
     initFirebase();
     const db = admin.firestore();
-    const { userId } = await params;
 
     // Calculate date ranges
     const now = new Date();
@@ -122,15 +129,16 @@ export async function GET(
           }
 
           // Fetch all dates in parallel
-          const nutritionQueries = dateStrings.map((dateStr) =>
-            db
-              .collection('meals')
-              .doc(userId)
-              .collection('dates')
-              .doc(dateStr)
-              .collection('foods')
-              .get()
-              .catch(() => ({ docs: [] })) // Handle missing dates gracefully
+          const nutritionQueries = dateStrings.map(
+            (dateStr) =>
+              db
+                .collection('meals')
+                .doc(userId)
+                .collection('dates')
+                .doc(dateStr)
+                .collection('foods')
+                .get()
+                .catch(() => ({ docs: [] })) // Handle missing dates gracefully
           );
 
           const nutritionResults = await Promise.all(nutritionQueries);
@@ -165,7 +173,11 @@ export async function GET(
 
           return { caloriesByDate, macroTotals, totalMeals };
         } catch (err) {
-          return { caloriesByDate: {}, macroTotals: { protein: 0, carbs: 0, fats: 0, calories: 0 }, totalMeals: 0 };
+          return {
+            caloriesByDate: {},
+            macroTotals: { protein: 0, carbs: 0, fats: 0, calories: 0 },
+            totalMeals: 0,
+          };
         }
       })(),
 
@@ -258,15 +270,20 @@ export async function GET(
       });
     }
 
-    const averageMoodIntensity = moodsData.moodIntensities.length > 0
-      ? moodsData.moodIntensities.reduce((sum, val) => sum + val, 0) / moodsData.moodIntensities.length
-      : 0;
+    const averageMoodIntensity =
+      moodsData.moodIntensities.length > 0
+        ? moodsData.moodIntensities.reduce((sum, val) => sum + val, 0) /
+          moodsData.moodIntensities.length
+        : 0;
 
-    const averageWaterMl = waterData.waterLogs.length > 0 ? waterData.totalWaterMl / waterData.waterLogs.length : 0;
+    const averageWaterMl =
+      waterData.waterLogs.length > 0 ? waterData.totalWaterMl / waterData.waterLogs.length : 0;
     const uniqueWaterDays = Object.keys(waterData.waterByDate).length;
-    const averageDailyWaterMl = uniqueWaterDays > 0
-      ? Object.values(waterData.waterByDate).reduce((sum, val) => sum + val.total, 0) / uniqueWaterDays
-      : 0;
+    const averageDailyWaterMl =
+      uniqueWaterDays > 0
+        ? Object.values(waterData.waterByDate).reduce((sum, val) => sum + val.total, 0) /
+          uniqueWaterDays
+        : 0;
 
     const response = NextResponse.json({
       moods: {
@@ -311,11 +328,9 @@ export async function GET(
     response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
 
     return response;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching user analytics:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch user analytics', details: error.message },
-      { status: 500 }
-    );
+    const details = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: 'Failed to fetch user analytics', details }, { status: 500 });
   }
 }

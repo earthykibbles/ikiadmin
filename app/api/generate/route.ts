@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { generateContent } from '@/lib/openai';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 import { writeToFirestore } from '@/lib/firebase';
+import { generateContent } from '@/lib/openai';
+import { RESOURCE_TYPES, requirePermission } from '@/lib/rbac';
 import { GenerationConfig } from '@/lib/types';
-import fs from 'fs/promises';
-import path from 'path';
-import { requirePermission, RESOURCE_TYPES } from '@/lib/rbac';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
@@ -18,10 +18,7 @@ export async function POST(request: NextRequest) {
 
     // Validate required fields
     if (!config.systemPrompt || !config.userPrompt || !config.jsonSchema) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     // Set defaults
@@ -35,9 +32,7 @@ export async function POST(request: NextRequest) {
     const stream = new ReadableStream({
       async start(controller) {
         const sendUpdate = (data: any) => {
-          controller.enqueue(
-            encoder.encode(`data: ${JSON.stringify(data)}\n\n`)
-          );
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
         };
 
         try {
@@ -73,8 +68,9 @@ export async function POST(request: NextRequest) {
 
           sendUpdate({ type: 'completed', total: docs.length });
           controller.close();
-        } catch (error: any) {
-          sendUpdate({ type: 'error', message: error.message });
+        } catch (error: unknown) {
+          const message = error instanceof Error ? error.message : 'Unknown error';
+          sendUpdate({ type: 'error', message });
           controller.close();
         }
       },
@@ -87,8 +83,8 @@ export async function POST(request: NextRequest) {
         Connection: 'keep-alive',
       },
     });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Failed to generate content';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-

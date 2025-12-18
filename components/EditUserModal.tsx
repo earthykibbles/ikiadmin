@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { X, Save, AlertCircle } from 'lucide-react';
 import { User } from '@/lib/types';
+import { AlertCircle, Save, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface EditUserModalProps {
   user: User | null;
@@ -11,12 +11,7 @@ interface EditUserModalProps {
   onSave: (userId: string, data: any) => Promise<void>;
 }
 
-export default function EditUserModal({
-  user,
-  isOpen,
-  onClose,
-  onSave,
-}: EditUserModalProps) {
+export default function EditUserModal({ user, isOpen, onClose, onSave }: EditUserModalProps) {
   const [formData, setFormData] = useState({
     firstname: '',
     lastname: '',
@@ -68,7 +63,7 @@ export default function EditUserModal({
     setLoading(true);
     try {
       const updateData: any = {};
-      
+
       if (formData.firstname !== user.firstname) updateData.firstname = formData.firstname;
       if (formData.lastname !== user.lastname) updateData.lastname = formData.lastname;
       if (formData.username !== user.username) updateData.username = formData.username;
@@ -78,12 +73,15 @@ export default function EditUserModal({
       if (formData.bio !== user.bio) updateData.bio = formData.bio;
       if (formData.gender !== user.gender) updateData.gender = formData.gender;
       if (formData.birthday !== user.birthday) updateData.birthday = formData.birthday;
-      if (formData.age && parseInt(formData.age) !== user.age) updateData.age = parseInt(formData.age);
-      if (formData.activityLevel !== user.activityLevel) updateData.activityLevel = formData.activityLevel;
-      if (formData.bodyWeightKg && parseFloat(formData.bodyWeightKg) !== user.bodyWeightKg) {
-        updateData.bodyWeightKg = parseFloat(formData.bodyWeightKg);
+      if (formData.age && Number.parseInt(formData.age) !== user.age)
+        updateData.age = Number.parseInt(formData.age);
+      if (formData.activityLevel !== user.activityLevel)
+        updateData.activityLevel = formData.activityLevel;
+      if (formData.bodyWeightKg && Number.parseFloat(formData.bodyWeightKg) !== user.bodyWeightKg) {
+        updateData.bodyWeightKg = Number.parseFloat(formData.bodyWeightKg);
       }
-      if (parseInt(formData.points) !== user.points) updateData.points = parseInt(formData.points);
+      if (Number.parseInt(formData.points) !== user.points)
+        updateData.points = Number.parseInt(formData.points);
       if (formData.isOnline !== user.isOnline) updateData.isOnline = formData.isOnline;
 
       await onSave(user.id, updateData);
@@ -101,10 +99,7 @@ export default function EditUserModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
-      <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onClick={onClose}
-      />
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative w-full max-w-3xl rounded-2xl bg-iki-grey border border-light-green/20 shadow-2xl z-10 my-8 max-h-[90vh] overflow-y-auto">
         <div className="sticky top-0 p-6 border-b border-light-green/20 bg-iki-grey z-10">
           <div className="flex items-center justify-between">
@@ -112,9 +107,7 @@ export default function EditUserModal({
               <h2 className="text-2xl font-black bg-gradient-to-r from-light-green to-[#a8d91a] bg-clip-text text-transparent">
                 Edit User Profile
               </h2>
-              <p className="text-sm text-iki-white/60 mt-1">
-                Update user information
-              </p>
+              <p className="text-sm text-iki-white/60 mt-1">Update user information</p>
             </div>
             <button
               onClick={onClose}
@@ -166,9 +159,7 @@ export default function EditUserModal({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-iki-white/80 mb-2">
-                Username
-              </label>
+              <label className="block text-sm font-semibold text-iki-white/80 mb-2">Username</label>
               <input
                 type="text"
                 value={formData.username}
@@ -177,9 +168,7 @@ export default function EditUserModal({
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-iki-white/80 mb-2">
-                Email
-              </label>
+              <label className="block text-sm font-semibold text-iki-white/80 mb-2">Email</label>
               <input
                 type="email"
                 value={formData.email}
@@ -191,9 +180,7 @@ export default function EditUserModal({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-iki-white/80 mb-2">
-                Phone
-              </label>
+              <label className="block text-sm font-semibold text-iki-white/80 mb-2">Phone</label>
               <input
                 type="tel"
                 value={formData.phone}
@@ -202,9 +189,7 @@ export default function EditUserModal({
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-iki-white/80 mb-2">
-                Country
-              </label>
+              <label className="block text-sm font-semibold text-iki-white/80 mb-2">Country</label>
               <input
                 type="text"
                 value={formData.country}
@@ -215,9 +200,7 @@ export default function EditUserModal({
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-iki-white/80 mb-2">
-              Bio
-            </label>
+            <label className="block text-sm font-semibold text-iki-white/80 mb-2">Bio</label>
             <textarea
               value={formData.bio}
               onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
@@ -228,9 +211,7 @@ export default function EditUserModal({
 
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-iki-white/80 mb-2">
-                Gender
-              </label>
+              <label className="block text-sm font-semibold text-iki-white/80 mb-2">Gender</label>
               <input
                 type="text"
                 value={formData.gender}
@@ -239,9 +220,7 @@ export default function EditUserModal({
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-iki-white/80 mb-2">
-                Birthday
-              </label>
+              <label className="block text-sm font-semibold text-iki-white/80 mb-2">Birthday</label>
               <input
                 type="text"
                 value={formData.birthday}
@@ -251,9 +230,7 @@ export default function EditUserModal({
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-iki-white/80 mb-2">
-                Age
-              </label>
+              <label className="block text-sm font-semibold text-iki-white/80 mb-2">Age</label>
               <input
                 type="number"
                 value={formData.age}
@@ -288,9 +265,7 @@ export default function EditUserModal({
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-iki-white/80 mb-2">
-                Points
-              </label>
+              <label className="block text-sm font-semibold text-iki-white/80 mb-2">Points</label>
               <input
                 type="number"
                 value={formData.points}
@@ -344,8 +319,3 @@ export default function EditUserModal({
     </div>
   );
 }
-
-
-
-
-

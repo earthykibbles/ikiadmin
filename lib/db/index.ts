@@ -9,7 +9,6 @@ if (!process.env.DATABASE_URL) {
 // Use postgres client for better transaction support
 // In Next.js, we use a singleton pattern to reuse connections
 declare global {
-  // eslint-disable-next-line no-var
   var postgresClient: postgres.Sql | undefined;
 }
 
@@ -22,4 +21,3 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 export const db = drizzle(client, { schema });
-

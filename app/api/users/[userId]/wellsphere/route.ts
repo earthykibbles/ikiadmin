@@ -1,21 +1,25 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { initFirebase } from '@/lib/firebase';
+import { RESOURCE_TYPES, requirePermission } from '@/lib/rbac';
 import admin from 'firebase-admin';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
-    initFirebase();
-    const db = admin.firestore();
     const { userId } = await params;
 
+    const authCheck = await requirePermission(request, RESOURCE_TYPES.WELLSPHERE, 'read', userId);
+    if (!authCheck.authorized) {
+      return NextResponse.json({ error: authCheck.error }, { status: authCheck.status });
+    }
+
+    initFirebase();
+    const db = admin.firestore();
+
     // Fetch wellsphere profile (conditions, onboarding status)
-    const wellsphereProfileDoc = await db
-      .collection('wellsphere_profiles')
-      .doc(userId)
-      .get();
+    const wellsphereProfileDoc = await db.collection('wellsphere_profiles').doc(userId).get();
 
     let conditionName: string | null = null;
     let conditionData: any = null;
@@ -30,11 +34,8 @@ export async function GET(
 
       // Fetch condition details if condition exists
       if (conditionName) {
-        const conditionDoc = await db
-          .collection('wellsphere_conditions')
-          .doc(conditionName)
-          .get();
-        
+        const conditionDoc = await db.collection('wellsphere_conditions').doc(conditionName).get();
+
         if (conditionDoc.exists) {
           conditionData = conditionDoc.data();
         }
@@ -42,11 +43,7 @@ export async function GET(
     }
 
     // Fetch user drugs
-    const drugsSnapshot = await db
-      .collection('users')
-      .doc(userId)
-      .collection('drugs')
-      .get();
+    const drugsSnapshot = await db.collection('users').doc(userId).collection('drugs').get();
 
     const drugs = drugsSnapshot.docs.map((doc) => {
       const data = doc.data();
@@ -166,12 +163,9 @@ export async function GET(
         onboardingComplete: onboardingFinished,
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching wellsphere data:', error);
-    return NextResponse.json(
-      { error: error.message || 'Failed to fetch wellsphere data' },
-      { status: 500 }
-    );
+    const message = error instanceof Error ? error.message : 'Failed to fetch wellsphere data';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-

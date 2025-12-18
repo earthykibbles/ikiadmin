@@ -1,15 +1,22 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { initFirebase } from '@/lib/firebase';
+import { RESOURCE_TYPES, requirePermission } from '@/lib/rbac';
 import admin from 'firebase-admin';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
+    const { userId } = await params;
+
+    const authCheck = await requirePermission(request, RESOURCE_TYPES.MOOD, 'read', userId);
+    if (!authCheck.authorized) {
+      return NextResponse.json({ error: authCheck.error }, { status: authCheck.status });
+    }
+
     initFirebase();
     const db = admin.firestore();
-    const { userId } = await params;
 
     // Fetch mood entries
     const moodsSnapshot = await db
@@ -95,15 +102,13 @@ export async function GET(
       totalJournalEntries: journalEntries.length,
       recentMoodCount: moods.filter((m) => {
         if (!m.createdAt) return false;
-        const moodDate = typeof m.createdAt === 'string' 
-          ? new Date(m.createdAt) 
-          : m.createdAt.toDate();
+        const moodDate =
+          typeof m.createdAt === 'string' ? new Date(m.createdAt) : m.createdAt.toDate();
         const today = new Date();
         return moodDate.toDateString() === today.toDateString();
       }).length,
-      averageMoodIntensity: moods.length > 0
-        ? moods.reduce((sum, m) => sum + (m.intensity || 0), 0) / moods.length
-        : 0,
+      averageMoodIntensity:
+        moods.length > 0 ? moods.reduce((sum, m) => sum + (m.intensity || 0), 0) / moods.length : 0,
     };
 
     return NextResponse.json({
@@ -112,12 +117,9 @@ export async function GET(
       journalEntries,
       summary,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching mood data:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch mood data', details: error.message },
-      { status: 500 }
-    );
+    const details = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: 'Failed to fetch mood data', details }, { status: 500 });
   }
 }
-

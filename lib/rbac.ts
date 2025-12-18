@@ -1,8 +1,8 @@
+import { and, eq, inArray, or } from 'drizzle-orm';
+import { NextRequest } from 'next/server';
 import { auth } from './auth';
 import { db } from './db';
-import { user, role, permission, rolePermission, userRole, resourcePermission } from './db/schema';
-import { eq, and, or, inArray } from 'drizzle-orm';
-import { NextRequest } from 'next/server';
+import { permission, resourcePermission, role, rolePermission, user, userRole } from './db/schema';
 
 // Resource types in the system
 export const RESOURCE_TYPES = {
@@ -14,6 +14,7 @@ export const RESOURCE_TYPES = {
   EXPLORE: 'explore',
   UPLOAD: 'upload',
   ADMIN: 'admin',
+  PROVIDERS: 'providers',
   FINANCE: 'finance',
   FITNESS: 'fitness',
   MINDFULNESS: 'mindfulness',
@@ -24,6 +25,7 @@ export const RESOURCE_TYPES = {
   FCM: 'fcm',
   POINTS: 'points',
   ONBOARDING: 'onboarding',
+  SECURITY: 'security',
 } as const;
 
 // Actions
@@ -66,14 +68,14 @@ export async function getUserRoles(userId: string) {
     .innerJoin(role, eq(userRole.roleId, role.id))
     .where(eq(userRole.userId, userId));
 
-  return userRoles.map(ur => ur.role);
+  return userRoles.map((ur) => ur.role);
 }
 
 // Get all permissions for a user (from roles + direct resource permissions)
 export async function getUserPermissions(userId: string) {
   // Get user's roles
   const userRoles = await getUserRoles(userId);
-  const roleIds = userRoles.map(r => r.id);
+  const roleIds = userRoles.map((r) => r.id);
 
   // Get permissions from roles
   let rolePermissions: any[] = [];
@@ -94,7 +96,7 @@ export async function getUserPermissions(userId: string) {
     .where(eq(resourcePermission.userId, userId));
 
   return {
-    rolePermissions: rolePermissions.map(rp => rp.permission),
+    rolePermissions: rolePermissions.map((rp) => rp.permission),
     resourcePermissions: directPermissions,
   };
 }
@@ -122,6 +124,7 @@ export async function hasPermission(
       // Admin can access admin, users, and most resources (except sensitive ones)
       const adminAccessibleResources = [
         RESOURCE_TYPES.ADMIN,
+      RESOURCE_TYPES.PROVIDERS,
         RESOURCE_TYPES.USERS,
         RESOURCE_TYPES.POSTS,
         RESOURCE_TYPES.STORIES,
@@ -138,9 +141,9 @@ export async function hasPermission(
 
   // Get user's roles from RBAC system
   const userRoles = await getUserRoles(userId);
-  
+
   // Check if user is superadmin (has all permissions)
-  const isSuperadmin = userRoles.some(r => r.name === ROLES.SUPERADMIN);
+  const isSuperadmin = userRoles.some((r) => r.name === ROLES.SUPERADMIN);
   if (isSuperadmin) {
     return true;
   }
@@ -150,7 +153,7 @@ export async function hasPermission(
 
   // Check role-based permissions
   const hasRolePermission = rolePermissions.some(
-    p => p.resource === resource && (p.action === action || p.action === ACTIONS.MANAGE)
+    (p) => p.resource === resource && (p.action === action || p.action === ACTIONS.MANAGE)
   );
 
   if (hasRolePermission) {
@@ -159,7 +162,7 @@ export async function hasPermission(
 
   // Check resource-specific permissions
   if (resourceId) {
-    const hasResourcePermission = resourcePermissions.some(rp => {
+    const hasResourcePermission = resourcePermissions.some((rp) => {
       if (rp.resourceType !== resource) return false;
       if (rp.resourceId && rp.resourceId !== resourceId) return false;
       const allowedActions = rp.permissions as string[];
@@ -189,6 +192,35 @@ export async function requirePermission(
   const hasAccess = await hasPermission(session.user.id, resource, action, resourceId);
   if (!hasAccess) {
     return { authorized: false, error: 'Forbidden', status: 403 };
+  }
+
+  return { authorized: true, userId: session.user.id };
+}
+
+export async function isSuperadminUser(userId: string): Promise<boolean> {
+  // Legacy role check first (bootstrap-friendly)
+  const userData = await db.query.user.findFirst({
+    where: eq(user.id, userId),
+  });
+
+  if (userData?.role === 'superadmin') {
+    return true;
+  }
+
+  // RBAC role check
+  const roles = await getUserRoles(userId);
+  return roles.some((r) => r.name === ROLES.SUPERADMIN);
+}
+
+export async function requireSuperadmin(request: NextRequest) {
+  const session = await getUserSession(request);
+  if (!session?.user) {
+    return { authorized: false, error: 'Unauthorized', status: 401 as const };
+  }
+
+  const isSuperadmin = await isSuperadminUser(session.user.id);
+  if (!isSuperadmin) {
+    return { authorized: false, error: 'Forbidden', status: 403 as const };
   }
 
   return { authorized: true, userId: session.user.id };
@@ -229,10 +261,30 @@ export async function initializeRBAC() {
 
   // Create default roles
   const defaultRoles = [
-    { id: 'role_superadmin', name: ROLES.SUPERADMIN, description: 'Full system access', isSystem: true },
-    { id: 'role_admin', name: ROLES.ADMIN, description: 'Administrative access to most resources', isSystem: true },
-    { id: 'role_moderator', name: ROLES.MODERATOR, description: 'Can moderate content and users', isSystem: true },
-    { id: 'role_editor', name: ROLES.EDITOR, description: 'Can create and edit content', isSystem: true },
+    {
+      id: 'role_superadmin',
+      name: ROLES.SUPERADMIN,
+      description: 'Full system access',
+      isSystem: true,
+    },
+    {
+      id: 'role_admin',
+      name: ROLES.ADMIN,
+      description: 'Administrative access to most resources',
+      isSystem: true,
+    },
+    {
+      id: 'role_moderator',
+      name: ROLES.MODERATOR,
+      description: 'Can moderate content and users',
+      isSystem: true,
+    },
+    {
+      id: 'role_editor',
+      name: ROLES.EDITOR,
+      description: 'Can create and edit content',
+      isSystem: true,
+    },
     { id: 'role_viewer', name: ROLES.VIEWER, description: 'Read-only access', isSystem: true },
   ];
 
@@ -269,6 +321,7 @@ export async function initializeRBAC() {
 
   // Admin gets read, write, manage for most resources
   const adminResources = [
+    RESOURCE_TYPES.PROVIDERS,
     RESOURCE_TYPES.USERS,
     RESOURCE_TYPES.POSTS,
     RESOURCE_TYPES.STORIES,
@@ -333,7 +386,7 @@ export async function initializeRBAC() {
 async function migrateLegacyRoles() {
   // Get all users with legacy roles
   const allUsers = await db.select().from(user);
-  
+
   for (const u of allUsers) {
     // Check if user already has RBAC roles
     const existingRoles = await getUserRoles(u.id);
@@ -368,4 +421,3 @@ async function migrateLegacyRoles() {
     }
   }
 }
-

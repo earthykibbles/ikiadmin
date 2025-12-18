@@ -1,8 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { initFirebase } from '@/lib/firebase';
-import admin from 'firebase-admin';
 import { cache, createCacheKey } from '@/lib/cache';
+import { initFirebase } from '@/lib/firebase';
 import { analyticsRateLimiter, getClientId } from '@/lib/rateLimit';
+import { RESOURCE_TYPES, requirePermission } from '@/lib/rbac';
+import admin from 'firebase-admin';
+import { NextRequest, NextResponse } from 'next/server';
 
 // Route segment config for caching
 export const revalidate = 300; // Revalidate every 5 minutes
@@ -10,17 +11,23 @@ export const dynamic = 'force-dynamic'; // Allow dynamic rendering but with cach
 
 export async function GET(request: NextRequest) {
   try {
+    // RBAC: only users with analytics:read can access global analytics
+    const authCheck = await requirePermission(request, RESOURCE_TYPES.ANALYTICS, 'read');
+    if (!authCheck.authorized) {
+      return NextResponse.json({ error: authCheck.error }, { status: authCheck.status });
+    }
+
     // Rate limiting
     const clientId = getClientId(request);
     const rateLimit = analyticsRateLimiter.check(clientId);
     if (!rateLimit.allowed) {
       return NextResponse.json(
-        { 
+        {
           error: 'Rate limit exceeded',
           message: `Too many requests. Please try again after ${new Date(rateLimit.resetAt).toISOString()}`,
           retryAfter: Math.ceil((rateLimit.resetAt - Date.now()) / 1000),
         },
-        { 
+        {
           status: 429,
           headers: {
             'Retry-After': Math.ceil((rateLimit.resetAt - Date.now()) / 1000).toString(),
@@ -50,7 +57,7 @@ export async function GET(request: NextRequest) {
 
     // Reduce initial user fetch to avoid quota issues
     const usersSnapshot = await db.collection('users').limit(100).get();
-    const userIds = usersSnapshot.docs.map(doc => doc.id);
+    const userIds = usersSnapshot.docs.map((doc) => doc.id);
 
     // Aggregate user signups over time
     const signupsByDate: { [key: string]: number } = {};
@@ -107,23 +114,22 @@ export async function GET(request: NextRequest) {
         moodsSnapshot.docs.forEach((doc) => {
           const data = doc.data();
           totalMoods++;
-          
+
           const moodEmoji = data.moodEmoji || 'unknown';
           moodDistribution[moodEmoji] = (moodDistribution[moodEmoji] || 0) + 1;
-          
+
           if (data.intensity) {
             moodIntensities.push(data.intensity);
           }
 
           if (data.createdAt) {
-            const date = data.createdAt.toDate ? data.createdAt.toDate().toISOString().split('T')[0] : new Date(data.createdAt).toISOString().split('T')[0];
+            const date = data.createdAt.toDate
+              ? data.createdAt.toDate().toISOString().split('T')[0]
+              : new Date(data.createdAt).toISOString().split('T')[0];
             moodsByDate[date] = (moodsByDate[date] || 0) + 1;
           }
         });
-      } catch (err) {
-        // Skip if collection doesn't exist
-        continue;
-      }
+      } catch (err) {}
     }
 
     // Aggregate water intake data (reduced sample size)
@@ -148,7 +154,9 @@ export async function GET(request: NextRequest) {
           totalWaterLogs++;
 
           if (data.timestamp) {
-            const date = data.timestamp.toDate ? data.timestamp.toDate().toISOString().split('T')[0] : new Date(data.timestamp).toISOString().split('T')[0];
+            const date = data.timestamp.toDate
+              ? data.timestamp.toDate().toISOString().split('T')[0]
+              : new Date(data.timestamp).toISOString().split('T')[0];
             if (!waterByDate[date]) {
               waterByDate[date] = { total: 0, count: 0 };
             }
@@ -156,9 +164,7 @@ export async function GET(request: NextRequest) {
             waterByDate[date].count += 1;
           }
         });
-      } catch (err) {
-        continue;
-      }
+      } catch (err) {}
     }
 
     // Aggregate nutrition data (reduced sample size)
@@ -177,7 +183,7 @@ export async function GET(request: NextRequest) {
           .collection('dates')
           .limit(30) // Limit to 30 date documents max per user
           .get();
-        
+
         // Sort date documents by ID (date string) in descending order and limit to last 7 days
         const sortedDateDocs = datesSnapshot.docs
           .sort((a, b) => b.id.localeCompare(a.id))
@@ -196,7 +202,7 @@ export async function GET(request: NextRequest) {
           foodsSnapshot.docs.forEach((foodDoc) => {
             const data = foodDoc.data();
             totalMeals++;
-            
+
             const calories = data.calories || 0;
             const protein = data.protein || 0;
             const carbs = data.carbs || 0;
@@ -208,8 +214,13 @@ export async function GET(request: NextRequest) {
             macroTotals.fats += fats;
 
             // Use dateKey or timestamp for date grouping
-            const date = dateKey || (data.timestamp?.toDate ? data.timestamp.toDate().toISOString().split('T')[0] : new Date(data.timestamp).toISOString().split('T')[0]);
-            if (date && date.length === 10) { // Ensure valid date format YYYY-MM-DD
+            const date =
+              dateKey ||
+              (data.timestamp?.toDate
+                ? data.timestamp.toDate().toISOString().split('T')[0]
+                : new Date(data.timestamp).toISOString().split('T')[0]);
+            if (date && date.length === 10) {
+              // Ensure valid date format YYYY-MM-DD
               if (!caloriesByDate[date]) {
                 caloriesByDate[date] = { total: 0, count: 0 };
               }
@@ -218,9 +229,7 @@ export async function GET(request: NextRequest) {
             }
           });
         }
-      } catch (err) {
-        continue;
-      }
+      } catch (err) {}
     }
 
     // Aggregate finance data (reduced sample size)
@@ -240,14 +249,14 @@ export async function GET(request: NextRequest) {
           .collection('budgets')
           .limit(10) // Limit budgets
           .get();
-        
+
         const debtsSnapshot = await db
           .collection('users')
           .doc(userId)
           .collection('debts')
           .limit(10) // Limit debts
           .get();
-        
+
         const goalsSnapshot = await db
           .collection('users')
           .doc(userId)
@@ -276,9 +285,7 @@ export async function GET(request: NextRequest) {
           const data = doc.data();
           totalGoals++;
         });
-      } catch (err) {
-        continue;
-      }
+      } catch (err) {}
     }
 
     // Format signups data for last 30 days
@@ -337,14 +344,17 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    const averageMoodIntensity = moodIntensities.length > 0
-      ? moodIntensities.reduce((sum, val) => sum + val, 0) / moodIntensities.length
-      : 0;
+    const averageMoodIntensity =
+      moodIntensities.length > 0
+        ? moodIntensities.reduce((sum, val) => sum + val, 0) / moodIntensities.length
+        : 0;
 
     const averageWaterMl = totalWaterLogs > 0 ? totalWaterMl / totalWaterLogs : 0;
-    const averageDailyWaterMl = Object.keys(waterByDate).length > 0
-      ? Object.values(waterByDate).reduce((sum, val) => sum + val.total, 0) / Object.keys(waterByDate).length
-      : 0;
+    const averageDailyWaterMl =
+      Object.keys(waterByDate).length > 0
+        ? Object.values(waterByDate).reduce((sum, val) => sum + val.total, 0) /
+          Object.keys(waterByDate).length
+        : 0;
 
     const responseData = {
       users: {
@@ -406,11 +416,19 @@ export async function GET(request: NextRequest) {
     response.headers.set('X-RateLimit-Remaining', rateLimit.remaining.toString());
 
     return response;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching analytics:', error);
-    
+
     // Check if it's a quota exceeded error
-    if (error.code === 8 || error.message?.includes('RESOURCE_EXHAUSTED') || error.message?.includes('Quota exceeded')) {
+    const isQuotaError =
+      (error && typeof error === 'object' && 'code' in error && error.code === 8) ||
+      (error &&
+        typeof error === 'object' &&
+        'message' in error &&
+        typeof error.message === 'string' &&
+        (error.message.includes('RESOURCE_EXHAUSTED') || error.message.includes('Quota exceeded')));
+
+    if (isQuotaError) {
       // Try to return cached data if available
       const cacheKey = createCacheKey('analytics');
       const cached = cache.get(cacheKey);
@@ -423,21 +441,26 @@ export async function GET(request: NextRequest) {
           },
         });
       }
-      
+
       return NextResponse.json(
-        { 
+        {
           error: 'Firestore quota exceeded. Please try again later.',
-          details: 'The database quota has been exceeded. The request will be retried automatically.',
-          code: 'QUOTA_EXCEEDED'
+          details:
+            'The database quota has been exceeded. The request will be retried automatically.',
+          code: 'QUOTA_EXCEEDED',
         },
         { status: 503 } // Service Unavailable
       );
     }
-    
+
+    const errorMessage =
+      error && typeof error === 'object' && 'message' in error && typeof error.message === 'string'
+        ? error.message
+        : 'Unknown error occurred';
+
     return NextResponse.json(
-      { error: 'Failed to fetch analytics', details: error.message },
+      { error: 'Failed to fetch analytics', details: errorMessage },
       { status: 500 }
     );
   }
 }
-

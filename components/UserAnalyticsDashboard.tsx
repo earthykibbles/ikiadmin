@@ -1,23 +1,22 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Activity, Apple, DollarSign, Droplet, RefreshCw, Smile, TrendingUp } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import {
-  LineChart,
-  Line,
-  BarChart,
   Bar,
-  PieChart,
-  Pie,
+  BarChart,
+  CartesianGrid,
   Cell,
+  Legend,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
 } from 'recharts';
-import { TrendingUp, Droplet, Apple, DollarSign, Smile, Activity, RefreshCw } from 'lucide-react';
-
 
 interface UserAnalyticsData {
   moods: {
@@ -104,7 +103,7 @@ export default function UserAnalyticsDashboard({ userId }: UserAnalyticsDashboar
         setLoading(true);
       }
       setError(null);
-      
+
       const fetchPromise = fetch(`/api/users/${userId}/analytics`, {
         cache: 'default',
       })
@@ -149,11 +148,11 @@ export default function UserAnalyticsDashboard({ userId }: UserAnalyticsDashboar
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="glass p-6 rounded-2xl animate-pulse">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-xl bg-iki-grey/50"></div>
-                <div className="h-4 w-24 bg-iki-grey/50 rounded"></div>
+                <div className="w-10 h-10 rounded-xl bg-iki-grey/50" />
+                <div className="h-4 w-24 bg-iki-grey/50 rounded" />
               </div>
-              <div className="h-8 w-20 bg-iki-grey/50 rounded mb-2"></div>
-              <div className="h-4 w-32 bg-iki-grey/50 rounded"></div>
+              <div className="h-8 w-20 bg-iki-grey/50 rounded mb-2" />
+              <div className="h-4 w-32 bg-iki-grey/50 rounded" />
             </div>
           ))}
         </div>
@@ -162,10 +161,10 @@ export default function UserAnalyticsDashboard({ userId }: UserAnalyticsDashboar
         {[1, 2, 3].map((i) => (
           <div key={i} className="glass p-6 rounded-2xl animate-pulse">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-5 h-5 rounded bg-iki-grey/50"></div>
-              <div className="h-6 w-48 bg-iki-grey/50 rounded"></div>
+              <div className="w-5 h-5 rounded bg-iki-grey/50" />
+              <div className="h-6 w-48 bg-iki-grey/50 rounded" />
             </div>
-            <div className="h-[300px] bg-iki-grey/30 rounded"></div>
+            <div className="h-[300px] bg-iki-grey/30 rounded" />
           </div>
         ))}
       </div>
@@ -245,11 +244,7 @@ export default function UserAnalyticsDashboard({ userId }: UserAnalyticsDashboar
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={data.moods.distribution.slice(0, 10)}>
               <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" />
-              <XAxis
-                dataKey="emoji"
-                stroke="#ffffff60"
-                style={{ fontSize: '16px' }}
-              />
+              <XAxis dataKey="emoji" stroke="#ffffff60" style={{ fontSize: '16px' }} />
               <YAxis stroke="#ffffff60" style={{ fontSize: '12px' }} />
               <Tooltip
                 contentStyle={{
@@ -326,7 +321,7 @@ export default function UserAnalyticsDashboard({ userId }: UserAnalyticsDashboar
                   borderRadius: '8px',
                 }}
                 labelFormatter={(label) => formatDate(label)}
-                formatter={(value: any) => [`${parseFloat(value).toFixed(2)}L`, 'Total']}
+                formatter={(value: any) => [`${Number.parseFloat(value).toFixed(2)}L`, 'Total']}
               />
               <Bar dataKey="totalLiters" fill="#06b6d4" radius={[8, 8, 0, 0]} />
             </BarChart>
@@ -430,15 +425,21 @@ export default function UserAnalyticsDashboard({ userId }: UserAnalyticsDashboar
             </div>
             <div className="bg-iki-grey/50 p-4 rounded-xl">
               <div className="text-iki-white/60 text-sm mb-1">Total Income</div>
-              <div className="text-2xl font-bold text-green-400">${data.finance.totalIncome.toLocaleString()}</div>
+              <div className="text-2xl font-bold text-green-400">
+                ${data.finance.totalIncome.toLocaleString()}
+              </div>
             </div>
             <div className="bg-iki-grey/50 p-4 rounded-xl">
               <div className="text-iki-white/60 text-sm mb-1">Total Expenses</div>
-              <div className="text-2xl font-bold text-red-400">${data.finance.totalExpenses.toLocaleString()}</div>
+              <div className="text-2xl font-bold text-red-400">
+                ${data.finance.totalExpenses.toLocaleString()}
+              </div>
             </div>
             <div className="bg-iki-grey/50 p-4 rounded-xl">
               <div className="text-iki-white/60 text-sm mb-1">Net Balance</div>
-              <div className={`text-2xl font-bold ${data.finance.netBalance >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+              <div
+                className={`text-2xl font-bold ${data.finance.netBalance >= 0 ? 'text-green-400' : 'text-red-400'}`}
+              >
                 ${data.finance.netBalance.toLocaleString()}
               </div>
             </div>
@@ -462,7 +463,9 @@ function MetricCard({ icon, title, value, subtitle, color, unit }: MetricCardPro
   return (
     <div className="glass p-6 rounded-2xl">
       <div className="flex items-center gap-3 mb-3">
-        <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center text-white`}>
+        <div
+          className={`w-10 h-10 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center text-white`}
+        >
           {icon}
         </div>
         <div className="text-iki-white/60 text-sm font-medium">{title}</div>
@@ -475,4 +478,3 @@ function MetricCard({ icon, title, value, subtitle, color, unit }: MetricCardPro
     </div>
   );
 }
-

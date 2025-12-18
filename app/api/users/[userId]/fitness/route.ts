@@ -1,15 +1,22 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { initFirebase } from '@/lib/firebase';
+import { RESOURCE_TYPES, requirePermission } from '@/lib/rbac';
 import admin from 'firebase-admin';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
+    const { userId } = await params;
+
+    const authCheck = await requirePermission(request, RESOURCE_TYPES.FITNESS, 'read', userId);
+    if (!authCheck.authorized) {
+      return NextResponse.json({ error: authCheck.error }, { status: authCheck.status });
+    }
+
     initFirebase();
     const db = admin.firestore();
-    const { userId } = await params;
 
     // Fetch fitness profile
     const profileDoc = await db.collection('users').doc(userId).get();
@@ -84,7 +91,10 @@ export async function GET(
           return {
             id: doc.id,
             ...data,
-            createdAt: data.timestamp?.toDate?.()?.toISOString() || data.createdAt?.toDate?.()?.toISOString() || null,
+            createdAt:
+              data.timestamp?.toDate?.()?.toISOString() ||
+              data.createdAt?.toDate?.()?.toISOString() ||
+              null,
             completedAt: data.completedAt?.toDate?.()?.toISOString() || null,
           };
         });
@@ -111,12 +121,9 @@ export async function GET(
       workouts,
       summary,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching fitness data:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch fitness data', details: error.message },
-      { status: 500 }
-    );
+    const details = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: 'Failed to fetch fitness data', details }, { status: 500 });
   }
 }
-

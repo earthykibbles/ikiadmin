@@ -8,7 +8,8 @@ class SimpleCache {
   private cache: Map<string, CacheEntry<any>> = new Map();
   private defaultTTL: number;
 
-  constructor(defaultTTL: number = 300000) { // 5 minutes default
+  constructor(defaultTTL = 300000) {
+    // 5 minutes default
     this.defaultTTL = defaultTTL;
     // Clean up expired entries every minute
     setInterval(() => this.cleanup(), 60000);
@@ -33,6 +34,19 @@ class SimpleCache {
 
   delete(key: string): void {
     this.cache.delete(key);
+  }
+
+  deleteByPrefix(prefix: string): number {
+    let removed = 0;
+    for (const key of this.cache.keys()) {
+      if (key === prefix || key.startsWith(`${prefix}?`)) {
+        // Note: keys are expected to be created via createCacheKey(prefix, params),
+        // which yields either `${prefix}` or `${prefix}?...`.
+        this.cache.delete(key);
+        removed += 1;
+      }
+    }
+    return removed;
   }
 
   clear(): void {
@@ -63,8 +77,7 @@ export function createCacheKey(prefix: string, params?: Record<string, any>): st
   }
   const sortedParams = Object.keys(params)
     .sort()
-    .map(key => `${key}=${params[key]}`)
+    .map((key) => `${key}=${params[key]}`)
     .join('&');
   return `${prefix}?${sortedParams}`;
 }
-

@@ -1,15 +1,22 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { initFirebase } from '@/lib/firebase';
+import { RESOURCE_TYPES, requirePermission } from '@/lib/rbac';
 import admin from 'firebase-admin';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
+    const { userId } = await params;
+
+    const authCheck = await requirePermission(request, RESOURCE_TYPES.WATER, 'read', userId);
+    if (!authCheck.authorized) {
+      return NextResponse.json({ error: authCheck.error }, { status: authCheck.status });
+    }
+
     initFirebase();
     const db = admin.firestore();
-    const { userId } = await params;
 
     // Fetch water logs
     const waterLogsSnapshot = await db
@@ -46,9 +53,11 @@ export async function GET(
 
     // Calculate summary
     const totalIntake = waterLogs.reduce((sum, log) => sum + (log.amountMl || 0), 0);
-    const averageDailyIntake = Object.keys(dailyTotals).length > 0
-      ? Object.values(dailyTotals).reduce((sum, val) => sum + val, 0) / Object.keys(dailyTotals).length
-      : 0;
+    const averageDailyIntake =
+      Object.keys(dailyTotals).length > 0
+        ? Object.values(dailyTotals).reduce((sum, val) => sum + val, 0) /
+          Object.keys(dailyTotals).length
+        : 0;
 
     // Get today's intake
     const today = new Date().toISOString().split('T')[0];
@@ -80,14 +89,9 @@ export async function GET(
       dailyTotals,
       summary,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching water data:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch water data', details: error.message },
-      { status: 500 }
-    );
+    const details = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: 'Failed to fetch water data', details }, { status: 500 });
   }
 }
-
-
-

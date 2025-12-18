@@ -1,23 +1,32 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { clearAnalyticsCache, getCachedAnalytics } from '@/lib/analyticsCache';
 import {
-  LineChart,
-  Line,
-  BarChart,
+  Activity,
+  Apple,
+  DollarSign,
+  Droplet,
+  RefreshCw,
+  Smile,
+  TrendingUp,
+  Users,
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
+import {
   Bar,
-  PieChart,
-  Pie,
+  BarChart,
+  CartesianGrid,
   Cell,
+  Legend,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
 } from 'recharts';
-import { TrendingUp, Users, Droplet, Apple, DollarSign, Smile, Activity, RefreshCw } from 'lucide-react';
-import { getCachedAnalytics, clearAnalyticsCache } from '@/lib/analyticsCache';
 
 interface AnalyticsData {
   users: {
@@ -85,7 +94,7 @@ export default function AnalyticsDashboard() {
         setLoading(true);
       }
       setError(null);
-      
+
       // Use shared cache - will return cached data unless forceRefresh is true
       const analyticsData = await getCachedAnalytics(isManualRefresh);
       setData(analyticsData);
@@ -103,29 +112,29 @@ export default function AnalyticsDashboard() {
 
   if (loading) {
     return (
-      <div className="space-y-6">
+      <div className="spacing-section">
         {/* Key Metrics Skeleton */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid-metrics">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="glass p-6 rounded-2xl animate-pulse">
+            <div key={i} className="card animate-pulse">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-xl bg-iki-grey/50"></div>
-                <div className="h-4 w-24 bg-iki-grey/50 rounded"></div>
+                <div className="skeleton w-10 h-10 rounded-xl" />
+                <div className="skeleton h-4 w-24" />
               </div>
-              <div className="h-8 w-20 bg-iki-grey/50 rounded mb-2"></div>
-              <div className="h-4 w-32 bg-iki-grey/50 rounded"></div>
+              <div className="skeleton h-8 w-20 mb-2" />
+              <div className="skeleton h-4 w-32" />
             </div>
           ))}
         </div>
 
         {/* Chart Skeletons */}
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="glass p-6 rounded-2xl animate-pulse">
+          <div key={i} className="card animate-pulse">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-5 h-5 rounded bg-iki-grey/50"></div>
-              <div className="h-6 w-48 bg-iki-grey/50 rounded"></div>
+              <div className="skeleton w-5 h-5 rounded" />
+              <div className="skeleton h-6 w-48" />
             </div>
-            <div className="h-[300px] bg-iki-grey/30 rounded"></div>
+            <div className="skeleton h-[300px]" />
           </div>
         ))}
       </div>
@@ -135,7 +144,9 @@ export default function AnalyticsDashboard() {
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-red-400">Error: {error}</div>
+        <div className="card-compact status-error">
+          <p className="body-md">Error: {error}</p>
+        </div>
       </div>
     );
   }
@@ -149,13 +160,13 @@ export default function AnalyticsDashboard() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="spacing-section">
       {/* Refresh Button */}
       <div className="flex justify-end mb-2">
         <button
           onClick={handleRefresh}
           disabled={refreshing || loading}
-          className="px-4 py-2 rounded-full bg-iki-grey/50 border border-light-green/20 hover:bg-iki-grey/70 transition-colors flex items-center gap-2 text-sm text-iki-white/80 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="btn-secondary"
         >
           <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
           {refreshing ? 'Refreshing...' : 'Refresh Data'}
@@ -163,7 +174,7 @@ export default function AnalyticsDashboard() {
       </div>
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid-metrics">
         <MetricCard
           icon={<Users className="w-5 h-5" />}
           title="Total Users"
@@ -196,10 +207,10 @@ export default function AnalyticsDashboard() {
       </div>
 
       {/* User Signups Over Time */}
-      <div className="glass p-6 rounded-2xl">
+      <div className="card">
         <div className="flex items-center gap-3 mb-4">
           <TrendingUp className="w-5 h-5 text-light-green" />
-          <h3 className="text-xl font-bold text-iki-white">User Signups (Last 30 Days)</h3>
+          <h3 className="heading-md text-iki-white">User Signups (Last 30 Days)</h3>
         </div>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={data.users.signupsByDate}>
@@ -233,19 +244,15 @@ export default function AnalyticsDashboard() {
 
       {/* Mood Distribution */}
       {data.moods.distribution.length > 0 && (
-        <div className="glass p-6 rounded-2xl">
+        <div className="card">
           <div className="flex items-center gap-3 mb-4">
             <Smile className="w-5 h-5 text-light-green" />
-            <h3 className="text-xl font-bold text-iki-white">Mood Distribution</h3>
+            <h3 className="heading-md text-iki-white">Mood Distribution</h3>
           </div>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={data.moods.distribution.slice(0, 10)}>
               <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" />
-              <XAxis
-                dataKey="emoji"
-                stroke="#ffffff60"
-                style={{ fontSize: '16px' }}
-              />
+              <XAxis dataKey="emoji" stroke="#ffffff60" style={{ fontSize: '16px' }} />
               <YAxis stroke="#ffffff60" style={{ fontSize: '12px' }} />
               <Tooltip
                 contentStyle={{
@@ -262,10 +269,10 @@ export default function AnalyticsDashboard() {
 
       {/* Mood Entries Over Time */}
       {data.moods.moodsByDate.length > 0 && (
-        <div className="glass p-6 rounded-2xl">
+        <div className="card">
           <div className="flex items-center gap-3 mb-4">
             <Activity className="w-5 h-5 text-light-green" />
-            <h3 className="text-xl font-bold text-iki-white">Mood Entries (Last 7 Days)</h3>
+            <h3 className="heading-md text-iki-white">Mood Entries (Last 7 Days)</h3>
           </div>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={data.moods.moodsByDate}>
@@ -300,10 +307,10 @@ export default function AnalyticsDashboard() {
 
       {/* Water Intake */}
       {data.water.waterByDate.length > 0 && (
-        <div className="glass p-6 rounded-2xl">
+        <div className="card">
           <div className="flex items-center gap-3 mb-4">
             <Droplet className="w-5 h-5 text-light-green" />
-            <h3 className="text-xl font-bold text-iki-white">Water Intake (Last 7 Days)</h3>
+            <h3 className="heading-md text-iki-white">Water Intake (Last 7 Days)</h3>
           </div>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={data.water.waterByDate}>
@@ -322,7 +329,7 @@ export default function AnalyticsDashboard() {
                   borderRadius: '8px',
                 }}
                 labelFormatter={(label) => formatDate(label)}
-                formatter={(value: any) => [`${parseFloat(value).toFixed(2)}L`, 'Total']}
+                formatter={(value: any) => [`${Number.parseFloat(value).toFixed(2)}L`, 'Total']}
               />
               <Bar dataKey="totalLiters" fill="#06b6d4" radius={[8, 8, 0, 0]} />
             </BarChart>
@@ -332,10 +339,10 @@ export default function AnalyticsDashboard() {
 
       {/* Nutrition Calories */}
       {data.nutrition.caloriesByDate.length > 0 && (
-        <div className="glass p-6 rounded-2xl">
+        <div className="card">
           <div className="flex items-center gap-3 mb-4">
             <Apple className="w-5 h-5 text-light-green" />
-            <h3 className="text-xl font-bold text-iki-white">Calories Logged (Last 7 Days)</h3>
+            <h3 className="heading-md text-iki-white">Calories Logged (Last 7 Days)</h3>
           </div>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={data.nutrition.caloriesByDate}>
@@ -363,10 +370,10 @@ export default function AnalyticsDashboard() {
 
       {/* Macro Distribution */}
       {data.nutrition.macroTotals && (
-        <div className="glass p-6 rounded-2xl">
+        <div className="card">
           <div className="flex items-center gap-3 mb-4">
             <Apple className="w-5 h-5 text-light-green" />
-            <h3 className="text-xl font-bold text-iki-white">Nutrition Macros</h3>
+            <h3 className="heading-md text-iki-white">Nutrition Macros</h3>
           </div>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
@@ -406,10 +413,10 @@ export default function AnalyticsDashboard() {
 
       {/* Activity Levels */}
       {data.users.activityLevels.length > 0 && (
-        <div className="glass p-6 rounded-2xl">
+        <div className="card">
           <div className="flex items-center gap-3 mb-4">
             <Activity className="w-5 h-5 text-light-green" />
-            <h3 className="text-xl font-bold text-iki-white">User Activity Levels</h3>
+            <h3 className="heading-md text-iki-white">User Activity Levels</h3>
           </div>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
@@ -418,7 +425,10 @@ export default function AnalyticsDashboard() {
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                label={({ level, count }) => `${level}: ${count}`}
+                label={(props: any) => {
+                  const entry = props.payload as { level: string; count: number };
+                  return `${entry.level}: ${entry.count}`;
+                }}
                 outerRadius={100}
                 fill="#8884d8"
                 dataKey="count"
@@ -441,35 +451,39 @@ export default function AnalyticsDashboard() {
 
       {/* Finance Overview */}
       {data.finance.users > 0 && (
-        <div className="glass p-6 rounded-2xl">
+        <div className="card">
           <div className="flex items-center gap-3 mb-4">
             <DollarSign className="w-5 h-5 text-light-green" />
-            <h3 className="text-xl font-bold text-iki-white">Finance Overview</h3>
+            <h3 className="heading-md text-iki-white">Finance Overview</h3>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <div className="bg-iki-grey/50 p-4 rounded-xl">
-              <div className="text-iki-white/60 text-sm mb-1">Users with Finance</div>
-              <div className="text-2xl font-bold text-light-green">{data.finance.users}</div>
+            <div className="card-compact">
+              <div className="body-sm text-iki-white/60 mb-1">Users with Finance</div>
+              <div className="heading-md text-light-green">{data.finance.users}</div>
             </div>
-            <div className="bg-iki-grey/50 p-4 rounded-xl">
-              <div className="text-iki-white/60 text-sm mb-1">Total Budgets</div>
-              <div className="text-2xl font-bold text-iki-white">{data.finance.totalBudgets}</div>
+            <div className="card-compact">
+              <div className="body-sm text-iki-white/60 mb-1">Total Budgets</div>
+              <div className="heading-md text-iki-white">{data.finance.totalBudgets}</div>
             </div>
-            <div className="bg-iki-grey/50 p-4 rounded-xl">
-              <div className="text-iki-white/60 text-sm mb-1">Total Debts</div>
-              <div className="text-2xl font-bold text-red-400">{data.finance.totalDebts}</div>
+            <div className="card-compact">
+              <div className="body-sm text-iki-white/60 mb-1">Total Debts</div>
+              <div className="heading-md text-red-400">{data.finance.totalDebts}</div>
             </div>
-            <div className="bg-iki-grey/50 p-4 rounded-xl">
-              <div className="text-iki-white/60 text-sm mb-1">Total Goals</div>
-              <div className="text-2xl font-bold text-iki-white">{data.finance.totalGoals}</div>
+            <div className="card-compact">
+              <div className="body-sm text-iki-white/60 mb-1">Total Goals</div>
+              <div className="heading-md text-iki-white">{data.finance.totalGoals}</div>
             </div>
-            <div className="bg-iki-grey/50 p-4 rounded-xl">
-              <div className="text-iki-white/60 text-sm mb-1">Total Income</div>
-              <div className="text-2xl font-bold text-green-400">${data.finance.totalIncome.toLocaleString()}</div>
+            <div className="card-compact">
+              <div className="body-sm text-iki-white/60 mb-1">Total Income</div>
+              <div className="heading-md text-green-400">
+                ${data.finance.totalIncome.toLocaleString()}
+              </div>
             </div>
-            <div className="bg-iki-grey/50 p-4 rounded-xl">
-              <div className="text-iki-white/60 text-sm mb-1">Total Expenses</div>
-              <div className="text-2xl font-bold text-red-400">${data.finance.totalExpenses.toLocaleString()}</div>
+            <div className="card-compact">
+              <div className="body-sm text-iki-white/60 mb-1">Total Expenses</div>
+              <div className="heading-md text-red-400">
+                ${data.finance.totalExpenses.toLocaleString()}
+              </div>
             </div>
           </div>
         </div>
@@ -477,10 +491,10 @@ export default function AnalyticsDashboard() {
 
       {/* Top Countries */}
       {data.users.topCountries.length > 0 && (
-        <div className="glass p-6 rounded-2xl">
+        <div className="card">
           <div className="flex items-center gap-3 mb-4">
             <Users className="w-5 h-5 text-light-green" />
-            <h3 className="text-xl font-bold text-iki-white">Top Countries</h3>
+            <h3 className="heading-md text-iki-white">Top Countries</h3>
           </div>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={data.users.topCountries} layout="vertical">
@@ -520,19 +534,20 @@ interface MetricCardProps {
 
 function MetricCard({ icon, title, value, subtitle, color, unit }: MetricCardProps) {
   return (
-    <div className="glass p-6 rounded-2xl">
+    <div className="card">
       <div className="flex items-center gap-3 mb-3">
-        <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center text-white`}>
+        <div
+          className={`w-10 h-10 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center text-white`}
+        >
           {icon}
         </div>
-        <div className="text-iki-white/60 text-sm font-medium">{title}</div>
+        <div className="body-sm text-iki-white/60 font-medium">{title}</div>
       </div>
-      <div className="text-3xl font-bold text-iki-white mb-1">
+      <div className="heading-lg text-iki-white mb-1">
         {value}
-        {unit && <span className="text-xl ml-1">{unit}</span>}
+        {unit && <span className="heading-md ml-1">{unit}</span>}
       </div>
-      <div className="text-sm text-iki-white/60">{subtitle}</div>
+      <div className="body-sm text-iki-white/60">{subtitle}</div>
     </div>
   );
 }
-

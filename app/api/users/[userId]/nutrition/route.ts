@@ -1,23 +1,26 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { initFirebase } from '@/lib/firebase';
+import { RESOURCE_TYPES, requirePermission } from '@/lib/rbac';
 import admin from 'firebase-admin';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
+    const { userId } = await params;
+
+    const authCheck = await requirePermission(request, RESOURCE_TYPES.NUTRITION, 'read', userId);
+    if (!authCheck.authorized) {
+      return NextResponse.json({ error: authCheck.error }, { status: authCheck.status });
+    }
+
     initFirebase();
     const db = admin.firestore();
-    const { userId } = await params;
 
     // Fetch meal logs - need to iterate through date documents
     // Get all date documents (can't order by document ID without index, so we'll sort in memory)
-    const datesSnapshot = await db
-      .collection('meals')
-      .doc(userId)
-      .collection('dates')
-      .get();
+    const datesSnapshot = await db.collection('meals').doc(userId).collection('dates').get();
 
     // Sort date documents by ID (date string) in descending order and limit to last 30 days
     const sortedDateDocs = datesSnapshot.docs
@@ -90,9 +93,13 @@ export async function GET(
     const totalCarbs = mealLogs.reduce((sum, m) => sum + (m.carbs || 0), 0);
     const totalFats = mealLogs.reduce((sum, m) => sum + (m.fats || 0), 0);
 
-    const averageDailyCalories = Object.keys(dailyTotals).length > 0
-      ? Object.values(dailyTotals).reduce((sum: number, day: any) => sum + (day.totalCalories || 0), 0) / Object.keys(dailyTotals).length
-      : 0;
+    const averageDailyCalories =
+      Object.keys(dailyTotals).length > 0
+        ? Object.values(dailyTotals).reduce(
+            (sum: number, day: any) => sum + (day.totalCalories || 0),
+            0
+          ) / Object.keys(dailyTotals).length
+        : 0;
 
     // Get today's totals
     const today = new Date().toISOString().split('T')[0];
@@ -134,12 +141,9 @@ export async function GET(
       dailyTotals,
       summary,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching nutrition data:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch nutrition data', details: error.message },
-      { status: 500 }
-    );
+    const details = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: 'Failed to fetch nutrition data', details }, { status: 500 });
   }
 }
-

@@ -14,7 +14,7 @@ export function initFirebase() {
   const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
   let privateKey = process.env.FIREBASE_PRIVATE_KEY;
 
-  if (privateKey && privateKey.includes('\\n')) {
+  if (privateKey?.includes('\\n')) {
     privateKey = privateKey.replace(/\\n/g, '\n');
   }
 
@@ -71,4 +71,3 @@ export async function writeToFirestore(
     console.log(`✓ Wrote ${chunk.length} docs to ${collection}`);
   }
 }
-

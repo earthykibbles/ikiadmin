@@ -9,7 +9,7 @@ class RateLimiter {
   private windowMs: number;
   private maxRequests: number;
 
-  constructor(windowMs: number = 60000, maxRequests: number = 10) {
+  constructor(windowMs = 60000, maxRequests = 10) {
     this.windowMs = windowMs;
     this.maxRequests = maxRequests;
     // Clean up expired entries every 5 minutes
@@ -62,6 +62,7 @@ class RateLimiter {
 // Create rate limiters for different endpoints
 export const analyticsRateLimiter = new RateLimiter(60000, 5); // 5 requests per minute
 export const usersRateLimiter = new RateLimiter(60000, 20); // 20 requests per minute
+export const exploreRateLimiter = new RateLimiter(60000, 10); // 10 requests per minute
 
 // Helper to get client IP from request
 export function getClientId(request: Request): string {
@@ -70,13 +71,12 @@ export function getClientId(request: Request): string {
   if (forwarded) {
     return forwarded.split(',')[0].trim();
   }
-  
+
   const realIp = request.headers.get('x-real-ip');
   if (realIp) {
     return realIp;
   }
-  
+
   // Fallback to a default key (for development)
   return 'default';
 }
-

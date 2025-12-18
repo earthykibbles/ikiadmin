@@ -1,7 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { X, Key, Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Key, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -9,17 +10,22 @@ interface ChangePasswordModalProps {
 }
 
 export default function ChangePasswordModal({ isOpen, onClose }: ChangePasswordModalProps) {
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!isOpen || !mounted) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,22 +34,22 @@ export default function ChangePasswordModal({ isOpen, onClose }: ChangePasswordM
 
     // Validation
     if (!currentPassword || !newPassword || !confirmPassword) {
-      setError('All fields are required');
+      setError("All fields are required");
       return;
     }
 
     if (newPassword.length < 8) {
-      setError('New password must be at least 8 characters long');
+      setError("New password must be at least 8 characters long");
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      setError('New passwords do not match');
+      setError("New passwords do not match");
       return;
     }
 
     if (currentPassword === newPassword) {
-      setError('New password must be different from current password');
+      setError("New password must be different from current password");
       return;
     }
 
@@ -51,10 +57,10 @@ export default function ChangePasswordModal({ isOpen, onClose }: ChangePasswordM
 
     try {
       // Use Better Auth API endpoint for password change
-      const response = await fetch('/api/auth/change-password', {
-        method: 'POST',
+      const response = await fetch("/api/auth/change-password", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           currentPassword,
@@ -65,30 +71,30 @@ export default function ChangePasswordModal({ isOpen, onClose }: ChangePasswordM
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error?.message || data.message || 'Failed to change password');
+        setError(data.error?.message || data.message || "Failed to change password");
         return;
       }
 
       setSuccess(true);
-      setCurrentPassword('');
-      setNewPassword('');
-      setConfirmPassword('');
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
 
       setTimeout(() => {
         setSuccess(false);
         onClose();
       }, 2000);
     } catch (err: any) {
-      setError(err.message || 'An error occurred while changing password');
+      setError(err.message || "An error occurred while changing password");
     } finally {
       setLoading(false);
     }
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+  return createPortal(
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 overflow-y-auto">
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-      
+
       <div className="relative glass rounded-2xl border border-light-green/20 p-6 w-full max-w-md shadow-xl z-10">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
@@ -116,7 +122,7 @@ export default function ChangePasswordModal({ isOpen, onClose }: ChangePasswordM
             </label>
             <div className="relative">
               <input
-                type={showCurrentPassword ? 'text' : 'password'}
+                type={showCurrentPassword ? "text" : "password"}
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl bg-iki-grey/30 border border-light-green/20 text-iki-white placeholder-iki-white/40 focus:outline-none focus:border-light-green/40 focus:ring-2 focus:ring-light-green/20 body-sm font-tsukimi pr-12"
@@ -128,11 +134,7 @@ export default function ChangePasswordModal({ isOpen, onClose }: ChangePasswordM
                 onClick={() => setShowCurrentPassword(!showCurrentPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-iki-white/60 hover:text-iki-white transition-colors"
               >
-                {showCurrentPassword ? (
-                  <EyeOff className="w-5 h-5" />
-                ) : (
-                  <Eye className="w-5 h-5" />
-                )}
+                {showCurrentPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
           </div>
@@ -144,7 +146,7 @@ export default function ChangePasswordModal({ isOpen, onClose }: ChangePasswordM
             </label>
             <div className="relative">
               <input
-                type={showNewPassword ? 'text' : 'password'}
+                type={showNewPassword ? "text" : "password"}
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl bg-iki-grey/30 border border-light-green/20 text-iki-white placeholder-iki-white/40 focus:outline-none focus:border-light-green/40 focus:ring-2 focus:ring-light-green/20 body-sm font-tsukimi pr-12"
@@ -156,11 +158,7 @@ export default function ChangePasswordModal({ isOpen, onClose }: ChangePasswordM
                 onClick={() => setShowNewPassword(!showNewPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-iki-white/60 hover:text-iki-white transition-colors"
               >
-                {showNewPassword ? (
-                  <EyeOff className="w-5 h-5" />
-                ) : (
-                  <Eye className="w-5 h-5" />
-                )}
+                {showNewPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
           </div>
@@ -172,7 +170,7 @@ export default function ChangePasswordModal({ isOpen, onClose }: ChangePasswordM
             </label>
             <div className="relative">
               <input
-                type={showConfirmPassword ? 'text' : 'password'}
+                type={showConfirmPassword ? "text" : "password"}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl bg-iki-grey/30 border border-light-green/20 text-iki-white placeholder-iki-white/40 focus:outline-none focus:border-light-green/40 focus:ring-2 focus:ring-light-green/20 body-sm font-tsukimi pr-12"
@@ -184,11 +182,7 @@ export default function ChangePasswordModal({ isOpen, onClose }: ChangePasswordM
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-iki-white/60 hover:text-iki-white transition-colors"
               >
-                {showConfirmPassword ? (
-                  <EyeOff className="w-5 h-5" />
-                ) : (
-                  <Eye className="w-5 h-5" />
-                )}
+                {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
           </div>
@@ -224,12 +218,12 @@ export default function ChangePasswordModal({ isOpen, onClose }: ChangePasswordM
               disabled={loading}
               className="flex-1 px-4 py-3 rounded-xl bg-gradient-to-r from-light-green to-iki-brown hover:from-light-green/90 hover:to-iki-brown/90 transition-colors body-sm text-iki-white font-goldplay font-semibold disabled:opacity-50"
             >
-              {loading ? 'Changing...' : 'Change Password'}
+              {loading ? "Changing..." : "Change Password"}
             </button>
           </div>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
-

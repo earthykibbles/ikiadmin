@@ -1,8 +1,22 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Search, Award, TrendingUp, Edit2, Save, X, User as UserIcon, Calendar, BarChart3, Zap } from 'lucide-react';
 import { User } from '@/lib/types';
+import { getUserAvatarSeed, getUserLabel, maskEmail, shortId } from '@/lib/privacy';
+import { usePrivacyMode } from '@/lib/usePrivacyMode';
+import {
+  Award,
+  BarChart3,
+  Calendar,
+  Edit2,
+  Save,
+  Search,
+  TrendingUp,
+  User as UserIcon,
+  X,
+  Zap,
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
+import Avatar from './Avatar';
 
 interface PointsData {
   totalPoints: number;
@@ -25,6 +39,7 @@ export default function PointsManagement() {
   const [selectedUser, setSelectedUser] = useState<UserWithPoints | null>(null);
   const [loadingPoints, setLoadingPoints] = useState(false);
   const [editingPoints, setEditingPoints] = useState(false);
+  const { privacyMode } = usePrivacyMode();
   const [pointsForm, setPointsForm] = useState({
     totalPoints: 0,
     level: 1,
@@ -36,24 +51,24 @@ export default function PointsManagement() {
     try {
       setLoading(true);
       setError(null);
-      
+
       const params = new URLSearchParams();
       params.append('limit', '50');
       if (!reset && lastDocId) {
         params.append('lastDocId', lastDocId);
       }
-      
+
       const response = await fetch(`/api/users?${params.toString()}`);
       if (!response.ok) throw new Error('Failed to fetch users');
-      
+
       const data = await response.json();
-      
+
       if (reset) {
         setUsers(data.users);
       } else {
-        setUsers(prev => [...prev, ...data.users]);
+        setUsers((prev) => [...prev, ...data.users]);
       }
-      
+
       setHasMore(data.hasMore);
       setLastDocId(data.lastDocId);
     } catch (err: any) {
@@ -72,7 +87,7 @@ export default function PointsManagement() {
       setLoadingPoints(true);
       const response = await fetch(`/api/users/${userId}/points`);
       if (!response.ok) throw new Error('Failed to fetch points');
-      
+
       const data = await response.json();
       return data.points as PointsData;
     } catch (err: any) {
@@ -111,7 +126,7 @@ export default function PointsManagement() {
 
   const handleSavePoints = async () => {
     if (!selectedUser) return;
-    
+
     try {
       setLoadingPoints(true);
       const response = await fetch(`/api/users/${selectedUser.id}/points`, {
@@ -119,9 +134,9 @@ export default function PointsManagement() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(pointsForm),
       });
-      
+
       if (!response.ok) throw new Error('Failed to update points');
-      
+
       const updatedPoints = await fetchUserPoints(selectedUser.id);
       if (updatedPoints) {
         setSelectedUser({ ...selectedUser, pointsData: updatedPoints });
@@ -148,7 +163,7 @@ export default function PointsManagement() {
   const formatTitle = (key: string) => {
     return key
       .split('_')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
   };
 
@@ -167,8 +182,15 @@ export default function PointsManagement() {
     return trend;
   };
 
-  const filteredUsers = users.filter(user => {
+  const filteredUsers = users.filter((user) => {
     const query = searchQuery.toLowerCase();
+    if (privacyMode) {
+      return (
+        user.id?.toLowerCase().includes(query) ||
+        user.username?.toLowerCase().includes(query) ||
+        shortId(user.id)?.toLowerCase().includes(query)
+      );
+    }
     return (
       user.firstname?.toLowerCase().includes(query) ||
       user.lastname?.toLowerCase().includes(query) ||
@@ -177,14 +199,7 @@ export default function PointsManagement() {
     );
   });
 
-  const getDisplayName = (user: User) => {
-    if (user.firstname && user.lastname) {
-      return `${user.firstname} ${user.lastname}`;
-    }
-    if (user.firstname) return user.firstname;
-    if (user.username) return user.username;
-    return 'Unknown User';
-  };
+  const getDisplayName = (user: User) => getUserLabel(user, privacyMode);
 
   if (selectedUser) {
     const points = selectedUser.pointsData;
@@ -194,7 +209,7 @@ export default function PointsManagement() {
     const categories = points
       ? Object.entries(points.earnedPoints)
           .map(([key, value]) => ({ key, label: formatTitle(key), points: value }))
-          .filter(c => c.points > 0)
+          .filter((c) => c.points > 0)
           .sort((a, b) => b.points - a.points)
       : [];
 
@@ -211,13 +226,15 @@ export default function PointsManagement() {
             <h2 className="text-2xl font-bold text-light-green font-goldplay">
               Points Breakdown: {getDisplayName(selectedUser)}
             </h2>
-            <p className="text-iki-white/60 body-sm">{selectedUser.email}</p>
+            <p className="text-iki-white/60 body-sm">
+              {privacyMode ? maskEmail(selectedUser.email) : selectedUser.email}
+            </p>
           </div>
         </div>
 
         {loadingPoints ? (
           <div className="glass rounded-2xl p-12 text-center">
-            <div className="animate-spin w-8 h-8 border-2 border-light-green border-t-transparent rounded-full mx-auto mb-4"></div>
+            <div className="animate-spin w-8 h-8 border-2 border-light-green border-t-transparent rounded-full mx-auto mb-4" />
             <p className="text-iki-white/60">Loading points data...</p>
           </div>
         ) : points ? (
@@ -232,11 +249,13 @@ export default function PointsManagement() {
                       <input
                         type="number"
                         value={pointsForm.totalPoints}
-                        onChange={(e) => setPointsForm({
-                          ...pointsForm,
-                          totalPoints: parseInt(e.target.value) || 0,
-                          level: Math.floor((parseInt(e.target.value) || 0) / 100) + 1,
-                        })}
+                        onChange={(e) =>
+                          setPointsForm({
+                            ...pointsForm,
+                            totalPoints: Number.parseInt(e.target.value) || 0,
+                            level: Math.floor((Number.parseInt(e.target.value) || 0) / 100) + 1,
+                          })
+                        }
                         className="px-4 py-2 rounded-lg bg-iki-grey border border-light-green/20 text-light-green font-bold text-2xl w-40"
                       />
                       <span className="text-2xl font-bold text-light-green">pts</span>
@@ -246,7 +265,9 @@ export default function PointsManagement() {
                       {points.totalPoints} pts
                     </p>
                   )}
-                  <p className="text-iki-white/60 mt-2">Level {editingPoints ? pointsForm.level : points.level}</p>
+                  <p className="text-iki-white/60 mt-2">
+                    Level {editingPoints ? pointsForm.level : points.level}
+                  </p>
                 </div>
                 <div className="flex gap-2">
                   {editingPoints ? (
@@ -300,12 +321,18 @@ export default function PointsManagement() {
                 <h3 className="text-lg font-semibold text-iki-white mb-4">Last 7 Days</h3>
                 <div className="flex items-end gap-2 h-32">
                   {weeklyTrend.map((day, index) => {
-                    const maxPoints = Math.max(...weeklyTrend.map(d => d.points), 1);
+                    const maxPoints = Math.max(...weeklyTrend.map((d) => d.points), 1);
                     const height = (day.points / maxPoints) * 100;
                     return (
                       <div key={index} className="flex-1 flex flex-col items-center">
-                        <div className="w-full bg-iki-grey/30 rounded-t-lg relative" style={{ height: `${height}%` }}>
-                          <div className="absolute bottom-0 left-0 right-0 bg-light-green/60 rounded-t-lg" style={{ height: '100%' }}></div>
+                        <div
+                          className="w-full bg-iki-grey/30 rounded-t-lg relative"
+                          style={{ height: `${height}%` }}
+                        >
+                          <div
+                            className="absolute bottom-0 left-0 right-0 bg-light-green/60 rounded-t-lg"
+                            style={{ height: '100%' }}
+                          />
                         </div>
                         <p className="text-xs text-iki-white/60 mt-2">{day.label}</p>
                         <p className="text-xs font-semibold text-iki-white mt-1">{day.points}</p>
@@ -334,7 +361,7 @@ export default function PointsManagement() {
                           <div
                             className="bg-light-green h-full rounded-full transition-all"
                             style={{ width: `${percentage}%` }}
-                          ></div>
+                          />
                         </div>
                         <p className="text-xs text-iki-white/60 mt-1">
                           {percentage.toFixed(1)}% of total points
@@ -373,7 +400,7 @@ export default function PointsManagement() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-iki-white/40" />
           <input
             type="text"
-            placeholder="Search users by name, username, or email..."
+            placeholder={privacyMode ? 'Search by username or ID...' : 'Search users by name, username, or email...'}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 bg-iki-grey/30 border border-light-green/10 rounded-lg text-iki-white placeholder:text-iki-white/40 focus:outline-none focus:border-light-green/50 transition-colors"
@@ -384,7 +411,7 @@ export default function PointsManagement() {
       {/* Users List */}
       {loading ? (
         <div className="glass rounded-2xl p-12 text-center">
-          <div className="animate-spin w-8 h-8 border-2 border-light-green border-t-transparent rounded-full mx-auto mb-4"></div>
+          <div className="animate-spin w-8 h-8 border-2 border-light-green border-t-transparent rounded-full mx-auto mb-4" />
           <p className="text-iki-white/60">Loading users...</p>
         </div>
       ) : error ? (
@@ -401,9 +428,15 @@ export default function PointsManagement() {
             <table className="w-full">
               <thead className="bg-iki-grey/30 border-b border-light-green/10">
                 <tr>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-iki-white/80">User</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-iki-white/80">Email</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-iki-white/80">Actions</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-iki-white/80">
+                    User
+                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-iki-white/80">
+                    Email
+                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-iki-white/80">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-light-green/10">
@@ -411,24 +444,27 @@ export default function PointsManagement() {
                   <tr key={user.id} className="hover:bg-iki-grey/20 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        {user.photoUrl ? (
-                          <img
-                            src={user.photoUrl}
-                            alt={getDisplayName(user)}
-                            className="w-10 h-10 rounded-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-10 h-10 rounded-full bg-iki-grey/50 flex items-center justify-center">
-                            <UserIcon className="w-5 h-5 text-iki-white/60" />
-                          </div>
-                        )}
+                        <Avatar
+                          src={user.photoUrl}
+                          seed={getUserAvatarSeed(user)}
+                          alt={getDisplayName(user)}
+                          size={40}
+                          forceDicebear={privacyMode}
+                          className="w-10 h-10 rounded-full object-cover bg-iki-grey/50"
+                        />
                         <div>
                           <p className="font-semibold text-iki-white">{getDisplayName(user)}</p>
-                          <p className="text-sm text-iki-white/60">@{user.username || 'No username'}</p>
+                          {privacyMode ? (
+                            <p className="text-sm text-iki-white/60">id:{shortId(user.id)}</p>
+                          ) : (
+                            <p className="text-sm text-iki-white/60">@{user.username || 'No username'}</p>
+                          )}
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-iki-white/80">{user.email}</td>
+                    <td className="px-6 py-4 text-iki-white/80">
+                      {privacyMode ? maskEmail(user.email) : user.email}
+                    </td>
                     <td className="px-6 py-4">
                       <button
                         onClick={() => handleViewPoints(user)}
@@ -458,4 +494,3 @@ export default function PointsManagement() {
     </div>
   );
 }
-

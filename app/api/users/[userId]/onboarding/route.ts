@@ -1,15 +1,22 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { initFirebase } from '@/lib/firebase';
+import { RESOURCE_TYPES, requirePermission } from '@/lib/rbac';
 import admin from 'firebase-admin';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
+    const { userId } = await params;
+
+    const authCheck = await requirePermission(request, RESOURCE_TYPES.ONBOARDING, 'read', userId);
+    if (!authCheck.authorized) {
+      return NextResponse.json({ error: authCheck.error }, { status: authCheck.status });
+    }
+
     initFirebase();
     const db = admin.firestore();
-    const { userId } = await params;
 
     // Fetch main app onboarding (enhanced_details)
     const userDoc = await db.collection('users').doc(userId).get();
@@ -61,15 +68,13 @@ export async function GET(
     const nutritionOnboarding = nutritionOnboardingDoc.exists
       ? {
           ...nutritionOnboardingDoc.data(),
-          completedAt: nutritionOnboardingDoc.data()?.completedAt?.toDate?.()?.toISOString() || null,
+          completedAt:
+            nutritionOnboardingDoc.data()?.completedAt?.toDate?.()?.toISOString() || null,
         }
       : null;
 
     // Fetch wellsphere onboarding
-    const wellsphereProfileDoc = await db
-      .collection('wellsphere_profiles')
-      .doc(userId)
-      .get();
+    const wellsphereProfileDoc = await db.collection('wellsphere_profiles').doc(userId).get();
 
     const wellsphereOnboarding = wellsphereProfileDoc.exists
       ? {
@@ -105,39 +110,42 @@ export async function GET(
     // Extract enhanced page data from onboardingData
     const enhancedQuestions = onboardingData?.questionAnswers || null;
     const enhancedInterests = onboardingData?.interests || null;
-    const enhancedMedical = onboardingData?.hasMedicalCondition !== undefined
-      ? {
-          hasMedicalCondition: onboardingData.hasMedicalCondition,
-          medicalCondition: onboardingData.medicalCondition || null,
-          medicalDetails: onboardingData.medicalDetails || null,
-        }
-      : null;
+    const enhancedMedical =
+      onboardingData?.hasMedicalCondition !== undefined
+        ? {
+            hasMedicalCondition: onboardingData.hasMedicalCondition,
+            medicalCondition: onboardingData.medicalCondition || null,
+            medicalDetails: onboardingData.medicalDetails || null,
+          }
+        : null;
 
     // Fetch security setup data from onboardingData
-    const enhancedSecurity = onboardingData?.biometricEnabled !== undefined
-      ? {
-          biometricEnabled: onboardingData.biometricEnabled || false,
-          pinEnabled: onboardingData.pinEnabled || false,
-          pinSetAt: onboardingData.pinSetAt || null,
-        }
-      : null;
+    const enhancedSecurity =
+      onboardingData?.biometricEnabled !== undefined
+        ? {
+            biometricEnabled: onboardingData.biometricEnabled || false,
+            pinEnabled: onboardingData.pinEnabled || false,
+            pinSetAt: onboardingData.pinSetAt || null,
+          }
+        : null;
 
     // Calculate summary
     const summary = {
       hasMainOnboarding: mainOnboarding !== null,
       hasFitnessOnboarding: fitnessOnboarding !== null,
-      fitnessOnboardingComplete: fitnessOnboarding?.complete || false,
+      fitnessOnboardingComplete: !!fitnessOnboarding?.completedAt,
       hasNutritionOnboarding: nutritionOnboarding !== null,
-      nutritionOnboardingComplete: nutritionOnboarding?.complete || false,
-      hasWellsphereOnboarding: wellsphereOnboarding !== null || wellsphereOnboardingQuestions !== null,
+      nutritionOnboardingComplete: !!nutritionOnboarding?.completedAt,
+      hasWellsphereOnboarding:
+        wellsphereOnboarding !== null || wellsphereOnboardingQuestions !== null,
       hasEnhancedQuestions: enhancedQuestions !== null,
       hasEnhancedInterests: enhancedInterests !== null || userTags !== null,
       hasEnhancedMedical: enhancedMedical !== null,
       hasEnhancedSecurity: enhancedSecurity !== null,
       totalOnboardingCompleted: [
         mainOnboarding,
-        fitnessOnboarding?.complete && fitnessOnboarding,
-        nutritionOnboarding?.complete && nutritionOnboarding,
+        fitnessOnboarding?.completedAt && fitnessOnboarding,
+        nutritionOnboarding?.completedAt && nutritionOnboarding,
         (wellsphereOnboarding || wellsphereOnboardingQuestions) && {
           complete: true,
         },
@@ -162,12 +170,12 @@ export async function GET(
       onboardingData: onboardingData || null,
       summary,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching onboarding data:', error);
+    const details = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { error: 'Failed to fetch onboarding data', details: error.message },
+      { error: 'Failed to fetch onboarding data', details },
       { status: 500 }
     );
   }
 }
-

@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { initializeRBAC, getUserSession } from '@/lib/rbac';
 import { db } from '@/lib/db';
 import { user } from '@/lib/db/schema';
+import { getUserSession, initializeRBAC } from '@/lib/rbac';
 import { eq } from 'drizzle-orm';
+import { NextRequest, NextResponse } from 'next/server';
 
 // Initialize RBAC system (run once)
 // This endpoint is accessible to any authenticated user with legacy admin/superadmin role
@@ -27,12 +27,9 @@ export async function POST(request: NextRequest) {
     await initializeRBAC();
 
     return NextResponse.json({ success: true, message: 'RBAC system initialized' });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error initializing RBAC:', error);
-    return NextResponse.json(
-      { error: error.message || 'Failed to initialize RBAC' },
-      { status: 500 }
-    );
+    const message = error instanceof Error ? error.message : 'Failed to initialize RBAC';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-

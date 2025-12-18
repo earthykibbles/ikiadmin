@@ -20,7 +20,7 @@ export async function generateContent(
   const client = getOpenAI();
   const docs: { id: string; data: any }[] = [];
   const batches = Math.ceil(config.count / config.batchSize);
-  
+
   // Map GPT-5 models to available models (GPT-5 not yet released)
   const modelMap: Record<string, string> = {
     'gpt-5': 'gpt-4o',
@@ -62,9 +62,7 @@ export async function generateContent(
       } as any);
 
       const text =
-        (response as any).output_text ??
-        (response as any).choices?.[0]?.message?.content ??
-        '[]';
+        (response as any).output_text ?? (response as any).choices?.[0]?.message?.content ?? '[]';
       const arr = JSON.parse(text);
       const items = Array.isArray(arr) ? arr : [arr];
 
@@ -78,11 +76,7 @@ export async function generateContent(
         docs.push({ id: String(id).replace(/\s+/g, '-').toLowerCase(), data: item });
       }
 
-      onProgress?.(
-        Math.min(docs.length, config.count),
-        config.count,
-        `Batch ${i + 1}/${batches}`
-      );
+      onProgress?.(Math.min(docs.length, config.count), config.count, `Batch ${i + 1}/${batches}`);
     } catch (e: any) {
       // Fallback to chat completion
       console.warn('Structured output failed, falling back to chat:', e.message);
@@ -110,11 +104,7 @@ export async function generateContent(
         docs.push({ id: String(id).replace(/\s+/g, '-').toLowerCase(), data: item });
       }
 
-      onProgress?.(
-        Math.min(docs.length, config.count),
-        config.count,
-        `Batch ${i + 1}/${batches}`
-      );
+      onProgress?.(Math.min(docs.length, config.count), config.count, `Batch ${i + 1}/${batches}`);
     }
   }
 

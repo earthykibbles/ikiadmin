@@ -1,13 +1,11 @@
 'use client';
 
-import { useState, Suspense, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { createAuthClient } from 'better-auth/react';
 import { Lock, Mail, Shield, UserPlus } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
 
-const authClient = createAuthClient({
-  baseURL: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
-});
+const authClient = createAuthClient();
 
 function LoginForm() {
   const router = useRouter();
@@ -49,6 +47,41 @@ function LoginForm() {
     window.location.href = redirectTo;
   };
 
+  const redirectAfterSignIn = async () => {
+    let mustChange = false;
+    try {
+      const res = await fetch('/api/auth/me', { cache: 'no-store' });
+      if (res.ok) {
+        const me = await res.json();
+        mustChange =
+          me?.user?.mustChangePassword === true ||
+          me?.user?.mustChangePassword === 'true' ||
+          me?.user?.mustChangePassword === 1;
+      }
+    } catch {
+      // If anything goes wrong, just fall back to the normal redirect.
+    }
+
+    // Best-effort logging of the login event and email alerts.
+    try {
+      await fetch('/api/admin/security/log-login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    } catch {
+      // Swallow errors so auth flow is never blocked by logging.
+    }
+
+    if (mustChange) {
+      window.location.href = '/account?forcePasswordChange=1';
+      return;
+    }
+
+    redirectAfterAuth();
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -70,13 +103,15 @@ function LoginForm() {
         }
 
         // Sign-up successful, redirect
-        redirectAfterAuth();
+        await redirectAfterSignIn();
       } else {
         // Handle login
         if (needsMfa) {
-          // Verify MFA code
-          const result = await authClient.twoFactor.verify({
+          // Verify MFA code (TOTP)
+          // Type assertion needed because TypeScript doesn't infer plugin methods
+          const result = await (authClient as any).twoFactor.verifyTotp({
             code: mfaCode,
+            trustDevice: true,
           });
 
           if (result.error) {
@@ -85,16 +120,26 @@ function LoginForm() {
             return;
           }
 
-          redirectAfterAuth();
+          await redirectAfterSignIn();
         } else {
           // Initial login
-          const result = await authClient.signIn.email({
+          const result: any = await authClient.signIn.email({
             email,
             password,
           });
 
-          if (result.error) {
-            if (result.error.code === 'TWO_FACTOR_REQUIRED') {
+          // Better Auth 2FA can signal in different ways depending on version.
+          const twoFactorRedirect =
+            result?.data?.twoFactorRedirect ||
+            result?.data?.twoFactor?.redirect ||
+            result?.data?.twoFactor;
+
+          if (result?.error) {
+            // Older style: 2FA required is reported as an error code
+            if (
+              result.error.code === 'TWO_FACTOR_REQUIRED' ||
+              result.error.code === 'TWO_FACTOR_AUTH_NEEDED'
+            ) {
               setNeedsMfa(true);
             } else {
               setError(result.error.message || 'Invalid credentials');
@@ -103,8 +148,15 @@ function LoginForm() {
             return;
           }
 
+          // Newer style: successful response but indicates 2FA step is required
+          if (twoFactorRedirect) {
+            setNeedsMfa(true);
+            setLoading(false);
+            return;
+          }
+
           // Login successful, redirect
-          redirectAfterAuth();
+          await redirectAfterSignIn();
         }
       }
     } catch (err: any) {
@@ -124,23 +176,17 @@ function LoginForm() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-dark-blue p-6">
       <div className="w-full max-w-md">
-        <div className="glass rounded-2xl p-8 border border-light-green/20">
+        <div className="card p-8">
           <div className="text-center mb-8">
             {/* Iki Logo */}
             <div className="w-20 h-20 mx-auto mb-6 flex items-center justify-center transform hover:scale-105 transition-transform">
-              <img 
-                src="/logo.png" 
-                alt="Iki Logo" 
-                className="w-full h-full object-contain"
-              />
+              <img src="/logo.png" alt="Iki Logo" className="w-full h-full object-contain" />
             </div>
             <h1 className="heading-xl font-goldplay text-iki-white mb-2">
               {isSignUp ? 'Create Account' : 'Admin Login'}
             </h1>
             <p className="body-sm text-iki-white/60 font-tsukimi">
-              {isSignUp 
-                ? 'Create the first super admin account' 
-                : 'Secure access to Iki Dashboard'}
+              {isSignUp ? 'Create the first super admin account' : 'Secure access to Iki Dashboard'}
             </p>
           </div>
 
@@ -201,7 +247,7 @@ function LoginForm() {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
-                        className="w-full pl-10 pr-4 py-3 rounded-lg bg-iki-grey/30 border border-light-green/20 text-iki-white placeholder-iki-white/40 focus:outline-none focus:border-light-green/40 focus:ring-2 focus:ring-light-green/20 body-sm font-tsukimi"
+                        className="input-standard pl-10"
                         placeholder="Your name"
                       />
                     </div>
@@ -209,9 +255,7 @@ function LoginForm() {
                 )}
 
                 <div>
-                  <label className="block body-sm text-iki-white/80 font-tsukimi mb-2">
-                    Email
-                  </label>
+                  <label className="block body-sm text-iki-white/80 font-tsukimi mb-2">Email</label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-iki-white/40" />
                     <input
@@ -219,7 +263,7 @@ function LoginForm() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
-                      className="w-full pl-10 pr-4 py-3 rounded-lg bg-iki-grey/30 border border-light-green/20 text-iki-white placeholder-iki-white/40 focus:outline-none focus:border-light-green/40 focus:ring-2 focus:ring-light-green/20 body-sm font-tsukimi"
+                      className="input-standard pl-10"
                       placeholder="admin@iki.app"
                     />
                   </div>
@@ -237,7 +281,7 @@ function LoginForm() {
                       onChange={(e) => setPassword(e.target.value)}
                       required
                       minLength={8}
-                      className="w-full pl-10 pr-4 py-3 rounded-lg bg-iki-grey/30 border border-light-green/20 text-iki-white placeholder-iki-white/40 focus:outline-none focus:border-light-green/40 focus:ring-2 focus:ring-light-green/20 body-sm font-tsukimi"
+                      className="input-standard pl-10"
                       placeholder="••••••••"
                     />
                   </div>
@@ -274,14 +318,16 @@ function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-lg bg-light-green text-dark-blue font-goldplay font-semibold hover:bg-light-green/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn-primary w-full"
             >
-              {loading 
-                ? (isSignUp ? 'Creating account...' : 'Signing in...') 
-                : needsMfa 
-                  ? 'Verify Code' 
-                  : isSignUp 
-                    ? 'Create Account' 
+              {loading
+                ? isSignUp
+                  ? 'Creating account...'
+                  : 'Signing in...'
+                : needsMfa
+                  ? 'Verify Code'
+                  : isSignUp
+                    ? 'Create Account'
                     : 'Sign In'}
             </button>
           </form>
@@ -293,13 +339,14 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-dark-blue">
-        <div className="text-iki-white">Loading...</div>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-dark-blue">
+          <div className="text-iki-white">Loading...</div>
+        </div>
+      }
+    >
       <LoginForm />
     </Suspense>
   );
 }
-

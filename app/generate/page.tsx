@@ -1,14 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { Users, Settings, Home, Sparkles } from 'lucide-react';
-import { templates } from '@/lib/templates';
-import { GenerationConfig, Template } from '@/lib/types';
-import TemplateSelector from '@/components/TemplateSelector';
 import ConfigEditor from '@/components/ConfigEditor';
 import ProgressPanel from '@/components/ProgressPanel';
-import ProfileDropdown from '@/components/ProfileDropdown';
+import TemplateSelector from '@/components/TemplateSelector';
+import { templates } from '@/lib/templates';
+import { GenerationConfig, Template } from '@/lib/types';
+import { useState } from 'react';
 
 const defaultConfig: GenerationConfig = {
   jobName: 'custom-generation',
@@ -34,6 +31,7 @@ const defaultConfig: GenerationConfig = {
 
 export default function GeneratePage() {
   const [config, setConfig] = useState<GenerationConfig>(defaultConfig);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>('custom');
   const [isGenerating, setIsGenerating] = useState(false);
   const [progress, setProgress] = useState({
     completed: 0,
@@ -43,6 +41,7 @@ export default function GeneratePage() {
   });
 
   const handleTemplateSelect = (template: Template) => {
+    setSelectedTemplateId(template.id);
     setConfig({
       ...defaultConfig,
       ...template.config,
@@ -106,11 +105,12 @@ export default function GeneratePage() {
           }
         }
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       setProgress({
         completed: 0,
         total: config.count,
-        message: error.message,
+        message: errorMessage,
         status: 'error',
       });
     } finally {
@@ -119,76 +119,87 @@ export default function GeneratePage() {
   };
 
   return (
-    <main className="min-h-screen relative">
-      {/* Header */}
-      <header className="glass sticky top-0 z-50 border-b border-light-green/10">
-        <div className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 flex items-center justify-center transform hover:scale-105 transition-transform">
-              <img 
-                src="/logo.png" 
-                alt="Iki Logo" 
-                className="w-full h-full object-contain"
-              />
-            </div>
-            <div>
-              <h1 className="text-4xl font-black bg-gradient-to-r from-iki-brown via-[#f5e6b8] to-iki-brown bg-clip-text text-transparent">
-                Iki Gen
-              </h1>
-              <p className="text-sm text-iki-white/60 font-medium mt-0.5">
-                AI Content Generator
-              </p>
-            </div>
+    <main className="page-container relative">
+      <div className="container-standard relative">
+        {/* Header */}
+        <div className="pt-6 pb-8">
+          <div className="flex flex-col gap-3">
+            <h1 className="heading-lg font-goldplay text-iki-white">
+              Content <span className="text-gradient-green">Generator</span>
+            </h1>
+            <p className="body-md text-iki-white/60 max-w-3xl">
+              Generate structured content for Iki. Pick a template, review your schema and prompts, then
+              run generation and watch progress in real time.
+            </p>
           </div>
-          <div className="flex items-center gap-3">
-            <Link
-              href="/"
-              className="px-4 py-2 rounded-full bg-iki-grey/50 border border-light-green/20 hover:bg-iki-grey/70 transition-colors flex items-center gap-2 text-sm text-iki-white/80"
-            >
-              <Home className="w-4 h-4" />
-              Dashboard
-            </Link>
-            <Link
-              href="/users"
-              className="px-4 py-2 rounded-full bg-iki-grey/50 border border-light-green/20 hover:bg-iki-grey/70 transition-colors flex items-center gap-2 text-sm text-iki-white/80"
-            >
-              <Users className="w-4 h-4" />
-              Users
-            </Link>
-            <Link
-              href="/admin"
-              className="px-4 py-2 rounded-full bg-iki-grey/50 border border-light-green/20 hover:bg-iki-grey/70 transition-colors flex items-center gap-2 text-sm text-iki-white/80"
-            >
-              <Settings className="w-4 h-4" />
-              Admin Dashboard
-            </Link>
-            <ProfileDropdown />
-            <div className="px-4 py-2 rounded-full bg-iki-grey/50 border border-light-green/20 flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-light-green" />
-              <span className="text-sm text-iki-white/60 font-medium">Powered by OpenAI</span>
+
+          {/* Quick summary */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+            <div className="card-compact card-hover">
+              <div className="text-xs text-iki-white/50 font-medium">Output</div>
+              <div className="mt-1 text-sm text-iki-white font-semibold">
+                {config.sink === 'firestore' ? 'Firestore' : 'File'} ·{' '}
+                <span className="text-iki-white/70">{config.collection}</span>
+              </div>
+              <div className="mt-2 text-xs text-iki-white/50">
+                Job: <span className="text-iki-white/70">{config.jobName}</span>
+              </div>
+            </div>
+            <div className="card-compact card-hover">
+              <div className="text-xs text-iki-white/50 font-medium">Generation</div>
+              <div className="mt-1 text-sm text-iki-white font-semibold">
+                {config.count} items · batch {config.batchSize}
+              </div>
+              <div className="mt-2 text-xs text-iki-white/50">
+                Schema: <span className="text-iki-white/70">{config.jsonSchema.name}</span>
+              </div>
+            </div>
+            <div className="card-compact card-hover">
+              <div className="text-xs text-iki-white/50 font-medium">Model</div>
+              <div className="mt-1 text-sm text-iki-white font-semibold">{config.model}</div>
+              <div className="mt-2 text-xs text-iki-white/50">
+                Status:{' '}
+                <span
+                  className={
+                    progress.status === 'completed'
+                      ? 'text-light-green'
+                      : progress.status === 'error'
+                        ? 'text-red-300'
+                        : progress.status === 'running'
+                          ? 'text-iki-brown'
+                          : 'text-iki-white/70'
+                  }
+                >
+                  {progress.status}
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </header>
 
-      <div className="max-w-7xl mx-auto px-6 py-10 relative z-10">
-        {/* Template Selector */}
-        <TemplateSelector templates={templates} onSelect={handleTemplateSelect} />
+        {/* Templates */}
+        <TemplateSelector
+          templates={templates}
+          onSelect={handleTemplateSelect}
+          selectedTemplateId={selectedTemplateId}
+        />
 
-        {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-2 gap-8 mt-8">
-          {/* Left: Configuration */}
-          <ConfigEditor config={config} onChange={setConfig} />
+        {/* Main Content */}
+        <div className="mt-8 grid lg:grid-cols-12 gap-6 items-start">
+          <div className="lg:col-span-7 xl:col-span-8">
+            <ConfigEditor config={config} onChange={setConfig} />
+          </div>
 
-          {/* Right: Progress */}
-          <ProgressPanel
-            progress={progress}
-            isGenerating={isGenerating}
-            onGenerate={handleGenerate}
-          />
+          <div className="lg:col-span-5 xl:col-span-4">
+            <ProgressPanel
+              config={config}
+              progress={progress}
+              isGenerating={isGenerating}
+              onGenerate={handleGenerate}
+            />
+          </div>
         </div>
       </div>
     </main>
   );
 }
-

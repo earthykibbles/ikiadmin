@@ -1,7 +1,24 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Shield, Users, Key, UserCheck, Plus, X, Trash2, Edit, Save, Search, Filter, CheckCircle2, XCircle, Check } from 'lucide-react';
+import {
+  Check,
+  CheckCircle2,
+  Edit,
+  Filter,
+  Key,
+  Plus,
+  Save,
+  Search,
+  Shield,
+  Trash2,
+  UserCheck,
+  Users,
+  X,
+  XCircle,
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { usePermissions } from '@/components/PermissionsProvider';
+import { RBAC_ACTIONS, RBAC_RESOURCES } from '@/lib/permissions';
 
 interface Role {
   id: string;
@@ -46,17 +63,60 @@ export default function RBACDashboard() {
   const [newRoleDescription, setNewRoleDescription] = useState('');
   const [selectedPermissions, setSelectedPermissions] = useState<string[]>([]);
 
+  // Superadmin-only create user flow
+  const { me, can } = usePermissions();
+  const isSuperadmin = !!me?.isSuperadmin;
+  const canAdminWrite = can(RBAC_RESOURCES.ADMIN, RBAC_ACTIONS.WRITE);
+  const [showCreateUserModal, setShowCreateUserModal] = useState(false);
+  const [creatingUser, setCreatingUser] = useState(false);
+  const [createUserError, setCreateUserError] = useState<string | null>(null);
+  const [createUserSuccess, setCreateUserSuccess] = useState<{
+    userId: string;
+    email: string;
+    temporaryPassword?: string;
+    emailSent?: boolean;
+    emailError?: string | null;
+  } | null>(null);
+  const [newUserName, setNewUserName] = useState('');
+  const [newUserEmail, setNewUserEmail] = useState('');
+  const [newUserPassword, setNewUserPassword] = useState('');
+  const [autoGeneratePassword, setAutoGeneratePassword] = useState(true);
+  const [newUserRoleIds, setNewUserRoleIds] = useState<string[]>(['role_admin']);
+  const [sendCredentials, setSendCredentials] = useState(true);
+
+  // Superadmin-only reset password flow (for fixing bad hashes / onboarding)
+  const [showResetPasswordModal, setShowResetPasswordModal] = useState(false);
+  const [resettingPassword, setResettingPassword] = useState(false);
+  const [resetPasswordError, setResetPasswordError] = useState<string | null>(null);
+  const [resetPasswordSuccess, setResetPasswordSuccess] = useState<{
+    userId: string;
+    email: string;
+    temporaryPassword?: string;
+    emailSent?: boolean;
+    emailError?: string | null;
+  } | null>(null);
+  const [resetAutoGenerate, setResetAutoGenerate] = useState(true);
+  const [resetPasswordValue, setResetPasswordValue] = useState('');
+  const [resetSendEmail, setResetSendEmail] = useState(true);
+
   useEffect(() => {
     fetchData();
   }, [activeTab]);
+
+  useEffect(() => {
+    if (activeTab !== 'users') return;
+    if (!showRoleModal) return;
+    if (roles.length > 0) return;
+    ensureRolesLoaded().catch((err: any) => setError(err?.message || 'Failed to fetch roles'));
+  }, [activeTab, showRoleModal]);
 
   // Fetch permissions when create modal opens
   useEffect(() => {
     if (showCreateRoleModal && permissions.length === 0) {
       fetch('/api/rbac/permissions')
-        .then(res => res.json())
-        .then(data => setPermissions(data.permissions || []))
-        .catch(err => setError(err.message));
+        .then((res) => res.json())
+        .then((data) => setPermissions(data.permissions || []))
+        .catch((err) => setError(err.message));
     }
   }, [showCreateRoleModal]);
 
@@ -75,13 +135,13 @@ export default function RBACDashboard() {
         if (!res.ok) throw new Error('Failed to fetch roles');
         const data = await res.json();
         setRoles(data.roles || []);
-      } else       if (activeTab === 'permissions') {
+      } else if (activeTab === 'permissions') {
         const res = await fetch('/api/rbac/permissions');
         if (!res.ok) throw new Error('Failed to fetch permissions');
         const data = await res.json();
         setPermissions(data.permissions || []);
       }
-      
+
       // Always fetch permissions when showing create role modal
       if (showCreateRoleModal && permissions.length === 0) {
         const res = await fetch('/api/rbac/permissions');
@@ -94,6 +154,92 @@ export default function RBACDashboard() {
       setError(err.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const ensureRolesLoaded = async () => {
+    if (roles.length > 0) return;
+    const res = await fetch('/api/rbac/roles');
+    if (!res.ok) throw new Error('Failed to fetch roles');
+    const data = await res.json();
+    setRoles(data.roles || []);
+  };
+
+  const handleCreateUser = async () => {
+    try {
+      setCreatingUser(true);
+      setCreateUserError(null);
+      setCreateUserSuccess(null);
+
+      await ensureRolesLoaded();
+
+      const roleIds = newUserRoleIds.length > 0 ? newUserRoleIds : ['role_admin'];
+      if (!autoGeneratePassword) {
+        if (!newUserPassword.trim() || newUserPassword.trim().length < 8) {
+          throw new Error('Password must be at least 8 characters (or enable random generation)');
+        }
+      }
+      const response = await fetch('/api/rbac/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: newUserName.trim(),
+          email: newUserEmail.trim(),
+          password: autoGeneratePassword ? undefined : newUserPassword.trim(),
+          roleIds,
+          sendEmail: sendCredentials,
+          returnPassword: true,
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data?.error || 'Failed to create user');
+      }
+
+      setCreateUserSuccess(data);
+      setNewUserPassword('');
+      await fetchData();
+    } catch (err: any) {
+      setCreateUserError(err?.message || 'Failed to create user');
+    } finally {
+      setCreatingUser(false);
+    }
+  };
+
+  const handleResetPassword = async (userId: string) => {
+    try {
+      setResettingPassword(true);
+      setResetPasswordError(null);
+      setResetPasswordSuccess(null);
+
+      if (!resetAutoGenerate) {
+        if (!resetPasswordValue.trim() || resetPasswordValue.trim().length < 8) {
+          throw new Error('Password must be at least 8 characters (or enable random generation)');
+        }
+      }
+
+      const response = await fetch(`/api/rbac/users/${userId}/reset-password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          password: resetAutoGenerate ? undefined : resetPasswordValue.trim(),
+          sendEmail: resetSendEmail,
+          returnPassword: true,
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data?.error || 'Failed to reset password');
+      }
+
+      setResetPasswordSuccess(data);
+      setResetPasswordValue('');
+    } catch (err: any) {
+      setResetPasswordError(err?.message || 'Failed to reset password');
+    } finally {
+      setResettingPassword(false);
     }
   };
 
@@ -112,7 +258,7 @@ export default function RBACDashboard() {
 
       await fetchData();
       if (selectedUser?.id === userId) {
-        const updatedUser = users.find(u => u.id === userId);
+        const updatedUser = users.find((u) => u.id === userId);
         if (updatedUser) setSelectedUser(updatedUser);
       }
     } catch (err: any) {
@@ -135,7 +281,7 @@ export default function RBACDashboard() {
 
       await fetchData();
       if (selectedUser?.id === userId) {
-        const updatedUser = users.find(u => u.id === userId);
+        const updatedUser = users.find((u) => u.id === userId);
         if (updatedUser) setSelectedUser(updatedUser);
       }
     } catch (err: any) {
@@ -143,26 +289,32 @@ export default function RBACDashboard() {
     }
   };
 
-  const filteredUsers = users.filter(u =>
-    u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    u.email.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredUsers = users.filter(
+    (u) =>
+      u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      u.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const filteredRoles = roles.filter(r =>
-    r.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (r.description || '').toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredRoles = roles.filter(
+    (r) =>
+      r.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (r.description || '').toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Group permissions by resource
-  const groupedPermissions = permissions.length > 0 
-    ? permissions.reduce((acc, perm) => {
-        if (!acc[perm.resource]) {
-          acc[perm.resource] = [];
-        }
-        acc[perm.resource].push(perm);
-        return acc;
-      }, {} as Record<string, Permission[]>)
-    : {};
+  const groupedPermissions =
+    permissions.length > 0
+      ? permissions.reduce(
+          (acc, perm) => {
+            if (!acc[perm.resource]) {
+              acc[perm.resource] = [];
+            }
+            acc[perm.resource].push(perm);
+            return acc;
+          },
+          {} as Record<string, Permission[]>
+        )
+      : {};
 
   return (
     <div className="space-y-6">
@@ -176,23 +328,25 @@ export default function RBACDashboard() {
             Manage roles, permissions, and user access across the entire application
           </p>
         </div>
-        <button
-          onClick={async () => {
-            try {
-              const res = await fetch('/api/rbac/initialize', { method: 'POST' });
-              if (res.ok) {
-                alert('RBAC system initialized!');
-                await fetchData();
+        {canAdminWrite && (
+          <button
+            onClick={async () => {
+              try {
+                const res = await fetch('/api/rbac/initialize', { method: 'POST' });
+                if (res.ok) {
+                  alert('RBAC system initialized!');
+                  await fetchData();
+                }
+              } catch (err: any) {
+                setError(err.message);
               }
-            } catch (err: any) {
-              setError(err.message);
-            }
-          }}
-          className="px-4 py-2 rounded-full bg-gradient-to-r from-light-green to-[#a8d91a] text-dark-blue font-semibold hover:shadow-lg hover:shadow-light-green/50 transition-all flex items-center gap-2"
-        >
-          <Shield className="w-4 h-4" />
-          Initialize RBAC
-        </button>
+            }}
+            className="px-4 py-2 rounded-full bg-gradient-to-r from-light-green to-[#a8d91a] text-dark-blue font-semibold hover:shadow-lg hover:shadow-light-green/50 transition-all flex items-center gap-2"
+          >
+            <Shield className="w-4 h-4" />
+            Initialize RBAC
+          </button>
+        )}
       </div>
 
       {/* Tabs */}
@@ -243,21 +397,48 @@ export default function RBACDashboard() {
       {activeTab === 'users' && (
         <div className="space-y-4">
           {/* Search */}
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-iki-white/40" />
-            <input
-              type="text"
-              placeholder="Search users..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 rounded-2xl bg-iki-grey/50 border border-light-green/20 text-iki-white placeholder:text-iki-white/40 focus:outline-none focus:ring-2 focus:ring-light-green/50"
-            />
+          <div className="flex items-center gap-3">
+            <div className="relative flex-1">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-iki-white/40" />
+              <input
+                type="text"
+                placeholder="Search users..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-12 pr-4 py-3 rounded-2xl bg-iki-grey/50 border border-light-green/20 text-iki-white placeholder:text-iki-white/40 focus:outline-none focus:ring-2 focus:ring-light-green/50"
+              />
+            </div>
+
+            {isSuperadmin && (
+              <button
+                onClick={async () => {
+                  try {
+                    setCreateUserError(null);
+                    setCreateUserSuccess(null);
+                    setNewUserName('');
+                    setNewUserEmail('');
+                    setNewUserPassword('');
+                    setAutoGeneratePassword(true);
+                    setNewUserRoleIds(['role_admin']);
+                    setSendCredentials(true);
+                    await ensureRolesLoaded();
+                    setShowCreateUserModal(true);
+                  } catch (err: any) {
+                    setError(err?.message || 'Failed to load roles');
+                  }
+                }}
+                className="px-4 py-3 rounded-2xl bg-gradient-to-r from-light-green to-[#a8d91a] text-dark-blue font-semibold hover:shadow-lg hover:shadow-light-green/50 transition-all flex items-center gap-2 whitespace-nowrap"
+              >
+                <UserCheck className="w-4 h-4" />
+                Create User
+              </button>
+            )}
           </div>
 
           {/* Users List */}
           {loading ? (
             <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-light-green border-t-transparent"></div>
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-light-green border-t-transparent" />
               <p className="text-iki-white/60 mt-4">Loading users...</p>
             </div>
           ) : (
@@ -311,19 +492,39 @@ export default function RBACDashboard() {
                   <div>
                     <h4 className="font-semibold text-iki-white mb-2">{selectedUser.name}</h4>
                     <p className="text-sm text-iki-white/60">{selectedUser.email}</p>
+                    {isSuperadmin && (
+                      <div className="mt-4 flex items-center gap-2">
+                        <button
+                          onClick={() => {
+                            setResetPasswordError(null);
+                            setResetPasswordSuccess(null);
+                            setResetAutoGenerate(true);
+                            setResetPasswordValue('');
+                            setResetSendEmail(true);
+                            setShowResetPasswordModal(true);
+                          }}
+                          className="px-3 py-2 rounded-lg bg-iki-grey/50 border border-light-green/20 text-iki-white/80 hover:border-light-green/40 transition-colors flex items-center gap-2 text-sm"
+                        >
+                          <Key className="w-4 h-4" />
+                          Reset password
+                        </button>
+                      </div>
+                    )}
                   </div>
 
                   {/* Roles */}
                   <div>
                     <div className="flex items-center justify-between mb-4">
                       <h4 className="font-semibold text-iki-white">Roles</h4>
-                      <button
-                        onClick={() => setShowRoleModal(true)}
-                        className="px-3 py-1 rounded-lg bg-light-green/20 text-light-green text-sm font-medium hover:bg-light-green/30 transition-colors flex items-center gap-2"
-                      >
-                        <Plus className="w-4 h-4" />
-                        Assign Role
-                      </button>
+                      {canAdminWrite && (
+                        <button
+                          onClick={() => setShowRoleModal(true)}
+                          className="px-3 py-1 rounded-lg bg-light-green/20 text-light-green text-sm font-medium hover:bg-light-green/30 transition-colors flex items-center gap-2"
+                        >
+                          <Plus className="w-4 h-4" />
+                          Assign Role
+                        </button>
+                      )}
                     </div>
                     <div className="space-y-2">
                       {selectedUser.roles.map((role) => (
@@ -337,7 +538,7 @@ export default function RBACDashboard() {
                               <p className="text-xs text-iki-white/60 mt-1">{role.description}</p>
                             )}
                           </div>
-                          {!role.isSystem && (
+                          {canAdminWrite && !role.isSystem && me?.user.id !== selectedUser.id && (
                             <button
                               onClick={() => handleRemoveRole(selectedUser.id, role.id)}
                               className="p-2 hover:bg-red-500/20 rounded-lg transition-colors"
@@ -356,14 +557,160 @@ export default function RBACDashboard() {
                     <div className="space-y-2">
                       <div className="p-3 rounded-lg bg-iki-grey/50 border border-light-green/20">
                         <p className="text-sm text-iki-white/80">
-                          <strong>Role-based:</strong> {selectedUser.permissions.roleBased.length} permissions
+                          <strong>Role-based:</strong> {selectedUser.permissions.roleBased.length}{' '}
+                          permissions
                         </p>
                         <p className="text-sm text-iki-white/80 mt-1">
-                          <strong>Resource-based:</strong> {selectedUser.permissions.resourceBased.length} permissions
+                          <strong>Resource-based:</strong>{' '}
+                          {selectedUser.permissions.resourceBased.length} permissions
                         </p>
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Reset Password Modal (Superadmin only) */}
+          {showResetPasswordModal && selectedUser && isSuperadmin && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+              <div className="bg-iki-grey rounded-2xl border border-light-green/20 max-w-xl w-full">
+                <div className="p-6 border-b border-light-green/20 flex items-center justify-between">
+                  <h3 className="text-xl font-bold text-iki-white">Reset password</h3>
+                  <button
+                    onClick={() => setShowResetPasswordModal(false)}
+                    className="p-2 hover:bg-iki-grey/50 rounded-lg transition-colors"
+                  >
+                    <X className="w-5 h-5 text-iki-white/60" />
+                  </button>
+                </div>
+
+                <div className="p-6 space-y-5">
+                  <div className="text-sm text-iki-white/70">
+                    User: <span className="text-iki-white/90">{selectedUser.email}</span>
+                  </div>
+
+                  {resetPasswordError && (
+                    <div className="p-4 rounded-2xl bg-red-500/20 border border-red-500/50 text-red-300 flex items-center gap-2">
+                      <XCircle className="w-5 h-5" />
+                      <span>{resetPasswordError}</span>
+                    </div>
+                  )}
+
+                  {resetPasswordSuccess && (
+                    <div className="p-4 rounded-2xl bg-green-500/15 border border-green-500/40 text-green-200">
+                      <div className="flex items-center gap-2 font-semibold">
+                        <CheckCircle2 className="w-5 h-5" />
+                        Password reset
+                      </div>
+                      <div className="mt-2 text-sm text-iki-white/80 space-y-1">
+                        {typeof resetPasswordSuccess.emailSent === 'boolean' && (
+                          <div>
+                            <strong>Email sent:</strong> {resetPasswordSuccess.emailSent ? 'Yes' : 'No'}
+                            {resetPasswordSuccess.emailError ? ` (${resetPasswordSuccess.emailError})` : ''}
+                          </div>
+                        )}
+                        {resetPasswordSuccess.temporaryPassword && (
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="min-w-0">
+                              <strong>Temporary password:</strong>{' '}
+                              <span className="font-mono break-all">{resetPasswordSuccess.temporaryPassword}</span>
+                            </div>
+                            <button
+                              onClick={async () => {
+                                try {
+                                  await navigator.clipboard.writeText(
+                                    resetPasswordSuccess.temporaryPassword || ''
+                                  );
+                                } catch {
+                                  // ignore
+                                }
+                              }}
+                              className="px-3 py-1.5 rounded-lg bg-iki-grey/50 border border-light-green/20 text-iki-white/80 text-xs hover:border-light-green/40 transition-colors whitespace-nowrap"
+                            >
+                              Copy
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  <label className="flex items-center gap-3 p-3 rounded-lg bg-iki-grey/50 border border-light-green/20">
+                    <input
+                      type="checkbox"
+                      checked={resetAutoGenerate}
+                      onChange={(e) => {
+                        const next = e.target.checked;
+                        setResetAutoGenerate(next);
+                        if (next) setResetPasswordValue('');
+                      }}
+                      className="w-4 h-4 rounded border-light-green/30 text-light-green focus:ring-light-green/50"
+                    />
+                    <div className="min-w-0">
+                      <div className="text-sm font-medium text-iki-white">Generate random password</div>
+                      <div className="text-xs text-iki-white/60">If disabled, you must enter a password.</div>
+                    </div>
+                  </label>
+
+                  <div>
+                    <label className="block text-sm font-medium text-iki-white mb-2">New password</label>
+                    <input
+                      type="text"
+                      value={resetPasswordValue}
+                      onChange={(e) => setResetPasswordValue(e.target.value)}
+                      disabled={resetAutoGenerate}
+                      className="w-full px-4 py-3 rounded-lg bg-iki-grey/50 border border-light-green/20 text-iki-white placeholder:text-iki-white/40 focus:outline-none focus:ring-2 focus:ring-light-green/50"
+                      placeholder={
+                        resetAutoGenerate ? 'Random password will be generated automatically' : 'Enter a password (min 8 chars)'
+                      }
+                    />
+                  </div>
+
+                  <label className="flex items-center gap-3 p-3 rounded-lg bg-iki-grey/50 border border-light-green/20">
+                    <input
+                      type="checkbox"
+                      checked={resetSendEmail}
+                      onChange={(e) => setResetSendEmail(e.target.checked)}
+                      className="w-4 h-4 rounded border-light-green/30 text-light-green focus:ring-light-green/50"
+                    />
+                    <div className="min-w-0">
+                      <div className="text-sm font-medium text-iki-white">Email credentials via SMTP</div>
+                      <div className="text-xs text-iki-white/60">
+                        Requires SMTP env vars to be configured on the server.
+                      </div>
+                    </div>
+                  </label>
+                </div>
+
+                <div className="p-6 border-t border-light-green/20 flex items-center justify-end gap-3">
+                  <button
+                    onClick={() => setShowResetPasswordModal(false)}
+                    className="px-4 py-2 rounded-lg bg-iki-grey/50 border border-light-green/20 text-iki-white hover:bg-iki-grey/70 transition-colors"
+                    disabled={resettingPassword}
+                  >
+                    Close
+                  </button>
+                  <button
+                    onClick={async () => {
+                      await handleResetPassword(selectedUser.id);
+                    }}
+                    className="px-6 py-2 rounded-lg bg-gradient-to-r from-light-green to-[#a8d91a] text-dark-blue font-semibold hover:shadow-lg hover:shadow-light-green/50 transition-all flex items-center gap-2"
+                    disabled={resettingPassword}
+                  >
+                    {resettingPassword ? (
+                      <>
+                        <span className="inline-block animate-spin rounded-full h-4 w-4 border-2 border-dark-blue border-t-transparent" />
+                        Resetting...
+                      </>
+                    ) : (
+                      <>
+                        <Key className="w-4 h-4" />
+                        Reset password
+                      </>
+                    )}
+                  </button>
                 </div>
               </div>
             </div>
@@ -384,7 +731,7 @@ export default function RBACDashboard() {
                 </div>
                 <div className="p-6 space-y-4">
                   {roles
-                    .filter(r => !selectedUser.roles.some(ur => ur.id === r.id))
+                    .filter((r) => !selectedUser.roles.some((ur) => ur.id === r.id))
                     .map((role) => (
                       <button
                         key={role.id}
@@ -400,6 +747,237 @@ export default function RBACDashboard() {
                         )}
                       </button>
                     ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Create User Modal (Superadmin only) */}
+          {showCreateUserModal && isSuperadmin && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+              <div className="bg-iki-grey rounded-2xl border border-light-green/20 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <div className="p-6 border-b border-light-green/20 flex items-center justify-between">
+                  <h3 className="text-xl font-bold text-iki-white">Create Admin User</h3>
+                  <button
+                    onClick={() => setShowCreateUserModal(false)}
+                    className="p-2 hover:bg-iki-grey/50 rounded-lg transition-colors"
+                  >
+                    <X className="w-5 h-5 text-iki-white/60" />
+                  </button>
+                </div>
+
+                <div className="p-6 space-y-5">
+                  {createUserError && (
+                    <div className="p-4 rounded-2xl bg-red-500/20 border border-red-500/50 text-red-300 flex items-center gap-2">
+                      <XCircle className="w-5 h-5" />
+                      <span>{createUserError}</span>
+                    </div>
+                  )}
+
+                  {createUserSuccess && (
+                    <div className="p-4 rounded-2xl bg-green-500/15 border border-green-500/40 text-green-200">
+                      <div className="flex items-center gap-2 font-semibold">
+                        <CheckCircle2 className="w-5 h-5" />
+                        User created
+                      </div>
+                      <div className="mt-2 text-sm text-iki-white/80 space-y-1">
+                        <div>
+                          <strong>Email:</strong> {createUserSuccess.email}
+                        </div>
+                        {typeof createUserSuccess.emailSent === 'boolean' && (
+                          <div>
+                            <strong>Email sent:</strong>{' '}
+                            {createUserSuccess.emailSent ? 'Yes' : 'No'}
+                            {createUserSuccess.emailError ? ` (${createUserSuccess.emailError})` : ''}
+                          </div>
+                        )}
+                        {createUserSuccess.temporaryPassword && (
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="min-w-0">
+                              <strong>Temporary password:</strong>{' '}
+                              <span className="font-mono break-all">{createUserSuccess.temporaryPassword}</span>
+                            </div>
+                            <button
+                              onClick={async () => {
+                                try {
+                                  await navigator.clipboard.writeText(
+                                    createUserSuccess.temporaryPassword || ''
+                                  );
+                                } catch {
+                                  // ignore
+                                }
+                              }}
+                              className="px-3 py-1.5 rounded-lg bg-iki-grey/50 border border-light-green/20 text-iki-white/80 text-xs hover:border-light-green/40 transition-colors whitespace-nowrap"
+                            >
+                              Copy
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-iki-white mb-2">Name *</label>
+                      <input
+                        type="text"
+                        value={newUserName}
+                        onChange={(e) => setNewUserName(e.target.value)}
+                        className="w-full px-4 py-3 rounded-lg bg-iki-grey/50 border border-light-green/20 text-iki-white placeholder:text-iki-white/40 focus:outline-none focus:ring-2 focus:ring-light-green/50"
+                        placeholder="e.g., Jane Admin"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-iki-white mb-2">Email *</label>
+                      <input
+                        type="email"
+                        value={newUserEmail}
+                        onChange={(e) => setNewUserEmail(e.target.value)}
+                        className="w-full px-4 py-3 rounded-lg bg-iki-grey/50 border border-light-green/20 text-iki-white placeholder:text-iki-white/40 focus:outline-none focus:ring-2 focus:ring-light-green/50"
+                        placeholder="admin@iki.app"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-iki-white mb-2">
+                      Password (optional)
+                    </label>
+                    <input
+                      type="text"
+                      value={newUserPassword}
+                      onChange={(e) => setNewUserPassword(e.target.value)}
+                      disabled={autoGeneratePassword}
+                      className="w-full px-4 py-3 rounded-lg bg-iki-grey/50 border border-light-green/20 text-iki-white placeholder:text-iki-white/40 focus:outline-none focus:ring-2 focus:ring-light-green/50"
+                      placeholder={
+                        autoGeneratePassword
+                          ? 'Random password will be generated automatically'
+                          : 'Enter a password (min 8 chars)'
+                      }
+                    />
+                    <p className="text-xs text-iki-white/60 mt-2">
+                      Choose random generation or type your own password.
+                    </p>
+                  </div>
+
+                  <label className="flex items-center gap-3 p-3 rounded-lg bg-iki-grey/50 border border-light-green/20">
+                    <input
+                      type="checkbox"
+                      checked={autoGeneratePassword}
+                      onChange={(e) => {
+                        const next = e.target.checked;
+                        setAutoGeneratePassword(next);
+                        if (next) setNewUserPassword('');
+                      }}
+                      className="w-4 h-4 rounded border-light-green/30 text-light-green focus:ring-light-green/50"
+                    />
+                    <div className="min-w-0">
+                      <div className="text-sm font-medium text-iki-white">Generate random password</div>
+                      <div className="text-xs text-iki-white/60">
+                        If enabled, we’ll generate a strong temporary password.
+                      </div>
+                    </div>
+                  </label>
+
+                  <div>
+                    <div className="flex items-center justify-between gap-4 mb-3">
+                      <label className="block text-sm font-medium text-iki-white">
+                        Assign roles ({newUserRoleIds.length} selected)
+                      </label>
+                      <button
+                        onClick={() => setNewUserRoleIds(['role_admin'])}
+                        className="text-xs text-iki-white/70 hover:text-iki-white/90"
+                      >
+                        Reset to Admin
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {roles.map((r) => (
+                        <label
+                          key={r.id}
+                          className="flex items-start gap-3 p-3 rounded-lg bg-iki-grey/50 border border-light-green/20 hover:border-light-green/40 cursor-pointer transition-all"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={newUserRoleIds.includes(r.id)}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setNewUserRoleIds([...new Set([...newUserRoleIds, r.id])]);
+                              } else {
+                                const next = newUserRoleIds.filter((id) => id !== r.id);
+                                setNewUserRoleIds(next.length > 0 ? next : ['role_admin']);
+                              }
+                            }}
+                            className="mt-1 w-4 h-4 rounded border-light-green/30 text-light-green focus:ring-light-green/50"
+                          />
+                          <div className="min-w-0">
+                            <div className="font-medium text-iki-white flex items-center gap-2">
+                              <span className="capitalize">{r.name}</span>
+                              {r.isSystem && (
+                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300">
+                                  System
+                                </span>
+                              )}
+                            </div>
+                            {r.description && (
+                              <div className="text-xs text-iki-white/60 mt-1">{r.description}</div>
+                            )}
+                          </div>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  <label className="flex items-center gap-3 p-3 rounded-lg bg-iki-grey/50 border border-light-green/20">
+                    <input
+                      type="checkbox"
+                      checked={sendCredentials}
+                      onChange={(e) => setSendCredentials(e.target.checked)}
+                      className="w-4 h-4 rounded border-light-green/30 text-light-green focus:ring-light-green/50"
+                    />
+                    <div className="min-w-0">
+                      <div className="text-sm font-medium text-iki-white">
+                        Email credentials via SMTP (Mailgun)
+                      </div>
+                      <div className="text-xs text-iki-white/60">
+                        Requires SMTP env vars to be configured on the server.
+                      </div>
+                    </div>
+                  </label>
+                </div>
+
+                <div className="p-6 border-t border-light-green/20 flex items-center justify-end gap-3">
+                  <button
+                    onClick={() => setShowCreateUserModal(false)}
+                    className="px-4 py-2 rounded-lg bg-iki-grey/50 border border-light-green/20 text-iki-white hover:bg-iki-grey/70 transition-colors"
+                    disabled={creatingUser}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={async () => {
+                      if (!newUserName.trim() || !newUserEmail.trim()) {
+                        setCreateUserError('Name and email are required');
+                        return;
+                      }
+                      await handleCreateUser();
+                    }}
+                    className="px-6 py-2 rounded-lg bg-gradient-to-r from-light-green to-[#a8d91a] text-dark-blue font-semibold hover:shadow-lg hover:shadow-light-green/50 transition-all flex items-center gap-2"
+                    disabled={creatingUser}
+                  >
+                    {creatingUser ? (
+                      <>
+                        <span className="inline-block animate-spin rounded-full h-4 w-4 border-2 border-dark-blue border-t-transparent" />
+                        Creating...
+                      </>
+                    ) : (
+                      <>
+                        <Plus className="w-4 h-4" />
+                        Create User
+                      </>
+                    )}
+                  </button>
                 </div>
               </div>
             </div>
@@ -421,24 +999,26 @@ export default function RBACDashboard() {
                 className="w-full pl-12 pr-4 py-3 rounded-2xl bg-iki-grey/50 border border-light-green/20 text-iki-white placeholder:text-iki-white/40 focus:outline-none focus:ring-2 focus:ring-light-green/50"
               />
             </div>
-            <button
-              onClick={() => {
-                setEditingRole(null);
-                setNewRoleName('');
-                setNewRoleDescription('');
-                setSelectedPermissions([]);
-                setShowCreateRoleModal(true);
-              }}
-              className="px-4 py-2 rounded-full bg-gradient-to-r from-light-green to-[#a8d91a] text-dark-blue font-semibold hover:shadow-lg hover:shadow-light-green/50 transition-all flex items-center gap-2"
-            >
-              <Plus className="w-4 h-4" />
-              Create Role
-            </button>
+            {canAdminWrite && (
+              <button
+                onClick={() => {
+                  setEditingRole(null);
+                  setNewRoleName('');
+                  setNewRoleDescription('');
+                  setSelectedPermissions([]);
+                  setShowCreateRoleModal(true);
+                }}
+                className="px-4 py-2 rounded-full bg-gradient-to-r from-light-green to-[#a8d91a] text-dark-blue font-semibold hover:shadow-lg hover:shadow-light-green/50 transition-all flex items-center gap-2"
+              >
+                <Plus className="w-4 h-4" />
+                Create Role
+              </button>
+            )}
           </div>
 
           {loading ? (
             <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-light-green border-t-transparent"></div>
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-light-green border-t-transparent" />
               <p className="text-iki-white/60 mt-4">Loading roles...</p>
             </div>
           ) : (
@@ -472,14 +1052,14 @@ export default function RBACDashboard() {
                         ))}
                       </div>
                     </div>
-                    {!role.isSystem && (
+                    {canAdminWrite && !role.isSystem && (
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => {
                             setEditingRole(role);
                             setNewRoleName(role.name);
                             setNewRoleDescription(role.description || '');
-                            setSelectedPermissions(role.permissions?.map(p => p.id) || []);
+                            setSelectedPermissions(role.permissions?.map((p) => p.id) || []);
                             setShowCreateRoleModal(true);
                           }}
                           className="p-2 hover:bg-iki-grey/50 rounded-lg transition-colors"
@@ -489,12 +1069,18 @@ export default function RBACDashboard() {
                         </button>
                         <button
                           onClick={async () => {
-                            if (!confirm(`Are you sure you want to delete the role "${role.name}"? This will remove it from all users.`)) {
+                            if (
+                              !confirm(
+                                `Are you sure you want to delete the role "${role.name}"? This will remove it from all users.`
+                              )
+                            ) {
                               return;
                             }
                             try {
                               // Note: You'll need to create a DELETE endpoint for roles
-                              setError('Role deletion endpoint not yet implemented. Please delete manually from database.');
+                              setError(
+                                'Role deletion endpoint not yet implemented. Please delete manually from database.'
+                              );
                             } catch (err: any) {
                               setError(err.message);
                             }
@@ -519,7 +1105,7 @@ export default function RBACDashboard() {
         <div className="space-y-4">
           {loading ? (
             <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-light-green border-t-transparent"></div>
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-light-green border-t-transparent" />
               <p className="text-iki-white/60 mt-4">Loading permissions...</p>
             </div>
           ) : (
@@ -574,9 +1160,7 @@ export default function RBACDashboard() {
             <div className="p-6 space-y-6">
               {/* Role Name */}
               <div>
-                <label className="block text-sm font-medium text-iki-white mb-2">
-                  Role Name *
-                </label>
+                <label className="block text-sm font-medium text-iki-white mb-2">Role Name *</label>
                 <input
                   type="text"
                   value={newRoleName}
@@ -589,9 +1173,7 @@ export default function RBACDashboard() {
 
               {/* Role Description */}
               <div>
-                <label className="block text-sm font-medium text-iki-white mb-2">
-                  Description
-                </label>
+                <label className="block text-sm font-medium text-iki-white mb-2">Description</label>
                 <textarea
                   value={newRoleDescription}
                   onChange={(e) => setNewRoleDescription(e.target.value)}
@@ -607,45 +1189,41 @@ export default function RBACDashboard() {
                   Permissions ({selectedPermissions.length} selected)
                 </label>
                 {permissions.length === 0 ? (
-                  <div className="text-center py-8 text-iki-white/60">
-                    Loading permissions...
-                  </div>
+                  <div className="text-center py-8 text-iki-white/60">Loading permissions...</div>
                 ) : (
                   <div className="space-y-4 max-h-96 overflow-y-auto">
                     {Object.entries(groupedPermissions).map(([resource, perms]) => (
-                    <div
-                      key={resource}
-                      className="p-4 rounded-lg bg-iki-grey/50 border border-light-green/20"
-                    >
-                      <h4 className="font-semibold text-iki-white mb-3 capitalize">
-                        {resource}
-                      </h4>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                        {perms.map((perm) => (
-                          <label
-                            key={perm.id}
-                            className="flex items-center gap-2 p-2 rounded bg-iki-grey/30 border border-light-green/10 hover:border-light-green/30 cursor-pointer transition-colors"
-                          >
-                            <input
-                              type="checkbox"
-                              checked={selectedPermissions.includes(perm.id)}
-                              onChange={(e) => {
-                                if (e.target.checked) {
-                                  setSelectedPermissions([...selectedPermissions, perm.id]);
-                                } else {
-                                  setSelectedPermissions(
-                                    selectedPermissions.filter((id) => id !== perm.id)
-                                  );
-                                }
-                              }}
-                              className="w-4 h-4 rounded border-light-green/30 text-light-green focus:ring-light-green/50"
-                            />
-                            <span className="text-sm text-iki-white">{perm.action}</span>
-                          </label>
-                        ))}
+                      <div
+                        key={resource}
+                        className="p-4 rounded-lg bg-iki-grey/50 border border-light-green/20"
+                      >
+                        <h4 className="font-semibold text-iki-white mb-3 capitalize">{resource}</h4>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                          {perms.map((perm) => (
+                            <label
+                              key={perm.id}
+                              className="flex items-center gap-2 p-2 rounded bg-iki-grey/30 border border-light-green/10 hover:border-light-green/30 cursor-pointer transition-colors"
+                            >
+                              <input
+                                type="checkbox"
+                                checked={selectedPermissions.includes(perm.id)}
+                                onChange={(e) => {
+                                  if (e.target.checked) {
+                                    setSelectedPermissions([...selectedPermissions, perm.id]);
+                                  } else {
+                                    setSelectedPermissions(
+                                      selectedPermissions.filter((id) => id !== perm.id)
+                                    );
+                                  }
+                                }}
+                                className="w-4 h-4 rounded border-light-green/30 text-light-green focus:ring-light-green/50"
+                              />
+                              <span className="text-sm text-iki-white">{perm.action}</span>
+                            </label>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                   </div>
                 )}
               </div>
@@ -675,7 +1253,9 @@ export default function RBACDashboard() {
                       if (editingRole) {
                         // Update role - for now we'll just show a message that editing is not fully implemented
                         // In a full implementation, you'd need an UPDATE endpoint
-                        setError('Role editing is not yet implemented. Please delete and recreate the role.');
+                        setError(
+                          'Role editing is not yet implemented. Please delete and recreate the role.'
+                        );
                         return;
                       }
 
@@ -718,4 +1298,3 @@ export default function RBACDashboard() {
     </div>
   );
 }
-

@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: 'Goldplay';
-  src: url('/goldplay-regular.ttf') format('truetype');
+  font-family: "Goldplay";
+  src: url("/goldplay-regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -10,8 +10,8 @@
 }
 
 @font-face {
-  font-family: 'Goldplay';
-  src: url('/goldplay-regular.ttf') format('truetype');
+  font-family: "Goldplay";
+  src: url("/goldplay-regular.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -19,8 +19,8 @@
 }
 
 @font-face {
-  font-family: 'Goldplay';
-  src: url('/goldplay-regular.ttf') format('truetype');
+  font-family: "Goldplay";
+  src: url("/goldplay-regular.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -34,16 +34,21 @@
   --color-iki-brown: #ead69f;
   --color-iki-white: #efffff;
   --color-light-accent: #886ee4;
-  
-  --font-family-sans: var(--font-tsukimi-rounded), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", "Helvetica Neue", Arial, sans-serif;
-  --font-family-goldplay: 'Goldplay', var(--font-tsukimi-rounded), sans-serif;
-  
+
+  --font-family-sans: var(--font-tsukimi-rounded), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-family-goldplay: "Goldplay", var(--font-tsukimi-rounded), sans-serif;
+
   --animate-shimmer: shimmer 3s linear infinite;
 }
 
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 body {
@@ -60,14 +65,13 @@ body {
 
 /* Animated background pattern */
 body::before {
-  content: '';
+  content: "";
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
-    radial-gradient(circle at 20% 50%, rgba(197, 255, 32, 0.03) 0%, transparent 50%),
+  background-image: radial-gradient(circle at 20% 50%, rgba(197, 255, 32, 0.03) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(234, 214, 159, 0.02) 0%, transparent 50%),
     radial-gradient(circle at 40% 20%, rgba(197, 255, 32, 0.02) 0%, transparent 50%);
   pointer-events: none;
@@ -76,7 +80,8 @@ body::before {
 }
 
 @keyframes backgroundPulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -196,9 +201,7 @@ body::before {
     background: rgba(32, 30, 40, 0.8);
     backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(197, 255, 32, 0.15);
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   /* Gradient text utilities */
@@ -228,8 +231,187 @@ body::before {
 
   .card-hover:hover {
     transform: translateY(-2px);
-    box-shadow: 
-      0 12px 40px rgba(0, 0, 0, 0.4),
-      0 0 20px rgba(197, 255, 32, 0.1);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(197, 255, 32, 0.1);
+  }
+
+  /* Standardized container styles */
+  .container-standard {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .page-container {
+    min-height: 100vh;
+    position: relative;
+    padding-top: 1rem;
+    padding-bottom: 2.5rem;
+  }
+
+  /* Standardized card styles */
+  .card {
+    background: rgba(32, 30, 40, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(197, 255, 32, 0.1);
+    @apply rounded-2xl p-6 border border-light-green/10;
+  }
+
+  .card-compact {
+    background: rgba(32, 30, 40, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(197, 255, 32, 0.1);
+    @apply rounded-xl p-4 border border-light-green/10;
+  }
+
+  .card-interactive {
+    background: rgba(32, 30, 40, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(197, 255, 32, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    @apply rounded-2xl p-6 border border-light-green/10;
+  }
+
+  .card-interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(197, 255, 32, 0.1);
+  }
+
+  /* Standardized section headers */
+  .section-header {
+    @apply mb-6;
+  }
+
+  .section-title {
+    font-family: var(--font-family-goldplay);
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    @apply text-iki-white mb-2;
+  }
+
+  .section-subtitle {
+    font-family: var(--font-family-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    @apply text-iki-white/60;
+  }
+
+  /* Standardized input styles */
+  .input-standard {
+    @apply w-full px-4 py-3 rounded-xl bg-iki-grey/50 border border-light-green/20 text-iki-white placeholder:text-iki-white/40 focus:outline-none focus:ring-2 focus:ring-light-green/50 focus:border-light-green/50 transition-all;
+  }
+
+  /* Standardized button variants */
+  .btn-primary {
+    @apply px-6 py-3 rounded-xl bg-gradient-to-br from-light-green to-[#a8d91a] text-dark-blue font-semibold hover:shadow-lg hover:shadow-light-green/50 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-xl bg-iki-grey/50 border border-light-green/20 text-iki-white hover:bg-iki-grey/70 hover:border-light-green/40 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply px-4 py-2 rounded-lg bg-transparent text-iki-white/70 hover:bg-iki-grey/50 hover:text-iki-white transition-all flex items-center gap-2;
+  }
+
+  /* Standardized badge styles */
+  .badge {
+    @apply px-3 py-1 rounded-full text-xs font-medium border;
+  }
+
+  .badge-primary {
+    @apply px-3 py-1 rounded-full text-xs font-medium border bg-light-green/20 text-light-green border-light-green/50;
+  }
+
+  .badge-secondary {
+    @apply px-3 py-1 rounded-full text-xs font-medium border bg-iki-grey/50 text-iki-white/80 border-light-green/20;
+  }
+
+  /* Standardized table styles */
+  .table-container {
+    @apply rounded-2xl bg-iki-grey/30 border border-light-green/20 overflow-hidden;
+  }
+
+  .table-header {
+    @apply bg-iki-grey/50 border-b border-light-green/20;
+  }
+
+  .table-cell {
+    @apply px-6 py-4;
+  }
+
+  .table-header-cell {
+    @apply px-6 py-4 text-left text-xs font-semibold text-iki-white/60 uppercase tracking-wider;
+  }
+
+  /* Standardized modal styles */
+  .modal-overlay {
+    @apply fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4;
+  }
+
+  .modal-content {
+    background: rgba(32, 30, 40, 0.8);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(197, 255, 32, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    @apply rounded-2xl p-6 border border-light-green/10 max-w-2xl w-full max-h-[90vh] overflow-y-auto;
+  }
+
+  /* Standardized grid layouts */
+  .grid-metrics {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4;
+  }
+
+  .grid-cards {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+  }
+
+  /* Standardized spacing utilities */
+  .spacing-section {
+    @apply space-y-6;
+  }
+
+  .spacing-card {
+    @apply space-y-4;
+  }
+
+  /* Status colors */
+  .status-pending {
+    @apply text-yellow-500 bg-yellow-500/20 border-yellow-500/50;
+  }
+
+  .status-success {
+    @apply text-green-500 bg-green-500/20 border-green-500/50;
+  }
+
+  .status-error {
+    @apply text-red-500 bg-red-500/20 border-red-500/50;
+  }
+
+  .status-info {
+    @apply text-blue-500 bg-blue-500/20 border-blue-500/50;
+  }
+
+  /* Loading states */
+  .skeleton {
+    @apply animate-pulse bg-iki-grey/50 rounded;
+  }
+
+  .spinner {
+    @apply inline-block animate-spin rounded-full border-4 border-light-green border-t-transparent;
+  }
+
+  /* Scrollbar utilities */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }

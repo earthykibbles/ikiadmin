@@ -1,10 +1,10 @@
 import 'dotenv/config';
-import postgres from 'postgres';
+import { hashPassword } from 'better-auth/crypto';
 import { drizzle } from 'drizzle-orm/postgres-js';
-import { user, account } from '../lib/db/schema';
-import * as schema from '../lib/db/schema';
 import { nanoid } from 'nanoid';
-import { hash } from 'bcryptjs';
+import postgres from 'postgres';
+import { account, user } from '../lib/db/schema';
+import * as schema from '../lib/db/schema';
 
 async function createSuperadmin() {
   if (!process.env.DATABASE_URL) {
@@ -20,9 +20,8 @@ async function createSuperadmin() {
   const name = 'Super Admin';
 
   const userId = nanoid();
-  // Better Auth uses bcryptjs with 10 rounds (default)
-  // Make sure the hash format matches Better Auth's expectations
-  const hashedPassword = await hash(password, 10);
+  // Better Auth uses scrypt-based hashing (salt:key)
+  const hashedPassword = await hashPassword(password);
 
   try {
     await db.transaction(async (tx) => {

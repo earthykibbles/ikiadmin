@@ -1,9 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { AlertTriangle, Users, TrendingDown, Database, Activity, RefreshCw } from 'lucide-react';
+import { clearAnalyticsCache, getCachedAnalytics } from '@/lib/analyticsCache';
+import {
+  Activity,
+  AlertTriangle,
+  CheckCircle2,
+  Database,
+  RefreshCw,
+  TrendingDown,
+  Users,
+} from 'lucide-react';
 import Link from 'next/link';
-import { getCachedAnalytics, clearAnalyticsCache } from '@/lib/analyticsCache';
+import { useEffect, useState } from 'react';
 
 interface AttentionItem {
   id: string;
@@ -49,9 +57,15 @@ export default function AttentionItems() {
       // Calculate attention items based on analytics
       // These are simplified calculations - you can enhance based on your needs
       const attentionData: AttentionData = {
-        lowEngagementUsers: Math.max(0, analyticsData.users.total - analyticsData.users.online - 10), // Users not online recently
+        lowEngagementUsers: Math.max(
+          0,
+          analyticsData.users.total - analyticsData.users.online - 10
+        ), // Users not online recently
         incompleteProfiles: Math.floor(analyticsData.users.total * 0.15), // Estimate 15% incomplete
-        noActivityUsers: analyticsData.users.total > 0 && analyticsData.moods.total === 0 ? Math.floor(analyticsData.users.total * 0.2) : 0,
+        noActivityUsers:
+          analyticsData.users.total > 0 && analyticsData.moods.total === 0
+            ? Math.floor(analyticsData.users.total * 0.2)
+            : 0,
         dataAnomalies: 0, // Could be calculated based on data inconsistencies
       };
 
@@ -78,12 +92,12 @@ export default function AttentionItems() {
 
   if (!data) return null;
 
-  const attentionItems: AttentionItem[] = [
+  const allAttentionItems = [
     {
       id: 'low-engagement',
       type: 'warning',
       title: 'Low Engagement Users',
-      description: 'Users who haven\'t been active recently may need re-engagement',
+      description: "Users who haven't been active recently may need re-engagement",
       count: data.lowEngagementUsers,
       action: {
         label: 'View Users',
@@ -105,14 +119,16 @@ export default function AttentionItems() {
       id: 'no-activity',
       type: 'warning',
       title: 'Users with No Activity',
-      description: 'Users who haven\'t logged any mood entries',
+      description: "Users who haven't logged any mood entries",
       count: data.noActivityUsers,
       action: {
         label: 'Check Users',
         href: '/admin',
       },
     },
-  ].filter(item => item.count && item.count > 0);
+  ] satisfies AttentionItem[];
+
+  const attentionItems: AttentionItem[] = allAttentionItems.filter((item) => (item.count ?? 0) > 0);
 
   if (attentionItems.length === 0) {
     return (
@@ -127,12 +143,20 @@ export default function AttentionItems() {
             disabled={refreshing}
             className="p-2 rounded-lg bg-iki-grey/30 border border-light-green/10 hover:bg-iki-grey/50 transition-colors disabled:opacity-50"
           >
-            <RefreshCw className={`w-4 h-4 text-iki-white/60 ${refreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw
+              className={`w-4 h-4 text-iki-white/60 ${refreshing ? 'animate-spin' : ''}`}
+            />
           </button>
         </div>
         <div className="text-center py-8">
-          <div className="text-4xl mb-3">✅</div>
-          <p className="text-iki-white/60">All systems operational. No items require immediate attention.</p>
+          <div className="mb-3 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-2xl bg-light-green/10 border border-light-green/20 flex items-center justify-center">
+              <CheckCircle2 className="w-6 h-6 text-light-green" />
+            </div>
+          </div>
+          <p className="text-iki-white/60">
+            All systems operational. No items require immediate attention.
+          </p>
         </div>
       </div>
     );
@@ -162,8 +186,8 @@ export default function AttentionItems() {
               item.type === 'error'
                 ? 'bg-red-500/10 border-red-500/30'
                 : item.type === 'warning'
-                ? 'bg-orange-500/10 border-orange-500/30'
-                : 'bg-blue-500/10 border-blue-500/30'
+                  ? 'bg-orange-500/10 border-orange-500/30'
+                  : 'bg-blue-500/10 border-blue-500/30'
             }`}
           >
             <div className="flex items-start justify-between">
@@ -178,13 +202,15 @@ export default function AttentionItems() {
                   )}
                   <h4 className="text-lg font-bold text-iki-white">{item.title}</h4>
                   {item.count !== undefined && (
-                    <span className={`px-3 py-1 rounded-full text-sm font-bold ${
-                      item.type === 'error'
-                        ? 'bg-red-500/20 text-red-300'
-                        : item.type === 'warning'
-                        ? 'bg-orange-500/20 text-orange-300'
-                        : 'bg-blue-500/20 text-blue-300'
-                    }`}>
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm font-bold ${
+                        item.type === 'error'
+                          ? 'bg-red-500/20 text-red-300'
+                          : item.type === 'warning'
+                            ? 'bg-orange-500/20 text-orange-300'
+                            : 'bg-blue-500/20 text-blue-300'
+                      }`}
+                    >
                       {item.count}
                     </span>
                   )}
@@ -207,4 +233,3 @@ export default function AttentionItems() {
     </div>
   );
 }
-

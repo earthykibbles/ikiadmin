@@ -1,22 +1,22 @@
 'use client';
 
-import { 
-  UtensilsCrossed, 
-  Heart, 
-  Sparkles, 
-  User, 
-  Calendar, 
-  Ruler, 
-  Weight, 
-  Target, 
-  Activity, 
+import {
+  Activity,
+  Calendar,
   CheckCircle2,
-  XCircle,
   Clock,
-  Stethoscope,
+  Heart,
   MessageSquare,
+  Ruler,
+  Settings,
+  Sparkles,
+  Stethoscope,
   Tag,
-  Settings
+  Target,
+  User,
+  UtensilsCrossed,
+  Weight,
+  XCircle,
 } from 'lucide-react';
 
 interface NutritionOnboarding {
@@ -110,11 +110,10 @@ export default function OnboardingSummary({
               <UtensilsCrossed className="w-7 h-7 text-light-green" />
             </div>
             <div className="flex-1">
-              <h3 className="text-2xl font-bold text-iki-white mb-1">
-                Nutrition Onboarding
-              </h3>
+              <h3 className="text-2xl font-bold text-iki-white mb-1">Nutrition Onboarding</h3>
               <p className="text-sm text-iki-white/60">
-                Status: {nutritionOnboarding.complete ? (
+                Status:{' '}
+                {nutritionOnboarding.complete ? (
                   <span className="text-light-green flex items-center gap-1">
                     <CheckCircle2 className="w-4 h-4" />
                     Complete
@@ -156,7 +155,9 @@ export default function OnboardingSummary({
                     <User className="w-4 h-4 text-light-green" />
                     <span className="text-xs font-semibold text-iki-white/60">Sex</span>
                   </div>
-                  <p className="text-iki-white font-semibold uppercase">{nutritionOnboarding.sex}</p>
+                  <p className="text-iki-white font-semibold uppercase">
+                    {nutritionOnboarding.sex}
+                  </p>
                 </div>
               )}
               {nutritionOnboarding.goal && (
@@ -165,7 +166,9 @@ export default function OnboardingSummary({
                     <Target className="w-4 h-4 text-light-green" />
                     <span className="text-xs font-semibold text-iki-white/60">Goal</span>
                   </div>
-                  <p className="text-iki-white font-semibold uppercase">{nutritionOnboarding.goal}</p>
+                  <p className="text-iki-white font-semibold uppercase">
+                    {nutritionOnboarding.goal}
+                  </p>
                 </div>
               )}
             </div>
@@ -182,7 +185,9 @@ export default function OnboardingSummary({
                       <Ruler className="w-4 h-4 text-iki-white/60" />
                       <span className="text-xs text-iki-white/60">Height</span>
                     </div>
-                    <p className="text-iki-white font-semibold">{nutritionOnboarding.heightCm} cm</p>
+                    <p className="text-iki-white font-semibold">
+                      {nutritionOnboarding.heightCm} cm
+                    </p>
                   </div>
                 )}
                 {nutritionOnboarding.currentWeightKg && (
@@ -191,7 +196,9 @@ export default function OnboardingSummary({
                       <Weight className="w-4 h-4 text-iki-white/60" />
                       <span className="text-xs text-iki-white/60">Current Weight</span>
                     </div>
-                    <p className="text-iki-white font-semibold">{nutritionOnboarding.currentWeightKg} kg</p>
+                    <p className="text-iki-white font-semibold">
+                      {nutritionOnboarding.currentWeightKg} kg
+                    </p>
                   </div>
                 )}
                 {nutritionOnboarding.targetWeightKg && (
@@ -200,7 +207,9 @@ export default function OnboardingSummary({
                       <Target className="w-4 h-4 text-iki-white/60" />
                       <span className="text-xs text-iki-white/60">Target Weight</span>
                     </div>
-                    <p className="text-iki-white font-semibold">{nutritionOnboarding.targetWeightKg} kg</p>
+                    <p className="text-iki-white font-semibold">
+                      {nutritionOnboarding.targetWeightKg} kg
+                    </p>
                   </div>
                 )}
               </div>
@@ -209,7 +218,9 @@ export default function OnboardingSummary({
                   <div className="flex items-center gap-2">
                     <Activity className="w-4 h-4 text-iki-white/60" />
                     <span className="text-xs text-iki-white/60">Activity Level:</span>
-                    <span className="text-iki-white font-semibold">{nutritionOnboarding.activityLevel}</span>
+                    <span className="text-iki-white font-semibold">
+                      {nutritionOnboarding.activityLevel}
+                    </span>
                   </div>
                 </div>
               )}
@@ -238,7 +249,9 @@ export default function OnboardingSummary({
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-iki-grey/30 rounded-xl p-4 border border-light-green/10">
                 <div className="flex items-center gap-2 mb-2">
-                  <CheckCircle2 className={`w-4 h-4 ${nutritionOnboarding.isHealthy ? 'text-green-400' : 'text-iki-white/40'}`} />
+                  <CheckCircle2
+                    className={`w-4 h-4 ${nutritionOnboarding.isHealthy ? 'text-green-400' : 'text-iki-white/40'}`}
+                  />
                   <span className="text-xs font-semibold text-iki-white/60">Health Status</span>
                 </div>
                 <p className="text-iki-white font-semibold">
@@ -247,7 +260,9 @@ export default function OnboardingSummary({
               </div>
               <div className="bg-iki-grey/30 rounded-xl p-4 border border-light-green/10">
                 <div className="flex items-center gap-2 mb-2">
-                  <Sparkles className={`w-4 h-4 ${nutritionOnboarding.prefersPersonalTouch ? 'text-light-green' : 'text-iki-white/40'}`} />
+                  <Sparkles
+                    className={`w-4 h-4 ${nutritionOnboarding.prefersPersonalTouch ? 'text-light-green' : 'text-iki-white/40'}`}
+                  />
                   <span className="text-xs font-semibold text-iki-white/60">Personal Touch</span>
                 </div>
                 <p className="text-iki-white font-semibold">
@@ -262,7 +277,9 @@ export default function OnboardingSummary({
                 <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4 text-iki-white/60" />
                   <span className="text-xs text-iki-white/60">Completed At:</span>
-                  <span className="text-iki-white font-semibold">{formatDate(nutritionOnboarding.completedAt)}</span>
+                  <span className="text-iki-white font-semibold">
+                    {formatDate(nutritionOnboarding.completedAt)}
+                  </span>
                 </div>
               </div>
             )}
@@ -278,11 +295,10 @@ export default function OnboardingSummary({
               <Heart className="w-7 h-7 text-pink-400" />
             </div>
             <div className="flex-1">
-              <h3 className="text-2xl font-bold text-iki-white mb-1">
-                Wellsphere Onboarding
-              </h3>
+              <h3 className="text-2xl font-bold text-iki-white mb-1">Wellsphere Onboarding</h3>
               <p className="text-sm text-iki-white/60">
-                Status: {wellsphereOnboarding.onboarding_finished ? (
+                Status:{' '}
+                {wellsphereOnboarding.onboarding_finished ? (
                   <span className="text-pink-400 flex items-center gap-1">
                     <CheckCircle2 className="w-4 h-4" />
                     Completed
@@ -323,8 +339,8 @@ export default function OnboardingSummary({
                   <span className="text-xs font-semibold text-iki-white/60">Care Manager</span>
                 </div>
                 <p className="text-iki-white font-semibold">
-                  {wellsphereOnboarding.care_manager_id === 'nocaremanager' 
-                    ? 'No Care Manager' 
+                  {wellsphereOnboarding.care_manager_id === 'nocaremanager'
+                    ? 'No Care Manager'
                     : wellsphereOnboarding.care_manager_id}
                 </p>
               </div>
@@ -407,40 +423,40 @@ export default function OnboardingSummary({
               <Sparkles className="w-7 h-7 text-blue-400" />
             </div>
             <div className="flex-1">
-              <h3 className="text-2xl font-bold text-iki-white mb-1">
-                Enhanced Interests
-              </h3>
-              <p className="text-sm text-iki-white/60">
-                From UserTags Collection
-              </p>
+              <h3 className="text-2xl font-bold text-iki-white mb-1">Enhanced Interests</h3>
+              <p className="text-sm text-iki-white/60">From UserTags Collection</p>
             </div>
           </div>
 
           <div className="space-y-4">
             {/* Initialize Status */}
-            {enhancedInterests && 
-             typeof enhancedInterests === 'object' && 
-             !Array.isArray(enhancedInterests) && 
-             enhancedInterests.initialize && (
-              <div className="bg-iki-grey/30 rounded-xl p-4 border border-light-green/10">
-                <div className="flex items-center gap-2 mb-2">
-                  <Settings className="w-4 h-4 text-light-green" />
-                  <span className="text-xs font-semibold text-iki-white/60">Status</span>
+            {enhancedInterests &&
+              typeof enhancedInterests === 'object' &&
+              !Array.isArray(enhancedInterests) &&
+              enhancedInterests.initialize && (
+                <div className="bg-iki-grey/30 rounded-xl p-4 border border-light-green/10">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Settings className="w-4 h-4 text-light-green" />
+                    <span className="text-xs font-semibold text-iki-white/60">Status</span>
+                  </div>
+                  <p className="text-iki-white font-semibold uppercase">
+                    {enhancedInterests.initialize}
+                  </p>
                 </div>
-                <p className="text-iki-white font-semibold uppercase">
-                  {enhancedInterests.initialize}
-                </p>
-              </div>
-            )}
+              )}
 
             {/* Grouped Interests by Category */}
             {(() => {
               const interests: Array<{ name: string; category: string; selected: boolean }> = [];
-              
+
               // Handle userTags format (object with dynamic keys)
               if (typeof enhancedInterests === 'object' && !Array.isArray(enhancedInterests)) {
                 Object.keys(enhancedInterests).forEach((key) => {
-                  if (key !== 'initialize' && enhancedInterests[key] && typeof enhancedInterests[key] === 'object') {
+                  if (
+                    key !== 'initialize' &&
+                    enhancedInterests[key] &&
+                    typeof enhancedInterests[key] === 'object'
+                  ) {
                     const interest = enhancedInterests[key] as any;
                     if (interest.selected && interest.name) {
                       interests.push({
@@ -452,7 +468,7 @@ export default function OnboardingSummary({
                   }
                 });
               }
-              
+
               // Handle array format (from enhancedInterests in onboardingData)
               if (Array.isArray(enhancedInterests)) {
                 enhancedInterests.forEach((interest: any) => {
@@ -462,7 +478,7 @@ export default function OnboardingSummary({
                       category: 'General',
                       selected: true,
                     });
-                  } else if (interest && interest.name) {
+                  } else if (interest?.name) {
                     interests.push({
                       name: interest.name,
                       category: interest.category || 'General',
@@ -474,27 +490,33 @@ export default function OnboardingSummary({
 
               if (interests.length === 0) {
                 return (
-                  <div className="text-center py-8 text-iki-white/60">
-                    No interests selected
-                  </div>
+                  <div className="text-center py-8 text-iki-white/60">No interests selected</div>
                 );
               }
 
               // Group by category
-              const grouped = interests.reduce((acc, interest) => {
-                const category = interest.category;
-                if (!acc[category]) {
-                  acc[category] = [];
-                }
-                acc[category].push(interest);
-                return acc;
-              }, {} as Record<string, typeof interests>);
+              const grouped = interests.reduce(
+                (acc, interest) => {
+                  const category = interest.category;
+                  if (!acc[category]) {
+                    acc[category] = [];
+                  }
+                  acc[category].push(interest);
+                  return acc;
+                },
+                {} as Record<string, typeof interests>
+              );
 
               return (
                 <div className="space-y-4">
                   {Object.entries(grouped).map(([category, categoryInterests]) => (
-                    <div key={category} className="bg-iki-grey/20 rounded-xl p-4 border border-light-green/10">
-                      <h4 className={`text-xs font-bold mb-3 uppercase tracking-wider ${getCategoryColor(category)}`}>
+                    <div
+                      key={category}
+                      className="bg-iki-grey/20 rounded-xl p-4 border border-light-green/10"
+                    >
+                      <h4
+                        className={`text-xs font-bold mb-3 uppercase tracking-wider ${getCategoryColor(category)}`}
+                      >
                         {category}
                       </h4>
                       <div className="flex flex-wrap gap-2">
@@ -527,4 +549,3 @@ export default function OnboardingSummary({
     </div>
   );
 }
-

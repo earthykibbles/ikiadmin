@@ -1,7 +1,7 @@
 'use client';
 
-import { AlertTriangle, Trash2, X } from 'lucide-react';
 import { User } from '@/lib/types';
+import { AlertTriangle, Trash2, X } from 'lucide-react';
 
 interface DeleteConfirmModalProps {
   user: User | null;
@@ -29,10 +29,7 @@ export default function DeleteConfirmModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onClick={onClose}
-      />
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative w-full max-w-md rounded-2xl bg-iki-grey border border-red-500/50 shadow-2xl z-10">
         <div className="p-6">
           <div className="flex items-start gap-4">
@@ -40,14 +37,15 @@ export default function DeleteConfirmModal({
               <AlertTriangle className="w-6 h-6 text-red-400" />
             </div>
             <div className="flex-1">
-              <h2 className="text-xl font-black text-iki-white mb-2">
-                Delete User
-              </h2>
+              <h2 className="text-xl font-black text-iki-white mb-2">Delete User</h2>
               <p className="text-sm text-iki-white/60 mb-4">
-                Are you sure you want to delete <span className="font-semibold text-iki-white">{getDisplayName()}</span>? This action cannot be undone.
+                Are you sure you want to delete{' '}
+                <span className="font-semibold text-iki-white">{getDisplayName()}</span>? This
+                action cannot be undone.
               </p>
               <p className="text-xs text-red-400/80 mb-6">
-                This will permanently delete the user's profile, data, and all associated information from the platform.
+                This will permanently delete the user's profile, data, and all associated
+                information from the platform.
               </p>
               <div className="flex items-center gap-3">
                 <button
@@ -77,8 +75,3 @@ export default function DeleteConfirmModal({
     </div>
   );
 }
-
-
-
-
-

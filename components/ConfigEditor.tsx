@@ -1,7 +1,14 @@
-import { GenerationConfig } from '@/lib/types';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { GenerationConfig } from '@/lib/types';
+import { ChevronDown } from 'lucide-react';
 
 interface Props {
   config: GenerationConfig;
@@ -12,18 +19,17 @@ export default function ConfigEditor({ config, onChange }: Props) {
   return (
     <div className="space-y-6">
       {/* Basic Settings */}
-      <div className="glass rounded-3xl shadow-2xl border border-light-green/20 p-8">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-1 h-8 bg-gradient-to-b from-iki-brown to-transparent rounded-full"></div>
-          <h3 className="text-2xl font-black text-iki-brown">
-            Configuration
-          </h3>
+      <section className="card">
+        <div className="flex items-start justify-between gap-4 mb-6">
+          <div>
+            <h3 className="heading-sm font-goldplay text-iki-white">Configuration</h3>
+            <p className="body-sm text-iki-white/60 mt-1">Job naming, batching, destination, and model.</p>
+          </div>
+          <span className="badge badge-secondary">Basics</span>
         </div>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-bold text-iki-brown/90 mb-3">
-              Job Name
-            </label>
+            <label className="block text-xs font-medium text-iki-white/60 mb-2">Job name</label>
             <Input
               type="text"
               value={config.jobName}
@@ -34,25 +40,23 @@ export default function ConfigEditor({ config, onChange }: Props) {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-bold text-iki-brown/90 mb-3">
-                Count
-              </label>
+              <label className="block text-xs font-medium text-iki-white/60 mb-2">Count</label>
               <Input
                 type="number"
                 value={config.count}
-                onChange={(e) => onChange({ ...config, count: parseInt(e.target.value) })}
+                onChange={(e) => onChange({ ...config, count: Number.parseInt(e.target.value) })}
                 min="1"
                 max="1000"
               />
             </div>
             <div>
-              <label className="block text-sm font-bold text-iki-brown/90 mb-3">
-                Batch Size
-              </label>
+              <label className="block text-xs font-medium text-iki-white/60 mb-2">Batch size</label>
               <Input
                 type="number"
                 value={config.batchSize}
-                onChange={(e) => onChange({ ...config, batchSize: parseInt(e.target.value) })}
+                onChange={(e) =>
+                  onChange({ ...config, batchSize: Number.parseInt(e.target.value) })
+                }
                 min="1"
                 max="50"
               />
@@ -61,9 +65,7 @@ export default function ConfigEditor({ config, onChange }: Props) {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-bold text-iki-brown/90 mb-3">
-                Collection
-              </label>
+              <label className="block text-xs font-medium text-iki-white/60 mb-2">Collection</label>
               <Input
                 type="text"
                 value={config.collection}
@@ -72,10 +74,11 @@ export default function ConfigEditor({ config, onChange }: Props) {
               />
             </div>
             <div>
-              <label className="block text-sm font-bold text-iki-brown/90 mb-3">
-                Sink
-              </label>
-              <Select value={config.sink} onValueChange={(value) => onChange({ ...config, sink: value as any })}>
+              <label className="block text-xs font-medium text-iki-white/60 mb-2">Sink</label>
+              <Select
+                value={config.sink}
+                onValueChange={(value) => onChange({ ...config, sink: value as any })}
+              >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -88,10 +91,11 @@ export default function ConfigEditor({ config, onChange }: Props) {
           </div>
 
           <div>
-            <label className="block text-sm font-bold text-iki-brown/90 mb-3">
-              Model
-            </label>
-            <Select value={config.model} onValueChange={(value) => onChange({ ...config, model: value })}>
+            <label className="block text-xs font-medium text-iki-white/60 mb-2">Model</label>
+            <Select
+              value={config.model}
+              onValueChange={(value) => onChange({ ...config, model: value })}
+            >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
@@ -104,21 +108,20 @@ export default function ConfigEditor({ config, onChange }: Props) {
             </Select>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Prompts */}
-      <div className="glass rounded-3xl shadow-2xl border border-light-green/20 p-8">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-1 h-8 bg-gradient-to-b from-iki-brown to-transparent rounded-full"></div>
-          <h3 className="text-2xl font-black text-iki-brown">
-            Prompts
-          </h3>
+      <section className="card">
+        <div className="flex items-start justify-between gap-4 mb-6">
+          <div>
+            <h3 className="heading-sm font-goldplay text-iki-white">Prompts</h3>
+            <p className="body-sm text-iki-white/60 mt-1">Define behavior and the content you want back.</p>
+          </div>
+          <span className="badge badge-secondary">Text</span>
         </div>
         <div className="space-y-5">
           <div>
-            <label className="block text-sm font-bold text-iki-brown/90 mb-3">
-              System Prompt
-            </label>
+            <label className="block text-xs font-medium text-iki-white/60 mb-2">System prompt</label>
             <Textarea
               value={config.systemPrompt}
               onChange={(e) => onChange({ ...config, systemPrompt: e.target.value })}
@@ -128,8 +131,11 @@ export default function ConfigEditor({ config, onChange }: Props) {
             />
           </div>
           <div>
-            <label className="block text-sm font-bold text-iki-brown/90 mb-3">
-              User Prompt <span className="text-iki-white/40 text-xs font-normal">(use {'{count}'} for batch size)</span>
+            <label className="block text-xs font-medium text-iki-white/60 mb-2">
+              User prompt{' '}
+              <span className="text-iki-white/40 text-xs font-normal ml-2">
+                (use {'{count}'} for batch size)
+              </span>
             </label>
             <Textarea
               value={config.userPrompt}
@@ -140,21 +146,28 @@ export default function ConfigEditor({ config, onChange }: Props) {
             />
           </div>
         </div>
-      </div>
+      </section>
 
       {/* JSON Schema */}
-      <div className="glass rounded-3xl shadow-2xl border border-light-green/20 p-8">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-1 h-8 bg-gradient-to-b from-iki-brown to-transparent rounded-full"></div>
-          <h3 className="text-2xl font-black text-iki-brown">
-            JSON Schema
-          </h3>
-        </div>
-        <div className="space-y-5">
+      <details className="card group" open>
+        <summary className="list-none cursor-pointer select-none">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h3 className="heading-sm font-goldplay text-iki-white">JSON schema</h3>
+              <p className="body-sm text-iki-white/60 mt-1">
+                Controls the shape of the generated output. Keep it strict and explicit.
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="badge badge-secondary">Advanced</span>
+              <ChevronDown className="w-4 h-4 text-iki-white/60 transition-transform group-open:rotate-180" />
+            </div>
+          </div>
+        </summary>
+
+        <div className="mt-6 space-y-5">
           <div>
-            <label className="block text-sm font-bold text-iki-brown/90 mb-3">
-              Schema Name
-            </label>
+            <label className="block text-xs font-medium text-iki-white/60 mb-2">Schema name</label>
             <Input
               type="text"
               value={config.jsonSchema.name}
@@ -167,9 +180,7 @@ export default function ConfigEditor({ config, onChange }: Props) {
             />
           </div>
           <div>
-            <label className="block text-sm font-bold text-iki-brown/90 mb-3">
-              Schema Definition
-            </label>
+            <label className="block text-xs font-medium text-iki-white/60 mb-2">Schema definition</label>
             <Textarea
               value={JSON.stringify(config.jsonSchema.schema, null, 2)}
               onChange={(e) => {
@@ -187,10 +198,12 @@ export default function ConfigEditor({ config, onChange }: Props) {
               rows={16}
               placeholder={'{\n  "type": "array",\n  "items": {...}\n}'}
             />
+            <p className="text-xs text-iki-white/45 mt-2">
+              Invalid JSON won&apos;t be applied. Validate before running large generations.
+            </p>
           </div>
         </div>
-      </div>
+      </details>
     </div>
   );
 }
-

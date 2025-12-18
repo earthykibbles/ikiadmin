@@ -1,62 +1,35 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
-import { user as adminUser } from '@/lib/db/schema';
 import { initFirebase } from '@/lib/firebase';
+import { RESOURCE_TYPES, requirePermission } from '@/lib/rbac';
 import admin from 'firebase-admin';
-
-// Helper function to check if user is admin or superadmin
-async function checkAdminAccess(request: NextRequest) {
-  const session = await auth.api.getSession({ headers: request.headers });
-  
-  if (!session?.user) {
-    return { authorized: false, error: 'Unauthorized' };
-  }
-
-  const currentUser = await db.query.user.findFirst({
-    where: (users, { eq }) => eq(users.id, session.user.id),
-  });
-
-  if (!currentUser || (currentUser.role !== 'admin' && currentUser.role !== 'superadmin')) {
-    return { authorized: false, error: 'Forbidden' };
-  }
-
-  return { authorized: true, user: currentUser };
-}
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    // Check admin access
-    const accessCheck = await checkAdminAccess(request);
-    if (!accessCheck.authorized) {
-      return NextResponse.json(
-        { error: accessCheck.error },
-        { status: accessCheck.error === 'Unauthorized' ? 401 : 403 }
-      );
+    // RBAC check
+    const authCheck = await requirePermission(request, RESOURCE_TYPES.USERS, 'write');
+    if (!authCheck.authorized) {
+      return NextResponse.json({ error: authCheck.error }, { status: authCheck.status });
     }
 
     const body = await request.json();
-    const { 
-      email, 
-      password, 
-      firstname, 
-      lastname, 
-      username, 
-      phone, 
-      country, 
-      gender, 
+    const {
+      email,
+      password,
+      firstname,
+      lastname,
+      username,
+      phone,
+      country,
+      gender,
       birthday,
       age,
       activityLevel,
-      bodyWeightKg
+      bodyWeightKg,
     } = body;
 
     // Validate required fields
     if (!email || !password) {
-      return NextResponse.json(
-        { error: 'Email and password are required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
     }
 
     if (password.length < 8) {
@@ -75,13 +48,11 @@ export async function POST(request: NextRequest) {
     let firebaseUser;
     try {
       firebaseUser = await firebaseAuth.getUserByEmail(email);
-      return NextResponse.json(
-        { error: 'User with this email already exists' },
-        { status: 400 }
-      );
-    } catch (error: any) {
+      return NextResponse.json({ error: 'User with this email already exists' }, { status: 400 });
+    } catch (error: unknown) {
       // User doesn't exist, which is what we want
-      if (error.code !== 'auth/user-not-found') {
+      const errorObj = error && typeof error === 'object' ? (error as { code?: string }) : null;
+      if (errorObj?.code !== 'auth/user-not-found') {
         throw error;
       }
     }
@@ -91,13 +62,14 @@ export async function POST(request: NextRequest) {
       email,
       password,
       emailVerified: false, // Let them verify on first login
-      displayName: firstname && lastname ? `${firstname} ${lastname}` : firstname || username || undefined,
+      displayName:
+        firstname && lastname ? `${firstname} ${lastname}` : firstname || username || undefined,
     });
 
     // Prepare user data for Firestore
     const trimmedUsername = username?.trim() || '';
     const normalizedUsername = trimmedUsername.toLowerCase();
-    
+
     const userData: any = {
       firstname: firstname || '',
       lastname: lastname || '',
@@ -142,35 +114,25 @@ export async function POST(request: NextRequest) {
       userId: firebaseUser.uid,
       email: firebaseUser.email,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating user:', error);
-    
+
     // Handle Firebase Auth errors
-    if (error.code === 'auth/email-already-exists') {
-      return NextResponse.json(
-        { error: 'User with this email already exists' },
-        { status: 400 }
-      );
-    }
-    
-    if (error.code === 'auth/invalid-email') {
-      return NextResponse.json(
-        { error: 'Invalid email address' },
-        { status: 400 }
-      );
+    const errorObj = error && typeof error === 'object' ? (error as { code?: string }) : null;
+    if (errorObj?.code === 'auth/email-already-exists') {
+      return NextResponse.json({ error: 'User with this email already exists' }, { status: 400 });
     }
 
-    if (error.code === 'auth/weak-password') {
-      return NextResponse.json(
-        { error: 'Password is too weak' },
-        { status: 400 }
-      );
+    if (errorObj?.code === 'auth/invalid-email') {
+      return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
     }
 
-    return NextResponse.json(
-      { error: error.message || 'Failed to create user' },
-      { status: 500 }
-    );
+    if (errorObj?.code === 'auth/weak-password') {
+      return NextResponse.json({ error: 'Password is too weak' }, { status: 400 });
+    }
+
+    const message = error instanceof Error ? error.message : 'Failed to create user';
+
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-

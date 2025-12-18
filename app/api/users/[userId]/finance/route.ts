@@ -1,27 +1,30 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { initFirebase } from '@/lib/firebase';
+import { RESOURCE_TYPES, requirePermission } from '@/lib/rbac';
 import admin from 'firebase-admin';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
-    initFirebase();
-    const db = admin.firestore();
     const { userId } = await params;
 
+    const authCheck = await requirePermission(request, RESOURCE_TYPES.FINANCE, 'read', userId);
+    if (!authCheck.authorized) {
+      return NextResponse.json({ error: authCheck.error }, { status: authCheck.status });
+    }
+
+    initFirebase();
+    const db = admin.firestore();
+
     // Fetch budgets with incomes
-    const budgetsSnapshot = await db
-      .collection('users')
-      .doc(userId)
-      .collection('budgets')
-      .get();
+    const budgetsSnapshot = await db.collection('users').doc(userId).collection('budgets').get();
 
     const budgets = await Promise.all(
       budgetsSnapshot.docs.map(async (budgetDoc) => {
         const budgetData = budgetDoc.data();
-        
+
         // Get categories for this budget
         const categoriesSnapshot = await db
           .collection('users')
@@ -109,16 +112,12 @@ export async function GET(
     );
 
     // Fetch debts
-    const debtsSnapshot = await db
-      .collection('users')
-      .doc(userId)
-      .collection('debts')
-      .get();
+    const debtsSnapshot = await db.collection('users').doc(userId).collection('debts').get();
 
     const debts = await Promise.all(
       debtsSnapshot.docs.map(async (debtDoc) => {
         const debtData = debtDoc.data();
-        
+
         // Get payments for this debt
         const paymentsSnapshot = await db
           .collection('users')
@@ -177,16 +176,12 @@ export async function GET(
     );
 
     // Fetch goals
-    const goalsSnapshot = await db
-      .collection('users')
-      .doc(userId)
-      .collection('goals')
-      .get();
+    const goalsSnapshot = await db.collection('users').doc(userId).collection('goals').get();
 
     const goals = await Promise.all(
       goalsSnapshot.docs.map(async (goalDoc) => {
         const goalData = goalDoc.data();
-        
+
         // Get contributions for this goal
         const contributionsSnapshot = await db
           .collection('users')
@@ -248,9 +243,8 @@ export async function GET(
           streak: goalData.streak || 0,
           lastContributionDate: lastContributionDateValue,
           contributions,
-          progress: goalData.targetAmount > 0 
-            ? (goalData.currentAmount / goalData.targetAmount) * 100 
-            : 0,
+          progress:
+            goalData.targetAmount > 0 ? (goalData.currentAmount / goalData.targetAmount) * 100 : 0,
         };
       })
     );
@@ -276,12 +270,9 @@ export async function GET(
         netBalance: totalBudgetIncome - totalBudgetExpenses,
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching finance data:', error);
-    return NextResponse.json(
-      { error: error.message || 'Failed to fetch finance data' },
-      { status: 500 }
-    );
+    const message = error instanceof Error ? error.message : 'Failed to fetch finance data';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-

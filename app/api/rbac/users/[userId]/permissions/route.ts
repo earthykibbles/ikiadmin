@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { resourcePermission } from '@/lib/db/schema';
-import { requirePermission } from '@/lib/rbac';
+import { RESOURCE_TYPES, requirePermission } from '@/lib/rbac';
 import { eq } from 'drizzle-orm';
 import { nanoid } from 'nanoid';
+import { NextRequest, NextResponse } from 'next/server';
 
 // GET user resource permissions
 export async function GET(
@@ -11,7 +11,7 @@ export async function GET(
   { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
-    const authCheck = await requirePermission(request, 'admin', 'read');
+    const authCheck = await requirePermission(request, RESOURCE_TYPES.ADMIN, 'read');
     if (!authCheck.authorized) {
       return NextResponse.json({ error: authCheck.error }, { status: authCheck.status });
     }
@@ -24,12 +24,10 @@ export async function GET(
       .where(eq(resourcePermission.userId, userId));
 
     return NextResponse.json({ permissions });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching user permissions:', error);
-    return NextResponse.json(
-      { error: error.message || 'Failed to fetch user permissions' },
-      { status: 500 }
-    );
+    const message = error instanceof Error ? error.message : 'Failed to fetch user permissions';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -39,7 +37,7 @@ export async function POST(
   { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
-    const authCheck = await requirePermission(request, 'admin', 'write');
+    const authCheck = await requirePermission(request, RESOURCE_TYPES.ADMIN, 'write');
     if (!authCheck.authorized) {
       return NextResponse.json({ error: authCheck.error }, { status: authCheck.status });
     }
@@ -68,12 +66,10 @@ export async function POST(
       .returning();
 
     return NextResponse.json({ permission: newPermission[0] }, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating resource permission:', error);
-    return NextResponse.json(
-      { error: error.message || 'Failed to create permission' },
-      { status: 500 }
-    );
+    const message = error instanceof Error ? error.message : 'Failed to create permission';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -83,7 +79,7 @@ export async function PATCH(
   { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
-    const authCheck = await requirePermission(request, 'admin', 'write');
+    const authCheck = await requirePermission(request, RESOURCE_TYPES.ADMIN, 'write');
     if (!authCheck.authorized) {
       return NextResponse.json({ error: authCheck.error }, { status: authCheck.status });
     }
@@ -106,12 +102,10 @@ export async function PATCH(
       .where(eq(resourcePermission.id, permissionId));
 
     return NextResponse.json({ success: true, message: 'Permission updated successfully' });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating permission:', error);
-    return NextResponse.json(
-      { error: error.message || 'Failed to update permission' },
-      { status: 500 }
-    );
+    const message = error instanceof Error ? error.message : 'Failed to update permission';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -121,7 +115,7 @@ export async function DELETE(
   { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
-    const authCheck = await requirePermission(request, 'admin', 'write');
+    const authCheck = await requirePermission(request, RESOURCE_TYPES.ADMIN, 'write');
     if (!authCheck.authorized) {
       return NextResponse.json({ error: authCheck.error }, { status: authCheck.status });
     }
@@ -134,17 +128,12 @@ export async function DELETE(
       return NextResponse.json({ error: 'Permission ID is required' }, { status: 400 });
     }
 
-    await db
-      .delete(resourcePermission)
-      .where(eq(resourcePermission.id, permissionId));
+    await db.delete(resourcePermission).where(eq(resourcePermission.id, permissionId));
 
     return NextResponse.json({ success: true, message: 'Permission deleted successfully' });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error deleting permission:', error);
-    return NextResponse.json(
-      { error: error.message || 'Failed to delete permission' },
-      { status: 500 }
-    );
+    const message = error instanceof Error ? error.message : 'Failed to delete permission';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-

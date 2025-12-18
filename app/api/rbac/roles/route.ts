@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { role, rolePermission, permission } from '@/lib/db/schema';
-import { requirePermission, RESOURCE_TYPES } from '@/lib/rbac';
+import { permission, role, rolePermission } from '@/lib/db/schema';
+import { RESOURCE_TYPES, requirePermission } from '@/lib/rbac';
 import { eq } from 'drizzle-orm';
+import { NextRequest, NextResponse } from 'next/server';
 
 // GET all roles
 export async function GET(request: NextRequest) {
@@ -27,18 +27,16 @@ export async function GET(request: NextRequest) {
 
         return {
           ...r,
-          permissions: permissions.map(p => p.permission),
+          permissions: permissions.map((p) => p.permission),
         };
       })
     );
 
     return NextResponse.json({ roles: rolesWithPermissions });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching roles:', error);
-    return NextResponse.json(
-      { error: error.message || 'Failed to fetch roles' },
-      { status: 500 }
-    );
+    const message = error instanceof Error ? error.message : 'Failed to fetch roles';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -65,12 +63,15 @@ export async function POST(request: NextRequest) {
 
     // Create role
     const roleId = `role_${name.toLowerCase().replace(/\s+/g, '_')}`;
-    const newRole = await db.insert(role).values({
-      id: roleId,
-      name,
-      description: description || null,
-      isSystem: false,
-    }).returning();
+    const newRole = await db
+      .insert(role)
+      .values({
+        id: roleId,
+        name,
+        description: description || null,
+        isSystem: false,
+      })
+      .returning();
 
     // Assign permissions if provided
     if (permissionIds && Array.isArray(permissionIds) && permissionIds.length > 0) {
@@ -82,12 +83,9 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ role: newRole[0] }, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating role:', error);
-    return NextResponse.json(
-      { error: error.message || 'Failed to create role' },
-      { status: 500 }
-    );
+    const message = error instanceof Error ? error.message : 'Failed to create role';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-

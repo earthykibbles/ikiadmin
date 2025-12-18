@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { Upload, X, Image as ImageIcon, Loader2, CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, Image as ImageIcon, Loader2, Upload, X } from 'lucide-react';
+import { useId, useRef, useState } from 'react';
 
 interface ImageUploadProps {
   onUploadComplete: (url: string) => void;
   currentUrl?: string;
   label?: string;
   className?: string;
+  folder?: string;
 }
 
 export default function ImageUpload({
@@ -15,12 +16,14 @@ export default function ImageUpload({
   currentUrl,
   label = 'Upload Image',
   className = '',
+  folder,
 }: ImageUploadProps) {
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState<string | null>(currentUrl || null);
   const [error, setError] = useState<string | null>(null);
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(currentUrl || null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const inputId = useId();
 
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -58,6 +61,7 @@ export default function ImageUpload({
 
       const formData = new FormData();
       formData.append('file', file);
+      if (folder) formData.append('folder', folder);
 
       const response = await fetch('/api/upload', {
         method: 'POST',
@@ -72,8 +76,9 @@ export default function ImageUpload({
       const data = await response.json();
       setUploadedUrl(data.url);
       onUploadComplete(data.url);
-    } catch (err: any) {
-      setError(err.message || 'Failed to upload image');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Failed to upload image';
+      setError(message);
       setPreview(null);
     } finally {
       setUploading(false);
@@ -110,7 +115,7 @@ export default function ImageUpload({
   return (
     <div className={className}>
       {label && (
-        <label className="block text-sm font-medium text-iki-white/80 mb-2">
+        <label htmlFor={inputId} className="block text-sm font-medium text-iki-white/80 mb-2">
           {label}
         </label>
       )}
@@ -122,17 +127,13 @@ export default function ImageUpload({
           uploading
             ? 'border-light-green/50 bg-light-green/5'
             : preview
-            ? 'border-light-green/30 bg-iki-grey/20'
-            : 'border-light-green/10 bg-iki-grey/10 hover:border-light-green/30 hover:bg-iki-grey/20'
+              ? 'border-light-green/30 bg-iki-grey/20'
+              : 'border-light-green/10 bg-iki-grey/10 hover:border-light-green/30 hover:bg-iki-grey/20'
         } ${error ? 'border-red-500/50' : ''}`}
       >
         {preview ? (
           <div className="relative aspect-square rounded-lg overflow-hidden">
-            <img
-              src={preview}
-              alt="Preview"
-              className="w-full h-full object-cover"
-            />
+            <img src={preview} alt="Preview" className="w-full h-full object-cover" />
             {uploading && (
               <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
                 <div className="text-center">
@@ -149,6 +150,7 @@ export default function ImageUpload({
               </div>
             )}
             <button
+              type="button"
               onClick={handleRemove}
               disabled={uploading}
               className="absolute top-2 left-2 p-2 bg-black/60 hover:bg-black/80 rounded-full transition-colors disabled:opacity-50"
@@ -171,13 +173,10 @@ export default function ImageUpload({
               accept="image/*"
               onChange={handleFileSelect}
               className="hidden"
-              id="image-upload"
+              id={inputId}
               disabled={uploading}
             />
-            <label
-              htmlFor="image-upload"
-              className="cursor-pointer flex flex-col items-center gap-4"
-            >
+            <label htmlFor={inputId} className="cursor-pointer flex flex-col items-center gap-4">
               {uploading ? (
                 <>
                   <Loader2 className="w-12 h-12 text-light-green animate-spin" />
@@ -195,9 +194,7 @@ export default function ImageUpload({
                     <p className="text-iki-white font-medium mb-1">
                       Click to upload or drag and drop
                     </p>
-                    <p className="text-iki-white/60 text-sm">
-                      PNG, JPG, GIF, or WebP (max 10MB)
-                    </p>
+                    <p className="text-iki-white/60 text-sm">PNG, JPG, GIF, or WebP (max 10MB)</p>
                   </div>
                 </>
               )}
@@ -227,4 +224,3 @@ export default function ImageUpload({
     </div>
   );
 }
-

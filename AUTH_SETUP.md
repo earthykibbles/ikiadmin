@@ -17,6 +17,9 @@ Add the following to your `.env.local` file:
 # Database
 DATABASE_URL=postgresql://user:password@host:port/database?sslmode=require
 
+# Providers database (optional; defaults to DATABASE_URL if omitted)
+PROVIDERS_DATABASE_URL=postgresql://user:password@host:port/database?sslmode=require
+
 # Better Auth
 BETTER_AUTH_SECRET=your-secret-key-here-min-32-chars
 BETTER_AUTH_URL=http://localhost:3000
@@ -62,7 +65,7 @@ You'll need to create the first superadmin account manually. You can do this by:
 import { db } from '../lib/db';
 import { user, account } from '../lib/db/schema';
 import { nanoid } from 'nanoid';
-import { hash } from 'bcryptjs';
+import { hashPassword } from 'better-auth/crypto';
 
 async function createSuperadmin() {
   const email = 'your-email@example.com';
@@ -70,7 +73,7 @@ async function createSuperadmin() {
   const name = 'Super Admin';
 
   const userId = nanoid();
-  const hashedPassword = await hash(password, 10);
+  const hashedPassword = await hashPassword(password);
 
   await db.transaction(async (tx) => {
     await tx.insert(user).values({
@@ -130,7 +133,7 @@ After logging in, admins can set up MFA:
 - ✅ Role-based access control (Superadmin & Admin)
 - ✅ Session management
 - ✅ Protected routes via middleware
-- ✅ Secure password hashing (bcrypt)
+- ✅ Secure password hashing (scrypt)
 
 ## Database Schema
 

@@ -1,8 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import { X, Send, AlertCircle } from 'lucide-react';
 import { User } from '@/lib/types';
+import { getUserAvatarSeed, getUserLabel, getUserSecondaryLabel, shortId } from '@/lib/privacy';
+import { usePrivacyMode } from '@/lib/usePrivacyMode';
+import { AlertCircle, Send, X } from 'lucide-react';
+import { useState } from 'react';
+import Avatar from './Avatar';
 
 interface SendMessageModalProps {
   user: User | null;
@@ -11,12 +14,8 @@ interface SendMessageModalProps {
   onSend: (title: string, body: string, data?: any) => Promise<void>;
 }
 
-export default function SendMessageModal({
-  user,
-  isOpen,
-  onClose,
-  onSend,
-}: SendMessageModalProps) {
+export default function SendMessageModal({ user, isOpen, onClose, onSend }: SendMessageModalProps) {
+  const { privacyMode } = usePrivacyMode();
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [customData, setCustomData] = useState('');
@@ -25,6 +24,9 @@ export default function SendMessageModal({
   const [success, setSuccess] = useState(false);
 
   if (!isOpen || !user) return null;
+  const label = getUserLabel(user, privacyMode);
+  const secondary =
+    getUserSecondaryLabel(user, privacyMode) || (privacyMode ? `id:${shortId(user.id)}` : '');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,10 +69,7 @@ export default function SendMessageModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onClick={onClose}
-      />
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative w-full max-w-2xl rounded-2xl bg-iki-grey border border-light-green/20 shadow-2xl z-10">
         <div className="p-6 border-b border-light-green/20">
           <div className="flex items-center justify-between">
@@ -79,7 +78,7 @@ export default function SendMessageModal({
                 Send FCM Message
               </h2>
               <p className="text-sm text-iki-white/60 mt-1">
-                Send a push notification to {user.firstname || user.username || 'user'}
+                Send a push notification to {label}
               </p>
             </div>
             <button
@@ -92,6 +91,30 @@ export default function SendMessageModal({
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-full overflow-hidden bg-iki-grey/40 border border-light-green/20 flex items-center justify-center">
+              <Avatar
+                src={user.photoUrl}
+                seed={getUserAvatarSeed(user)}
+                alt={label}
+                size={48}
+                className="w-12 h-12 rounded-full object-cover"
+              />
+            </div>
+            <div className="min-w-0">
+              <div className="text-sm font-semibold text-iki-white truncate">{label}</div>
+              {privacyMode ? (
+                secondary ? (
+                  <div className="text-[11px] text-iki-white/50 font-mono truncate">{secondary}</div>
+                ) : null
+              ) : (
+                <div className="text-[11px] text-iki-white/50 font-mono truncate">
+                  {String(user.id || '')}
+                </div>
+              )}
+            </div>
+          </div>
+
           {error && (
             <div className="p-4 rounded-xl bg-red-500/20 border border-red-500/50 flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
@@ -180,8 +203,3 @@ export default function SendMessageModal({
     </div>
   );
 }
-
-
-
-
-

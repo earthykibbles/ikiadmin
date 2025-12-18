@@ -1,7 +1,7 @@
 'use client';
 
+import { AlertCircle, CheckCircle, Download, Loader2, Upload, UserPlus, X } from 'lucide-react';
 import { useState } from 'react';
-import { X, Upload, UserPlus, Download, AlertCircle, CheckCircle, Loader2 } from 'lucide-react';
 
 interface CreateUserModalProps {
   isOpen: boolean;
@@ -23,7 +23,7 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUs
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  
+
   // Single user form state
   const [formData, setFormData] = useState({
     email: '',
@@ -49,7 +49,7 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUs
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSingleSubmit = async (e: React.FormEvent) => {
@@ -64,8 +64,10 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUs
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          age: formData.age ? parseInt(formData.age) : undefined,
-          bodyWeightKg: formData.bodyWeightKg ? parseFloat(formData.bodyWeightKg) : undefined,
+          age: formData.age ? Number.parseInt(formData.age) : undefined,
+          bodyWeightKg: formData.bodyWeightKg
+            ? Number.parseFloat(formData.bodyWeightKg)
+            : undefined,
         }),
       });
 
@@ -76,7 +78,7 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUs
       }
 
       setSuccess(`User created successfully! Email: ${data.email}, User ID: ${data.userId}`);
-      
+
       // Reset form
       setFormData({
         email: '',
@@ -137,10 +139,10 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUs
       setBulkResult(data);
       setShowBulkResults(true);
       setSuccess(`Successfully created ${data.created} users. ${data.failed} failed.`);
-      
+
       // Reset file
       setCsvFile(null);
-      
+
       if (onSuccess && data.created > 0) {
         setTimeout(() => {
           onSuccess();
@@ -168,10 +170,9 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUs
       'activityLevel',
       'bodyWeightKg',
     ];
-    
-    const csvContent = headers.join(',') + '\n' +
-      'user1@example.com,SecurePass123,John,Doe,johndoe,+1234567890,USA,Male,1990-01-01,34,moderate,75.5';
-    
+
+    const csvContent = `${headers.join(',')}\nuser1@example.com,SecurePass123,John,Doe,johndoe,+1234567890,USA,Male,1990-01-01,34,moderate,75.5`;
+
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -188,8 +189,8 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUs
 
     const csvContent = [
       'Email,User ID,Password,Status',
-      ...bulkResult.results.successful.map(r => `${r.email},${r.userId},${r.password},Success`),
-      ...bulkResult.results.errors.map(r => `${r.email},,Error: ${r.error},Failed`),
+      ...bulkResult.results.successful.map((r) => `${r.email},${r.userId},${r.password},Success`),
+      ...bulkResult.results.errors.map((r) => `${r.email},,Error: ${r.error},Failed`),
     ].join('\n');
 
     const blob = new Blob([csvContent], { type: 'text/csv' });
@@ -207,9 +208,7 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUs
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div className="glass border border-light-green/20 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto m-4">
         <div className="sticky top-0 glass border-b border-light-green/10 p-6 flex items-center justify-between">
-          <h2 className="heading-lg font-goldplay text-iki-white">
-            Create Users
-          </h2>
+          <h2 className="heading-lg font-goldplay text-iki-white">Create Users</h2>
           <button
             onClick={onClose}
             className="p-2 rounded-full hover:bg-iki-grey/50 transition-colors"
@@ -453,11 +452,28 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUs
                   <div>
                     <h3 className="body-md text-iki-white font-goldplay mb-2">CSV Format</h3>
                     <p className="body-sm text-iki-white/60 mb-3">
-                      Your CSV file should have the following columns (email and password are required):
+                      Your CSV file should have the following columns (email and password are
+                      required):
                     </p>
                     <div className="flex flex-wrap gap-2">
-                      {['email', 'password', 'firstname', 'lastname', 'username', 'phone', 'country', 'gender', 'birthday', 'age', 'activityLevel', 'bodyWeightKg'].map(col => (
-                        <span key={col} className="px-2 py-1 rounded bg-iki-grey/40 text-iki-white/80 body-xs">
+                      {[
+                        'email',
+                        'password',
+                        'firstname',
+                        'lastname',
+                        'username',
+                        'phone',
+                        'country',
+                        'gender',
+                        'birthday',
+                        'age',
+                        'activityLevel',
+                        'bodyWeightKg',
+                      ].map((col) => (
+                        <span
+                          key={col}
+                          className="px-2 py-1 rounded bg-iki-grey/40 text-iki-white/80 body-xs"
+                        >
                           {col}
                         </span>
                       ))}
@@ -566,4 +582,3 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUs
     </div>
   );
 }
-

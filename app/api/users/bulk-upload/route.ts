@@ -1,31 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
-import { db } from '@/lib/db';
-import { user as adminUser } from '@/lib/db/schema';
 import { initFirebase } from '@/lib/firebase';
+import { RESOURCE_TYPES, requirePermission } from '@/lib/rbac';
 import admin from 'firebase-admin';
-
-// Helper function to check if user is admin or superadmin
-async function checkAdminAccess(request: NextRequest) {
-  const session = await auth.api.getSession({ headers: request.headers });
-  
-  if (!session?.user) {
-    return { authorized: false, error: 'Unauthorized' };
-  }
-
-  const currentUser = await db.query.user.findFirst({
-    where: (users, { eq }) => eq(users.id, session.user.id),
-  });
-
-  if (!currentUser || (currentUser.role !== 'admin' && currentUser.role !== 'superadmin')) {
-    return { authorized: false, error: 'Forbidden' };
-  }
-
-  return { authorized: true, user: currentUser };
-}
+import { NextRequest, NextResponse } from 'next/server';
 
 // Helper function to generate a random password
-function generatePassword(length: number = 12): string {
+function generatePassword(length = 12): string {
   const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
   let password = '';
   for (let i = 0; i < length; i++) {
@@ -41,11 +20,11 @@ function parseCSV(csvContent: string): any[] {
     throw new Error('CSV must have at least a header row and one data row');
   }
 
-  const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+  const headers = lines[0].split(',').map((h) => h.trim().toLowerCase());
   const rows: any[] = [];
 
   for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(',').map(v => v.trim());
+    const values = lines[i].split(',').map((v) => v.trim());
     if (values.length !== headers.length) {
       throw new Error(`Row ${i + 1} has ${values.length} columns, expected ${headers.length}`);
     }
@@ -62,23 +41,17 @@ function parseCSV(csvContent: string): any[] {
 
 export async function POST(request: NextRequest) {
   try {
-    // Check admin access
-    const accessCheck = await checkAdminAccess(request);
-    if (!accessCheck.authorized) {
-      return NextResponse.json(
-        { error: accessCheck.error },
-        { status: accessCheck.error === 'Unauthorized' ? 401 : 403 }
-      );
+    // RBAC check
+    const authCheck = await requirePermission(request, RESOURCE_TYPES.USERS, 'write');
+    if (!authCheck.authorized) {
+      return NextResponse.json({ error: authCheck.error }, { status: authCheck.status });
     }
 
     const formData = await request.formData();
     const file = formData.get('file') as File;
 
     if (!file) {
-      return NextResponse.json(
-        { error: 'CSV file is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'CSV file is required' }, { status: 400 });
     }
 
     // Read and parse CSV
@@ -86,18 +59,15 @@ export async function POST(request: NextRequest) {
     let rows: any[];
     try {
       rows = parseCSV(csvContent);
-    } catch (error: any) {
+    } catch (error: unknown) {
       return NextResponse.json(
-        { error: `CSV parsing error: ${error.message}` },
+        { error: `CSV parsing error: ${error instanceof Error ? error.message : 'Unknown error'}` },
         { status: 400 }
       );
     }
 
     if (rows.length === 0) {
-      return NextResponse.json(
-        { error: 'CSV file is empty' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'CSV file is empty' }, { status: 400 });
     }
 
     // Initialize Firebase
@@ -114,7 +84,7 @@ export async function POST(request: NextRequest) {
     const batchSize = 10;
     for (let i = 0; i < rows.length; i += batchSize) {
       const batch = rows.slice(i, i + batchSize);
-      
+
       await Promise.all(
         batch.map(async (row) => {
           try {
@@ -129,8 +99,10 @@ export async function POST(request: NextRequest) {
               await firebaseAuth.getUserByEmail(email);
               results.errors.push({ email, error: 'User already exists' });
               return;
-            } catch (error: any) {
-              if (error.code !== 'auth/user-not-found') {
+            } catch (error: unknown) {
+              const errorObj =
+                error && typeof error === 'object' ? (error as { code?: string }) : null;
+              if (errorObj?.code !== 'auth/user-not-found') {
                 throw error;
               }
             }
@@ -143,9 +115,10 @@ export async function POST(request: NextRequest) {
               email,
               password,
               emailVerified: false,
-              displayName: row.firstname && row.lastname 
-                ? `${row.firstname} ${row.lastname}` 
-                : row.firstname || row.username || undefined,
+              displayName:
+                row.firstname && row.lastname
+                  ? `${row.firstname} ${row.lastname}`
+                  : row.firstname || row.username || undefined,
             });
 
             // Prepare user data
@@ -167,9 +140,9 @@ export async function POST(request: NextRequest) {
               gender: row.gender?.trim() || '',
               birthday: row.birthday?.trim() || '',
               points: 0,
-              age: row.age ? parseInt(row.age) : null,
+              age: row.age ? Number.parseInt(row.age) : null,
               activityLevel: row.activitylevel?.trim() || row.activity_level?.trim() || '',
-              bodyWeightKg: row.bodyweightkg ? parseFloat(row.bodyweightkg) : null,
+              bodyWeightKg: row.bodyweightkg ? Number.parseFloat(row.bodyweightkg) : null,
               health_stats: [
                 { id: 'quarterly_wellness', name: 'Quarterly Wellness', value: 0 },
                 { id: 'prevention_wellness', name: 'Prevention Wellness', value: 0 },
@@ -186,19 +159,26 @@ export async function POST(request: NextRequest) {
             await firestore.collection('users').doc(firebaseUser.uid).set(userData);
 
             // Initialize user tags and onboarding questions
-            await firestore.collection('user_tags').doc(firebaseUser.uid).set({ initialize: 'start' });
-            await firestore.collection('ob_questions').doc(firebaseUser.uid).set({ initialize: 'start' });
+            await firestore
+              .collection('user_tags')
+              .doc(firebaseUser.uid)
+              .set({ initialize: 'start' });
+            await firestore
+              .collection('ob_questions')
+              .doc(firebaseUser.uid)
+              .set({ initialize: 'start' });
 
             results.success.push({
               email,
               userId: firebaseUser.uid,
               password,
             });
-          } catch (error: any) {
+          } catch (error: unknown) {
             console.error(`Error creating user ${row.email}:`, error);
+            const errorMsg = error instanceof Error ? error.message : 'Failed to create user';
             results.errors.push({
               email: row.email || 'unknown',
-              error: error.message || 'Failed to create user',
+              error: errorMsg,
             });
           }
         })
@@ -215,12 +195,9 @@ export async function POST(request: NextRequest) {
         errors: results.errors,
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error in bulk upload:', error);
-    return NextResponse.json(
-      { error: error.message || 'Failed to process bulk upload' },
-      { status: 500 }
-    );
+    const message = error instanceof Error ? error.message : 'Failed to process bulk upload';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-
